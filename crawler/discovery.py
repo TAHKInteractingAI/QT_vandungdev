@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import time
 import html
 import xml.etree.ElementTree as ET
 from urllib.parse import quote_plus
@@ -89,21 +90,13 @@ def _extract_url_from_html(html_text: str) -> str | None:
     return None
 
 
-def decode_publisher_url(
+def _decode_once(
     google_url: str,
     session: requests.Session | None = None,
     proxy: str | None = None,
     timeout: int = TIMEOUT,
 ) -> tuple[str | None, str]:
-    """
-    Multi-strategy decoder: CBM google_url -> publisher_url.
-    1. googlenewsdecoder (Primary)
-    2. HTTP Redirect Follow (Fallback 1)
-    3. HTML Meta Refresh / Anchor Extraction (Fallback 2)
-    """
-    if not google_url or "news.google.com" not in google_url:
-        return None, "not_google_url"
-
+    """Single attempt to decode Google News URL using 3 fallback strategies."""
     # Strategy 1: googlenewsdecoder
     if gnewsdecoder is not None:
         try:
@@ -139,3 +132,31 @@ def decode_publisher_url(
         return None, f"fallback_error:{type(e).__name__}"
 
     return None, "decode_failed"
+
+
+def decode_publisher_url(
+    google_url: str,
+    session: requests.Session | None = None,
+    proxy: str | None = None,
+    timeout: int = TIMEOUT,
+    retries: int = 2,
+    retry_delay: float = 1.0,
+) -> tuple[str | None, str]:
+    """
+    Multi-strategy decoder with automatic retries: CBM google_url -> publisher_url.
+    Try the `retries` again (default 2 times, total 3 attempts) if it fails.
+    """
+    if not google_url or "news.google.com" not in google_url:
+        return None, "not_google_url"
+
+    last_status = "decode_failed"
+    for attempt in range(retries + 1):
+        if attempt > 0:
+            time.sleep(retry_delay * attempt)
+        url, status = _decode_once(google_url, session=session, proxy=proxy, timeout=timeout)
+        if url:
+            suffix = f" (retry {attempt})" if attempt > 0 else ""
+            return url, f"{status}{suffix}"
+        last_status = status
+
+    return None, last_status
