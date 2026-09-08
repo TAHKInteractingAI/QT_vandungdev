@@ -1,0 +1,26 @@
+[project]
+name = "qt-vandung"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.31",
+    "beautifulsoup4>=4.12",
+    "lxml>=6.0",
+    "openpyxl>=3.1",
+    "googlenewsdecoder>=0.1.7",
+    "selectolax>=0.4",
+    "pillow>=12.0",
+    "gnews>=0.8.2",
+    "matplotlib>=3.11.1",
+    "ipykernel>=7.3.0",
+    "tqdm>=4.66",
+    "urllib3>=2.7.0",
+    "pympler>=1.1",
+]
+
+[project.scripts]
+crawler = "crawler.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
