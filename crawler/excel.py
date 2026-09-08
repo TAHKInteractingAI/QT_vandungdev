@@ -2,16 +2,17 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from urllib.parse import urlparse
 
 from openpyxl import Workbook
 from openpyxl.packaging.manifest import mimetypes as openpyxl_mimetypes
-from openpyxl.styles import Font
+from openpyxl.styles import Alignment, Font
 from openpyxl.utils import get_column_letter
 
 openpyxl_mimetypes.add_type("image/webp", ".webp")
 
-_HEADERS = ["#", "Title", "Source", "Google News URL", "Publisher URL", "Published", "Snippet", "Preview", "Images", "Status"]
-_WIDTHS = [4, 42, 14, 32, 32, 18, 42, 16, 28, 30]
+_HEADERS = ["#", "Title", "Source", "Google News URL", "Publisher URL", "Published", "Snippet", "Preview", "Image", "Status"]
+_WIDTHS = [5, 42, 14, 30, 30, 18, 42, 16, 28, 26]
 
 
 def _style_header(ws):
@@ -25,7 +26,7 @@ def _style_header(ws):
         ws.sheet_properties.pageSetUpPr.fitToPage = True
 
 
-def _add_hyperlinks(ws, row_idx: int, art: dict, rel: str):
+def _add_hyperlinks(ws, row_idx: int, art: dict, img_rel: str = ""):
     try:
         if link := art.get("publisher_url") or art.get("google_url", ""):
             ws.cell(row=row_idx, column=5).hyperlink = link
@@ -33,16 +34,14 @@ def _add_hyperlinks(ws, row_idx: int, art: dict, rel: str):
         if g_link := art.get("google_url", ""):
             ws.cell(row=row_idx, column=4).hyperlink = g_link
             ws.cell(row=row_idx, column=4).style = "Hyperlink"
-        if rel:
-            first = rel.split(";")[0].strip()
-            if first:
-                ws.cell(row=row_idx, column=9).hyperlink = first
-                ws.cell(row=row_idx, column=9).style = "Hyperlink"
+        if img_rel:
+            ws.cell(row=row_idx, column=9).hyperlink = img_rel
+            ws.cell(row=row_idx, column=9).style = "Hyperlink"
     except Exception:
         pass
 
 
-def _embed_preview(ws, row_idx: int, thumb_path: Path):
+def _embed_preview(ws, row_idx: int, thumb_path: Path, max_w: int = 100, max_h: int = 75):
     try:
         from io import BytesIO
         from openpyxl.drawing.image import Image as XLImage
@@ -53,7 +52,7 @@ def _embed_preview(ws, row_idx: int, thumb_path: Path):
         return
     try:
         with PILImage.open(thumb_path) as im:
-            im.thumbnail((160, 120))
+            im.thumbnail((max_w, max_h), PILImage.Resampling.LANCZOS)
             bio = BytesIO()
             if im.mode in ("RGBA", "LA"):
                 bg = PILImage.new("RGB", im.size, (255, 255, 255))
@@ -63,10 +62,9 @@ def _embed_preview(ws, row_idx: int, thumb_path: Path):
                 im.convert("RGB").save(bio, "PNG")
             bio.seek(0)
             xl = XLImage(bio)
-            xl.width = 100
-            xl.height = 75
+            xl.width, xl.height = im.size
             ws.add_image(xl, f"H{row_idx}")
-            ws.row_dimensions[row_idx].height = 60
+        ws.row_dimensions[row_idx].height = 60
     except Exception:
         pass
 
@@ -80,21 +78,58 @@ def export_excel(articles: list[dict], output_dir: Path, images_dir_name: str = 
     ws.append(_HEADERS)
     _style_header(ws)
 
-    for i, art in enumerate(articles, 1):
-        imgs: list[Path] = art.get("saved_images", [])  # type: ignore
-        rel = "; ".join(f"{images_dir_name}/{p.name}" for p in imgs) if imgs and isinstance(imgs[0], Path) else "; ".join(str(p) for p in imgs) if imgs else ""
-        ws.append([i, art.get("title", ""), art.get("source", ""), art.get("google_url", ""), art.get("publisher_url", ""), art.get("published", ""), art.get("snippet", ""), "", rel, art.get("status", "ok")])
-        row_idx = i + 1
-        _add_hyperlinks(ws, row_idx, art, rel)
-        if imgs:
-            _embed_preview(ws, row_idx, Path(imgs[0]))
-        else:
-            ws.row_dimensions[row_idx].height = 15
+    # Sort articles by original order if present
+    sorted_articles = sorted(articles, key=lambda a: a.get("order", 0)) if any("order" in a for a in articles) else list(articles)
 
-    # snippet wrap once, not per-row loop
-    for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=7, max_col=7):
-        for c in row:
-            c.alignment = c.alignment.copy(wrap_text=True, vertical="top")
+    for i, art in enumerate(sorted_articles, 1):
+        order_num = art.get("order", i)
+        imgs: list[Path] = art.get("saved_images", [])  # type: ignore
+        img_paths = [Path(p) for p in imgs] if imgs else []
+        img_rel = f"{images_dir_name}/{img_paths[0].name}" if len(img_paths) >= 1 else ""
+
+        # Friendly anchor text for URLs to prevent long unbroken strings expanding row height in Excel
+        g_url = art.get("google_url", "")
+        g_label = "Google News" if g_url else ""
+
+        pub_url = art.get("publisher_url", "")
+        pub_label = ""
+        if pub_url:
+            try:
+                domain = urlparse(pub_url).netloc.lower()
+                if domain.startswith("www."):
+                    domain = domain[4:]
+                pub_label = domain or pub_url
+            except Exception:
+                pub_label = pub_url
+
+        ws.append([
+            order_num,
+            art.get("title", ""),
+            art.get("source", ""),
+            g_label,
+            pub_label,
+            art.get("published", ""),
+            art.get("snippet", ""),
+            "",  # Column 8: Preview thumbnail
+            img_rel,
+            art.get("status", "ok"),
+        ])
+        row_idx = i + 1
+        _add_hyperlinks(ws, row_idx, art, img_rel=img_rel)
+        if img_paths:
+            _embed_preview(ws, row_idx, img_paths[0])
+        ws.row_dimensions[row_idx].height = 60
+
+    # User requirement: wrap text + Align Top + Align Left for text, Center for # and Preview
+    align_text = Alignment(wrap_text=True, vertical="top", horizontal="left")
+    align_center = Alignment(vertical="top", horizontal="center")
+
+    for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=1, max_col=len(_HEADERS)):
+        for col_idx, cell in enumerate(row, 1):
+            if col_idx in (1, 8):  # '#' and 'Preview'
+                cell.alignment = align_center
+            else:
+                cell.alignment = align_text
 
     wb.save(xlsx_path)
     return xlsx_path
@@ -121,4 +156,6 @@ def export_excel_from_jsonl(jsonl_path: str | Path, output_dir: str | Path | Non
                 art["saved_images"] = [Path(p) for p in raw_imgs]
             articles.append(art)
 
+    # Sort articles by original order so Excel order is strictly consistent
+    articles.sort(key=lambda a: a.get("order", 0))
     return export_excel(articles, out_dir)
