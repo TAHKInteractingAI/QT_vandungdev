@@ -1,0 +1,53 @@
+import argparse
+from pathlib import Path
+
+from crawler.config import DEFAULT_COUNTRY, DEFAULT_LANG, DEFAULT_WORKERS, TIMEOUT
+from crawler.core import crawl_google_news
+from crawler.excel import export_excel_from_jsonl
+
+
+def main() -> None:
+    p = argparse.ArgumentParser(description="Crawl Google News MVP")
+    p.add_argument("--keyword", required=False, help="Search keyword, e.g. Trillion")
+    p.add_argument("--max", type=int, default=20, dest="max_articles", help="Max articles to crawl")
+    p.add_argument("-w", "--workers", type=int, default=DEFAULT_WORKERS, help=f"Number of concurrent workers (default: {DEFAULT_WORKERS})")
+    p.add_argument("--output", type=str, default="output", help="Output directory")
+    p.add_argument("--lang", type=str, default=DEFAULT_LANG, help=f"News language (default: {DEFAULT_LANG})")
+    p.add_argument("--country", type=str, default=DEFAULT_COUNTRY, help=f"News country (default: {DEFAULT_COUNTRY})")
+    p.add_argument("--timeout", type=int, default=TIMEOUT, help=f"HTTP timeout in seconds (default: {TIMEOUT})")
+    p.add_argument("--proxy", type=str, default=None, help="HTTP/HTTPS/SOCKS5 proxy URL (e.g. http://127.0.0.1:7890)")
+    p.add_argument("--rotate-ua", action="store_true", help="Rotate User-Agent per request from modern browser pool")
+    p.add_argument("--no-resume", action="store_true", help="Disable checkpoint resume, start fresh")
+    p.add_argument("--no-progress", action="store_true", help="Hide progress")
+    p.add_argument("--export-from-jsonl", type=str, default=None, help="Re-export articles.xlsx from an existing JSONL checkpoint")
+    args = p.parse_args()
+
+    if args.export_from_jsonl:
+        out_path = export_excel_from_jsonl(args.export_from_jsonl, args.output)
+        print(f"[export] generated {out_path}")
+        return
+
+    if not args.keyword:
+        p.error("--keyword is required when not using --export-from-jsonl")
+
+    try:
+        result = crawl_google_news(
+            args.keyword,
+            args.max_articles,
+            Path(args.output),
+            workers=args.workers,
+            proxy=args.proxy,
+            rotate_ua=args.rotate_ua,
+            lang=args.lang,
+            country=args.country,
+            timeout=args.timeout,
+            resume=not args.no_resume,
+            show_progress=not args.no_progress,
+        )
+        print(result)
+    except KeyboardInterrupt:
+        print("\n[cli] Crawl process interrupted.")
+
+
+if __name__ == "__main__":
+    main()
