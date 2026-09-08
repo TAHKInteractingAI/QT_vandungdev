@@ -10,7 +10,7 @@ def main() -> None:
     p = argparse.ArgumentParser(description="Crawl Google News MVP")
     p.add_argument("--keyword", required=False, help="Search keyword, e.g. Trillion")
     p.add_argument("--max", type=int, default=20, dest="max_articles", help="Max articles to crawl")
-    p.add_argument("-w", "--workers", type=int, default=DEFAULT_WORKERS, help=f"Number of concurrent workers (default: {DEFAULT_WORKERS})")
+    p.add_argument("--workers", type=int, default=DEFAULT_WORKERS, help=f"Number of concurrent workers (default: {DEFAULT_WORKERS})")
     p.add_argument("--output", type=str, default="output", help="Output directory")
     p.add_argument("--lang", type=str, default=DEFAULT_LANG, help=f"News language (default: {DEFAULT_LANG})")
     p.add_argument("--country", type=str, default=DEFAULT_COUNTRY, help=f"News country (default: {DEFAULT_COUNTRY})")
@@ -44,9 +44,20 @@ def main() -> None:
             resume=not args.no_resume,
             show_progress=not args.no_progress,
         )
+        if result.get("interrupted"):
+            import os
+            import sys
+            sys.stdout.flush()
+            sys.stderr.flush()
+            os._exit(130)
         print(result)
     except KeyboardInterrupt:
+        import os
+        import sys
         print("\n[cli] Crawl process interrupted.")
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os._exit(130)
 
 
 if __name__ == "__main__":
