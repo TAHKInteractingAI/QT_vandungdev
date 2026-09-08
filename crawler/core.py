@@ -65,19 +65,29 @@ def _process_one(
     proxy: str | None = None,
     rotate_ua: bool = False,
     timeout: int = TIMEOUT,
+    stop_event: threading.Event | None = None,
 ) -> str:
     """Process single article. Early returns, no nested ladder. Returns status."""
+    if stop_event and stop_event.is_set():
+        return "interrupted"
+
     google_url = art.get("google_url", "")
     if not google_url:
         return "no_google_url"
 
     publisher_url, decode_status = decode_publisher_url(google_url, session=session, proxy=proxy, timeout=timeout)
+    if stop_event and stop_event.is_set():
+        return "interrupted"
+
     if not publisher_url:
         return f"decode_failed ({decode_status})"
     art["publisher_url"] = publisher_url
     art["url"] = publisher_url
 
     html, code, alive_status = fetch_with_status(publisher_url, session=session, timeout=timeout, rotate_ua=rotate_ua)
+    if stop_event and stop_event.is_set():
+        return "interrupted"
+
     art["alive"] = alive_status
     art["http_code"] = code
     if html is None:
@@ -87,7 +97,7 @@ def _process_one(
     if not urls:
         return f"{alive_status} | no_images_found"
 
-    saved = download_images(urls, images_dir, prefix, session=session, timeout=timeout)
+    saved = download_images(urls, images_dir, prefix, session=session, timeout=timeout, stop_event=stop_event)
     art["saved_images"] = saved
     if not saved:
         return f"{alive_status} | download_failed | {len(urls)} candidates"
@@ -180,7 +190,9 @@ def crawl_google_news(
                 "images_dir": str(images_dir),
             }
 
-        for art in articles:
+        for idx, art in enumerate(articles, 1):
+            art["order"] = idx
+            art["article_id"] = f"article_{idx:05d}"
             art["status"] = ""
             art["saved_images"] = []
             art["publisher_url"] = ""
@@ -194,13 +206,19 @@ def crawl_google_news(
             _tqdm = None  # type: ignore
 
         use_bar = show_progress and _has_tqdm
-        pbar = _tqdm(total=len(articles), desc=keyword[:30], unit=" bài", ncols=90) if use_bar else None  # type: ignore
+        pbar = _tqdm(total=len(articles), desc=keyword[:30], unit=" News", ncols=90) if use_bar else None  # type: ignore
+
+        stop_event = threading.Event()
 
         def _report_progress(idx: int, art: dict) -> None:
+            if stop_event.is_set():
+                return
             with _ui_lock:
+                if stop_event.is_set():
+                    return
                 title = (art.get("title") or "").strip()
-                if len(title) > 80:
-                    title = title[:77] + "..."
+                if len(title) > 50:
+                    title = title[:47] + "..."
                 source = art.get("source", "")
                 status = art.get("status", "")
                 line = f"{idx:3d}. {title} — {source} [{status}]"
@@ -221,22 +239,31 @@ def crawl_google_news(
                     print(line)
 
         def _worker_task(idx: int, art: dict) -> None:
+            if stop_event.is_set():
+                return
             g_url = art.get("google_url", "")
             if resume and g_url in completed_map:
                 prev = completed_map[g_url]
                 art.update(prev)
+                art["order"] = idx
+                art["article_id"] = f"article_{idx:05d}"
                 _report_progress(idx, art)
                 return
 
-            art["status"] = _process_one(
+            prefix = art.get("article_id") or f"article_{idx:05d}"
+            status = _process_one(
                 art,
-                f"article_{idx:05d}",
+                prefix,
                 images_dir,
                 session=session,
                 proxy=proxy,
                 rotate_ua=rotate_ua,
                 timeout=timeout,
+                stop_event=stop_event,
             )
+            if stop_event.is_set():
+                return
+            art["status"] = status
             _append_checkpoint(jsonl_path, art)
             _report_progress(idx, art)
 
@@ -250,9 +277,11 @@ def crawl_google_news(
                 f.result()
         except KeyboardInterrupt:
             interrupted = True
+            stop_event.set()
             print("\n[crawl] Stop requested (Ctrl+C). Cancelling pending tasks and saving progress...")
             executor.shutdown(wait=False, cancel_futures=True)
         finally:
+            stop_event.set()
             if use_bar and pbar is not None:
                 try:
                     pbar.close()  # type: ignore
@@ -261,6 +290,7 @@ def crawl_google_news(
             executor.shutdown(wait=False)
 
     processed_articles = [a for a in articles if a.get("status")]
+    processed_articles.sort(key=lambda a: a.get("order", 0))
     decode_ok = sum(1 for a in processed_articles if a.get("publisher_url"))
     alive_cnt = sum(1 for a in processed_articles if a.get("http_code") == 200)
     ok = sum(1 for a in processed_articles if " | ok |" in a.get("status", ""))
