@@ -5,7 +5,7 @@ HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
 }
-TIMEOUT = 15
+TIMEOUT = 10
 DEFAULT_LANG = "vi"
 DEFAULT_COUNTRY = "VN"
 DEFAULT_WORKERS = 5
