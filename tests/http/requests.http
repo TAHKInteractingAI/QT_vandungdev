@@ -1,0 +1,118 @@
+### ====================================================================
+### GOOGLE NEWS CRAWLER - HTTP CLIENT TEST SUITE (.http)
+### Native support for JetBrains (PyCharm / IntelliJ) & VS Code REST Client
+### ====================================================================
+
+### 1. Healthcheck & Uptime Inspection
+# @name healthcheck
+GET {{base_url}}/health
+Accept: application/json
+
+###
+
+### 2. Trigger Crawl Job - Unauthorized (Expect 401 Unauthorized)
+# @name trigger_unauthorized
+POST {{base_url}}/api/v1/crawl/trigger
+Content-Type: application/json
+
+{
+  "keyword": "Trillion"
+}
+
+###
+
+### 3. Trigger Crawl Job - Default Parameters (Requires X-API-Key)
+# @name trigger_default
+POST {{base_url}}/api/v1/crawl/trigger
+Content-Type: application/json
+X-API-Key: {{api_key}}
+
+{
+  "keyword": "Trillion",
+  "max_articles": 3,
+  "workers": 2
+}
+
+> {%
+    if (response.status === 202) {
+        client.global.set("job_id", response.body.job_id);
+        client.log("Job scheduled successfully. Assigned job_id: " + response.body.job_id);
+    }
+%}
+
+###
+
+### 4. Trigger Crawl Job - Full CLI Parameters (Custom Lang, Country, Proxy, Timeout)
+# @name trigger_custom
+POST {{base_url}}/api/v1/crawl/trigger
+Content-Type: application/json
+X-API-Key: {{api_key}}
+
+{
+  "keyword": "Trillion",
+  "max_articles": 3,
+  "workers": 2,
+  "lang": "vi",
+  "country": "VN",
+  "timeout": 12,
+  "proxy": null,
+  "rotate_ua": true,
+  "resume": true,
+  "show_progress": false
+}
+
+###
+
+### 5. Trigger Crawl Job via GET Query (Alternative for simple cron-job.org GET callers)
+# @name trigger_via_get
+GET {{base_url}}/api/v1/crawl/trigger?keyword=Semiconductor&max=2&key={{api_key}}
+
+###
+
+### 6. Query Latest Job Status
+# @name get_latest_job
+GET {{base_url}}/api/v1/jobs/latest
+Accept: application/json
+
+###
+
+### 7. Query Specific Job by ID (Dynamic {{job_id}} captured from Step 3)
+# @name get_job_by_id
+GET {{base_url}}/api/v1/jobs/{{job_id}}
+Accept: application/json
+
+###
+
+### 8. Download Output Excel File (.xlsx)
+# @name download_excel
+GET {{base_url}}/api/v1/jobs/{{job_id}}/download/excel
+
+###
+
+### 9. Download Checkpoint JSONL File (.jsonl)
+# @name download_jsonl
+GET {{base_url}}/api/v1/jobs/{{job_id}}/download/jsonl
+
+###
+
+### ====================================================================
+### CLOUDFLARE WORKER EDGE ENDPOINT TESTS
+### ====================================================================
+
+### 10. Cloudflare Worker - Healthcheck
+# @name worker_healthcheck
+GET {{worker_url}}/health
+Accept: application/json
+
+###
+
+### 11. Cloudflare Worker - Trigger Crawl (Forwarding to FastAPI Backend)
+# @name worker_trigger
+POST {{worker_url}}/trigger
+Content-Type: application/json
+X-API-Key: {{api_key}}
+
+{
+  "keyword": "AI News",
+  "max_articles": 3
+}
