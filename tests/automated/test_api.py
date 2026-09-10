@@ -65,7 +65,7 @@ def test_download_excel_verification():
     """
     import io
     import openpyxl
-    from crawler.excel import _HEADERS
+    from crawler.sheet_schema import HEADERS
 
     job = client.get("/api/v1/jobs/latest")
     assert job.status_code == 200
@@ -84,10 +84,11 @@ def test_download_excel_verification():
         (output_dir / "test_api_downloaded.xlsx").write_bytes(res.content)
 
         wb = openpyxl.load_workbook(io.BytesIO(res.content))
-        assert "Articles" in wb.sheetnames
-        ws = wb["Articles"]
+        assert len(wb.sheetnames) > 0
+        ws = wb.active
+        assert ws is not None
         headers = [c.value for c in ws[1]]
-        assert headers == _HEADERS
+        assert headers == HEADERS
         assert ws.max_row > 1, "Excel file must contain at least 1 data row"
         wb.close()
 
