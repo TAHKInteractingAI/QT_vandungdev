@@ -18,7 +18,8 @@ from crawler.config import (
 )
 from crawler.discovery import decode_publisher_url, fetch_rss
 from crawler.excel import export_excel
-from crawler.images import download_images, extract_image_urls
+from crawler.extractor import extract_content_and_images, save_article_markdown
+from crawler.images import download_images, download_single_image, extract_image_urls
 from crawler.network import create_session, fetch_with_status
 
 _checkpoint_lock = threading.Lock()
@@ -47,11 +48,11 @@ def _load_completed_checkpoint(jsonl_path: Path) -> dict[str, dict]:
                 continue
             try:
                 data = json.loads(line)
-                key = data.get("google_url") or data.get("url") or data.get("title")
-                if key:
-                    if imgs := data.get("saved_images"):
-                        data["saved_images"] = [Path(p) for p in imgs]
-                    completed[key] = data
+                g_url = data.get("google_url", "")
+                if g_url:
+                    if raw_imgs := data.get("saved_images"):
+                        data["saved_images"] = [Path(p) for p in raw_imgs]
+                    completed[g_url] = data
             except Exception:
                 continue
     return completed
@@ -61,6 +62,7 @@ def _process_one(
     art: dict,
     prefix: str,
     images_dir: Path,
+    contents_dir: Path,
     session: requests.Session | None = None,
     proxy: str | None = None,
     rotate_ua: bool = False,
@@ -93,15 +95,61 @@ def _process_one(
     if html is None:
         return alive_status
 
-    urls = extract_image_urls(publisher_url, html, publisher_url)
-    if not urls:
-        return f"{alive_status} | no_images_found"
+    # Stage 4.1.1: Content coordinates full extraction and image downloading
+    md_content, in_article_images = extract_content_and_images(html, publisher_url)
+    md_file = contents_dir / f"{prefix}.md"
 
-    saved = download_images(urls, images_dir, prefix, session=session, timeout=timeout, stop_event=stop_event)
-    art["saved_images"] = saved
-    if not saved:
-        return f"{alive_status} | download_failed | {len(urls)} candidates"
-    return f"{alive_status} | ok | {len(saved)} image(s)"
+    saved_images_map: dict[str, str] = {}
+    saved_images: list[Path] = []
+
+    # 1. Download in-article images in order if any exist
+    for item in in_article_images:
+        if stop_event and stop_event.is_set():
+            break
+        idx = len(saved_images) + 1
+        res = download_single_image(
+            item["url"],
+            images_dir,
+            f"{prefix}_{idx:02d}",
+            session=session,
+            timeout=timeout,
+        )
+        if res is not None:
+            saved_images.append(res)
+            saved_images_map[item["placeholder"]] = f"images/{res.name}"
+        else:
+            saved_images_map[item["placeholder"]] = ""
+
+    # 2. If article has no inline images, fallback to meta/og/hero candidates
+    if not saved_images:
+        fallback_urls = extract_image_urls(publisher_url, html, publisher_url)
+        if fallback_urls:
+            saved_fallback = download_images(
+                fallback_urls,
+                images_dir,
+                prefix,
+                max_images=1,
+                session=session,
+                timeout=timeout,
+                stop_event=stop_event,
+            )
+            saved_images.extend(saved_fallback)
+
+    art["saved_images"] = saved_images
+
+    lead_img_rel = f"images/{saved_images[0].name}" if saved_images else ""
+    save_article_markdown(
+        md_file,
+        art,
+        md_content,
+        img_rel=lead_img_rel,
+        saved_images_map=saved_images_map,
+    )
+    art["content_path"] = f"contents/{md_file.name}"
+
+    if not saved_images:
+        return f"{alive_status} | ok | 0 image(s)"
+    return f"{alive_status} | ok | {len(saved_images)} image(s)"
 
 
 def crawl_google_news(
@@ -128,9 +176,11 @@ def crawl_google_news(
     keyword = keyword.strip()
     output_dir = Path(output_dir)
     images_dir = output_dir / "images"
+    contents_dir = output_dir / "contents"
     jsonl_path = output_dir / "articles.jsonl"
     output_dir.mkdir(parents=True, exist_ok=True)
     images_dir.mkdir(parents=True, exist_ok=True)
+    contents_dir.mkdir(parents=True, exist_ok=True)
     extra_info = []
     if proxy:
         extra_info.append(f"proxy={proxy}")
@@ -170,6 +220,7 @@ def crawl_google_news(
                 "jsonl": str(jsonl_path),
                 "output_dir": str(output_dir),
                 "images_dir": str(images_dir),
+                "contents_dir": str(contents_dir),
             }
 
         print(f"[crawl] discovered {len(articles)} articles")
@@ -188,6 +239,7 @@ def crawl_google_news(
                 "jsonl": str(jsonl_path),
                 "output_dir": str(output_dir),
                 "images_dir": str(images_dir),
+                "contents_dir": str(contents_dir),
             }
 
         for idx, art in enumerate(articles, 1):
@@ -255,6 +307,7 @@ def crawl_google_news(
                 art,
                 prefix,
                 images_dir,
+                contents_dir,
                 session=session,
                 proxy=proxy,
                 rotate_ua=rotate_ua,
@@ -315,4 +368,5 @@ def crawl_google_news(
         "jsonl": str(jsonl_path),
         "output_dir": str(output_dir),
         "images_dir": str(images_dir),
+        "contents_dir": str(contents_dir),
     }
