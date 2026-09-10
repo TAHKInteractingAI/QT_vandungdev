@@ -214,31 +214,40 @@ def _decode_cbm_batchexecute(
     html_text: str | None = None
     if curl_requests is not None:
         try:
-            c_resp = curl_requests.get(rss_url, headers=headers, impersonate="chrome", timeout=timeout, proxies=proxies)
+            c_resp = curl_requests.get(rss_url, headers=headers, impersonate="chrome", timeout=timeout, proxies=proxies, allow_redirects=True)
             if c_resp.status_code == 200:
                 html_text = c_resp.text
-        except Exception:
-            pass
+            else:
+                print(f"[decode] curl_cffi status: {c_resp.status_code}")
+        except Exception as e:
+            print(f"[decode] curl_cffi GET error: {e}")
 
     if not html_text:
         try:
-            resp = requests.get(rss_url, headers=headers, timeout=timeout, proxies=proxies)
+            resp = requests.get(rss_url, headers=headers, timeout=timeout, proxies=proxies, allow_redirects=True)
             if resp.status_code == 200:
                 html_text = resp.text
-        except Exception:
-            pass
+            else:
+                print(f"[decode] requests status: {resp.status_code}")
+        except Exception as e:
+            print(f"[decode] requests GET error: {e}")
 
     if not html_text:
+        print("[decode] Failed to retrieve HTML from rss/articles")
         return None
 
     tree = HTMLParser(html_text)
     data_el = tree.css_first("c-wiz > div[jscontroller]")
     if not data_el:
+        title_el = tree.css_first("title")
+        t_val = title_el.text() if title_el else "no title"
+        print(f"[decode] c-wiz element not found in HTML (title={t_val!r}, len={len(html_text)})")
         return None
 
     sig = data_el.attributes.get("data-n-a-sg")
     ts = data_el.attributes.get("data-n-a-ts")
     if not sig or not ts:
+        print(f"[decode] Missing sig/ts: sig={sig!r}, ts={ts!r}")
         return None
 
     be_url = "https://news.google.com/_/DotsSplashUi/data/batchexecute"

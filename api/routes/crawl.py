@@ -198,3 +198,100 @@ async def trigger_crawl_get(
         spreadsheet_url=job_data.get("spreadsheet_url"),
         drive_folder_url=job_data.get("drive_folder_url"),
     )
+
+
+@router.get("/debug/decode")
+async def debug_decode_endpoint(
+    url: str = Query(...),
+    _authorized: bool = Depends(verify_api_key),
+):
+    """Diagnostic endpoint to trace Google News decoding step-by-step from server IP."""
+    import base64
+    import json
+    import re
+    from urllib.parse import quote, urlparse
+    from selectolax.parser import HTMLParser
+
+    logs = []
+    try:
+        from curl_cffi import requests as c_req
+        logs.append("curl_cffi is available")
+    except Exception as e:
+        c_req = None
+        logs.append(f"curl_cffi unavailable: {e}")
+
+    path = urlparse(url).path.split("/")
+    base64_str = path[-1] if path else ""
+    logs.append(f"base64_str: {base64_str[:30]}...")
+
+    # Direct b64 test
+    try:
+        padded = base64_str + "=" * ((4 - len(base64_str) % 4) % 4)
+        raw = base64.urlsafe_b64decode(padded)
+        m = re.search(rb"https?://[^\x00-\x1f\x7f-\xff\s\"\'<>]+", raw)
+        if m:
+            logs.append(f"direct_b64: {m.group(0).decode('utf-8', errors='ignore')}")
+    except Exception as e:
+        logs.append(f"direct_b64 error: {e}")
+
+    # RSS articles GET
+    rss_url = f"https://news.google.com/rss/articles/{base64_str}"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Cookie": "SOCS=CAESEwgDEgk2NDgyOTM5MDQaAmVuIAEaBgiA_L20Bg",
+    }
+    html_text = ""
+    if c_req:
+        try:
+            r = c_req.get(rss_url, headers=headers, impersonate="chrome", timeout=10, allow_redirects=True)
+            logs.append(f"curl_cffi GET status: {r.status_code}, url: {r.url}, len: {len(r.text)}")
+            html_text = r.text
+        except Exception as e:
+            logs.append(f"curl_cffi GET exception: {type(e).__name__}: {e}")
+
+    if not html_text:
+        try:
+            import requests as req
+            r2 = req.get(rss_url, headers=headers, timeout=10, allow_redirects=True)
+            logs.append(f"requests GET status: {r2.status_code}, url: {r2.url}, len: {len(r2.text)}")
+            html_text = r2.text
+        except Exception as e:
+            logs.append(f"requests GET exception: {type(e).__name__}: {e}")
+
+    tree = HTMLParser(html_text)
+    data_el = tree.css_first("c-wiz > div[jscontroller]")
+    logs.append(f"data_el found: {data_el is not None}")
+    if data_el:
+        sig = data_el.attributes.get("data-n-a-sg")
+        ts = data_el.attributes.get("data-n-a-ts")
+        logs.append(f"sig: {sig}, ts: {ts}")
+        be_url = "https://news.google.com/_/DotsSplashUi/data/batchexecute"
+        payload = [
+            "Fbv4je",
+            f'["garturlreq",[["X","X",["X","X"],null,null,1,1,"US:en",null,1,null,null,null,null,null,0,1],"X","X",1,[1,1,1],1,1,null,0,0,null,0],"{base64_str}",{ts},"{sig}"]',
+        ]
+        be_headers = {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+            "User-Agent": headers["User-Agent"],
+        }
+        be_data = f"f.req={quote(json.dumps([[payload]]))}"
+        try:
+            if c_req:
+                be_r = c_req.post(be_url, headers=be_headers, data=be_data, impersonate="chrome", timeout=10)
+            else:
+                import requests as req
+                be_r = req.post(be_url, headers=be_headers, data=be_data, timeout=10)
+            logs.append(f"batchexecute status: {be_r.status_code}, len: {len(be_r.text)}")
+            parsed = json.loads(be_r.text.split("\n\n")[1])[:-2]
+            decoded = json.loads(parsed[0][2])[1]
+            logs.append(f"SUCCESS decoded_url: {decoded}")
+        except Exception as e:
+            logs.append(f"batchexecute exception: {type(e).__name__}: {e}")
+    else:
+        title = tree.css_first("title")
+        logs.append(f"HTML title: {title.text() if title else 'none'}")
+        logs.append(f"HTML snippet: {html_text[:400]}")
+
+    return {"logs": logs}
+
