@@ -33,19 +33,31 @@ async function decodeGoogleNewsUrl(sourceUrl) {
       }
     } catch (_) {}
 
-    // Strategy 1: GET rss/articles
-    const rssUrl = `https://news.google.com/rss/articles/${base64Str}`;
-    const rssHeaders = {
+    // Strategy 1: GET articles (fallback to rss/articles)
+    const reqHeaders = {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
       "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       "Accept-Language": "en-US,en;q=0.9",
       "Cookie": "SOCS=CAESEwgDEgk2NDgyOTM5MDQaAmVuIAEaBgiA_L20Bg",
     };
-    const rssResp = await fetch(rssUrl, { headers: rssHeaders, redirect: "follow" });
-    if (!rssResp.ok) {
-      return { status: false, error: `RSS status ${rssResp.status}` };
+    let html = "";
+    let lastStatus = 0;
+    for (const fetchUrl of [
+      `https://news.google.com/articles/${base64Str}`,
+      `https://news.google.com/rss/articles/${base64Str}`
+    ]) {
+      try {
+        const resp = await fetch(fetchUrl, { headers: reqHeaders, redirect: "follow" });
+        lastStatus = resp.status;
+        if (resp.ok) {
+          html = await resp.text();
+          break;
+        }
+      } catch (_) {}
     }
-    const html = await rssResp.text();
+    if (!html) {
+      return { status: false, error: `Fetch HTML failed, status ${lastStatus}` };
+    }
 
     const sgMatch = html.match(/data-n-a-sg="([^"]+)"/);
     const tsMatch = html.match(/data-n-a-ts="([^"]+)"/);
