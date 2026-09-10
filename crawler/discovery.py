@@ -1,6 +1,7 @@
 import base64
 import html
 import json
+import os
 import re
 import time
 import xml.etree.ElementTree as ET
@@ -9,7 +10,7 @@ from urllib.parse import quote, quote_plus, urlparse
 import requests
 from selectolax.parser import HTMLParser
 
-from crawler.config import HEADERS, TIMEOUT
+from crawler.config import CLOUDFLARE_WORKER_URL, HEADERS, TIMEOUT
 from crawler.naming import format_published_date
 
 try:
@@ -212,9 +213,11 @@ def _decode_cbm_batchexecute(
     proxies = {"http": proxy, "https": proxy} if proxy else None
 
     html_text: str | None = None
+    c_session = None
     if curl_requests is not None:
         try:
-            c_resp = curl_requests.get(rss_url, headers=headers, impersonate="chrome", timeout=timeout, proxies=proxies, allow_redirects=True)
+            c_session = curl_requests.Session(impersonate="chrome")
+            c_resp = c_session.get(rss_url, headers=headers, timeout=timeout, proxies=proxies, allow_redirects=True)
             if c_resp.status_code == 200:
                 html_text = c_resp.text
             else:
@@ -258,11 +261,23 @@ def _decode_cbm_batchexecute(
     be_headers = {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
         "User-Agent": headers["User-Agent"],
+        "Cookie": "SOCS=CAESEwgDEgk2NDgyOTM5MDQaAmVuIAEaBgiA_L20Bg",
+        "Origin": "https://news.google.com",
+        "Referer": "https://news.google.com/",
     }
     be_data = f"f.req={quote(json.dumps([[payload]]))}"
 
     be_resp_text: str | None = None
-    if curl_requests is not None:
+    if c_session is not None:
+        try:
+            be_resp = c_session.post(be_url, headers=be_headers, data=be_data, timeout=timeout, proxies=proxies)
+            if be_resp.status_code == 200:
+                be_resp_text = be_resp.text
+            else:
+                print(f"[decode] batchexecute c_session status: {be_resp.status_code}")
+        except Exception as e:
+            print(f"[decode] batchexecute c_session error: {e}")
+    elif curl_requests is not None:
         try:
             be_resp = curl_requests.post(be_url, headers=be_headers, data=be_data, impersonate="chrome", timeout=timeout, proxies=proxies)
             if be_resp.status_code == 200:
@@ -279,6 +294,18 @@ def _decode_cbm_batchexecute(
             pass
 
     if not be_resp_text:
+        # Fallback: Forward decoding request to Cloudflare Worker Edge
+        try:
+            worker_base = os.getenv("CLOUDFLARE_WORKER_URL", "https://qt-vandungdev.dungnguyen2661.workers.dev").rstrip("/")
+            cf_url = f"{worker_base}/decode"
+            params = {"url": f"https://news.google.com/rss/articles/{base64_str}"}
+            w_resp = requests.get(cf_url, params=params, timeout=timeout)
+            if w_resp.status_code == 200:
+                data = w_resp.json()
+                if data.get("status") and data.get("decoded_url"):
+                    return data["decoded_url"]
+        except Exception as e:
+            print(f"[decode] Cloudflare Worker Edge fallback notice: {e}")
         return None
 
     try:
@@ -304,14 +331,27 @@ def _decode_once(
     if direct:
         return direct, "direct_b64"
 
-    # Extract base64 token for online strategies
+    # Strategy 1: Delegate decoding to Cloudflare Worker Edge Gateway (Clean IP, Zero 429)
+    worker_base = os.getenv("CLOUDFLARE_WORKER_URL", CLOUDFLARE_WORKER_URL)
+    if worker_base:
+        try:
+            cf_url = f"{worker_base.rstrip('/')}/decode"
+            w_resp = (session or requests).get(cf_url, params={"url": google_url}, timeout=timeout)
+            if w_resp.status_code == 200:
+                cf_data = w_resp.json()
+                if cf_data.get("status") and cf_data.get("decoded_url"):
+                    return cf_data["decoded_url"], "cloudflare_worker"
+        except Exception as e:
+            print(f"[decode] Cloudflare Worker Edge notice: {e}")
+
+    # Extract base64 token for local fallback strategies
     try:
         path = urlparse(google_url).path.split("/")
         base64_str = path[-1] if path else ""
     except Exception:
         base64_str = ""
 
-    # Strategy 1: Robust batchexecute via rss/articles with SOCS cookie (bypasses cloud datacenter CAPTCHA)
+    # Strategy 2: Robust batchexecute via rss/articles with SOCS cookie (Direct fallback)
     if base64_str:
         decoded = _decode_cbm_batchexecute(base64_str, proxy=proxy, timeout=timeout)
         if decoded:

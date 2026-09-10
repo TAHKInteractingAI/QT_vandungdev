@@ -17,6 +17,81 @@ async function resolveSecret(env) {
   return env.CRON_SECRET || "vandungdev@qt";
 }
 
+async function decodeGoogleNewsUrl(sourceUrl) {
+  try {
+    const urlObj = new URL(sourceUrl);
+    const pathParts = urlObj.pathname.split("/");
+    const base64Str = pathParts[pathParts.length - 1].split("?")[0];
+
+    // Strategy 0: Direct base64 regex decode
+    try {
+      const padded = base64Str + "=".repeat((4 - (base64Str.length % 4)) % 4);
+      const decodedB64 = atob(padded.replace(/-/g, "+").replace(/_/g, "/"));
+      const match = decodedB64.match(/https?:\/\/[^\x00-\x1f\x7f-\xff\s"'<>]+/);
+      if (match && !match[0].includes("google.com") && !match[0].includes("google.")) {
+        return { status: true, decoded_url: match[0], method: "direct_b64" };
+      }
+    } catch (_) {}
+
+    // Strategy 1: GET rss/articles
+    const rssUrl = `https://news.google.com/rss/articles/${base64Str}`;
+    const rssHeaders = {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language": "en-US,en;q=0.9",
+      "Cookie": "SOCS=CAESEwgDEgk2NDgyOTM5MDQaAmVuIAEaBgiA_L20Bg",
+    };
+    const rssResp = await fetch(rssUrl, { headers: rssHeaders, redirect: "follow" });
+    if (!rssResp.ok) {
+      return { status: false, error: `RSS status ${rssResp.status}` };
+    }
+    const html = await rssResp.text();
+
+    const sgMatch = html.match(/data-n-a-sg="([^"]+)"/);
+    const tsMatch = html.match(/data-n-a-ts="([^"]+)"/);
+    if (!sgMatch || !tsMatch) {
+      return { status: false, error: "c-wiz sig/ts not found in HTML" };
+    }
+    const sig = sgMatch[1];
+    const ts = tsMatch[1];
+
+    // Strategy 2: POST batchexecute
+    const beUrl = "https://news.google.com/_/DotsSplashUi/data/batchexecute";
+    const payload = [
+      "Fbv4je",
+      `["garturlreq",[["X","X",["X","X"],null,null,1,1,"US:en",null,1,null,null,null,null,null,0,1],"X","X",1,[1,1,1],1,1,null,0,0,null,0],"${base64Str}",${ts},"${sig}"]`,
+    ];
+    const beData = "f.req=" + encodeURIComponent(JSON.stringify([[payload]]));
+    const beHeaders = {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+      "Cookie": "SOCS=CAESEwgDEgk2NDgyOTM5MDQaAmVuIAEaBgiA_L20Bg",
+      "Origin": "https://news.google.com",
+      "Referer": "https://news.google.com/",
+    };
+    const beResp = await fetch(beUrl, {
+      method: "POST",
+      headers: beHeaders,
+      body: beData,
+    });
+    if (!beResp.ok) {
+      return { status: false, error: `batchexecute status ${beResp.status}` };
+    }
+    const beText = await beResp.text();
+    const parts = beText.split("\n\n");
+    if (parts.length > 1) {
+      const parsed = JSON.parse(parts[1]).slice(0, -2);
+      const decodedUrl = JSON.parse(parsed[0][2])[1];
+      if (decodedUrl && !decodedUrl.includes("google.com") && !decodedUrl.includes("google.")) {
+        return { status: true, decoded_url: decodedUrl, method: "batchexecute" };
+      }
+    }
+    return { status: false, error: "batchexecute parse error" };
+  } catch (err) {
+    return { status: false, error: String(err) };
+  }
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -31,6 +106,41 @@ export default {
         status: 200,
         headers: { "Content-Type": "application/json" }
       });
+    }
+
+    // Endpoint: Decode Google News URL
+    if (url.pathname === "/decode") {
+      const targetUrl = url.searchParams.get("url");
+      if (!targetUrl) {
+        return new Response(JSON.stringify({ status: false, error: "Missing ?url= parameter" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" }
+        });
+      }
+      const decodeRes = await decodeGoogleNewsUrl(targetUrl);
+      return new Response(JSON.stringify(decodeRes), {
+        status: decodeRes.status ? 200 : 422,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
+    // Endpoint: Proxy Google News RSS
+    if (url.pathname === "/rss" || url.pathname.startsWith("/rss/")) {
+      const googleRssUrl = `https://news.google.com${url.pathname}${url.search}`;
+      try {
+        const rssResp = await fetch(googleRssUrl, {
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "Accept": "application/rss+xml,application/xml;q=0.9,*/*;q=0.8"
+          }
+        });
+        return new Response(rssResp.body, {
+          status: rssResp.status,
+          headers: { "Content-Type": "application/rss+xml; charset=utf-8" }
+        });
+      } catch (err) {
+        return new Response(JSON.stringify({ error: String(err) }), { status: 502, headers: { "Content-Type": "application/json" } });
+      }
     }
 
     // Endpoint 2: Trigger Crawler

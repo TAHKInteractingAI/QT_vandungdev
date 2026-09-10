@@ -242,9 +242,11 @@ async def debug_decode_endpoint(
         "Cookie": "SOCS=CAESEwgDEgk2NDgyOTM5MDQaAmVuIAEaBgiA_L20Bg",
     }
     html_text = ""
+    c_session = None
     if c_req:
         try:
-            r = c_req.get(rss_url, headers=headers, impersonate="chrome", timeout=10, allow_redirects=True)
+            c_session = c_req.Session(impersonate="chrome")
+            r = c_session.get(rss_url, headers=headers, timeout=10, allow_redirects=True)
             logs.append(f"curl_cffi GET status: {r.status_code}, url: {r.url}, len: {len(r.text)}")
             html_text = r.text
         except Exception as e:
@@ -274,10 +276,15 @@ async def debug_decode_endpoint(
         be_headers = {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             "User-Agent": headers["User-Agent"],
+            "Cookie": "SOCS=CAESEwgDEgk2NDgyOTM5MDQaAmVuIAEaBgiA_L20Bg",
+            "Origin": "https://news.google.com",
+            "Referer": "https://news.google.com/",
         }
         be_data = f"f.req={quote(json.dumps([[payload]]))}"
         try:
-            if c_req:
+            if c_session is not None:
+                be_r = c_session.post(be_url, headers=be_headers, data=be_data, timeout=10)
+            elif c_req:
                 be_r = c_req.post(be_url, headers=be_headers, data=be_data, impersonate="chrome", timeout=10)
             else:
                 import requests as req

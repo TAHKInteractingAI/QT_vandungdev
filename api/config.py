@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     DEFAULT_STORAGE_MODE: str = "google"
     DEFAULT_TIMEZONE: str = "Asia/Ho_Chi_Minh"
     CRON_HEARTBEAT_URL: str | None = None
+    CLOUDFLARE_WORKER_URL: str | None = "https://qt-vandungdev.dungnguyen2661.workers.dev"
 
     STORAGE_DIR: str = "storage"
     JOBS_METADATA_DIR: str = "storage/jobs"
