@@ -21,6 +21,7 @@ def _trigger_job(
     storage_mode: str | None = None,
     timezone: str | None = None,
     ping_url: str | None = None,
+    provider: str | None = None,
 ) -> dict:
     if job_manager.is_running():
         raise HTTPException(
@@ -41,6 +42,7 @@ def _trigger_job(
     final_storage_mode = storage_mode or settings.DEFAULT_STORAGE_MODE
     final_timezone = timezone or settings.DEFAULT_TIMEZONE
     final_ping_url = ping_url
+    final_provider = provider or settings.DEFAULT_PROVIDER
 
     try:
         job_data = job_manager.create_and_start_job(
@@ -57,6 +59,7 @@ def _trigger_job(
             storage_mode=final_storage_mode,
             tz=final_timezone,
             ping_url=final_ping_url,
+            provider=final_provider,
         )
         return job_data
     except RuntimeError as err:
@@ -100,6 +103,7 @@ async def trigger_crawl_post(
     storage_mode = req.storage_mode if req else None
     timezone = (req.timezone or req.tz) if req else None
     ping_url = req.ping_url if req else None
+    provider = req.provider if req else None
 
     job_data = _trigger_job(
         keyword,
@@ -115,6 +119,7 @@ async def trigger_crawl_post(
         storage_mode,
         timezone,
         ping_url,
+        provider,
     )
     return CrawlJobResponse(
         job_id=job_data["job_id"],
@@ -126,6 +131,7 @@ async def trigger_crawl_post(
         lang=job_data["lang"],
         markets=job_data.get("markets"),
         time_window=job_data.get("time_window"),
+        provider=job_data.get("provider"),
         timeout=job_data["timeout"],
         proxy=job_data["proxy"],
         rotate_ua=job_data["rotate_ua"],
@@ -155,11 +161,12 @@ async def trigger_crawl_get(
     storage_mode: str | None = Query(None),
     timezone: str | None = Query(None, alias="tz"),
     ping_url: str | None = Query(None),
+    provider: str | None = Query(None),
     _authorized: bool = Depends(verify_api_key),
 ):
     """
     Trigger a new news crawl job via HTTP GET (convenient for webhooks or URL pings).
-    Supports ?lang=vi,us or ?languages=top&when=1d&tz=Asia/Ho_Chi_Minh&ping_url=...
+    Supports ?lang=vi,us or ?languages=top&when=1d&tz=Asia/Ho_Chi_Minh&ping_url=...&provider=auto
     """
     job_data = _trigger_job(
         keyword,
@@ -175,6 +182,7 @@ async def trigger_crawl_get(
         storage_mode,
         timezone,
         ping_url,
+        provider,
     )
     return CrawlJobResponse(
         job_id=job_data["job_id"],
@@ -186,6 +194,7 @@ async def trigger_crawl_get(
         lang=job_data["lang"],
         markets=job_data.get("markets"),
         time_window=job_data.get("time_window"),
+        provider=job_data.get("provider"),
         timeout=job_data["timeout"],
         proxy=job_data["proxy"],
         rotate_ua=job_data["rotate_ua"],

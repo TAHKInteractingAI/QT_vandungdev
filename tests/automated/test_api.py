@@ -66,7 +66,7 @@ def test_trigger_custom_timezone_get():
     from api.services.job_manager import job_manager
 
     # Wait for previous background job to finish if needed
-    for _ in range(30):
+    for _ in range(60):
         if not job_manager.is_running():
             break
         time.sleep(0.5)

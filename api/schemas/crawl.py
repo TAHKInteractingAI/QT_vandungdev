@@ -18,6 +18,7 @@ class CrawlTriggerRequest(BaseModel):
     timezone: str | None = Field(default=None, description="Timezone for naming folders and tabs, e.g. 'Asia/Ho_Chi_Minh' (default), 'UTC'")
     tz: str | None = Field(default=None, description="Alias for timezone")
     ping_url: str | None = Field(default=None, description="Heartbeat ping URL called upon crawl completion (e.g. cron-job.org or Healthchecks.io)")
+    provider: str | None = Field(default=None, description="Search engine provider: 'auto' (Google with Bing fallback), 'bing' (direct un-obfuscated), 'google'")
 
 
 class CrawlJobResponse(BaseModel):
@@ -30,6 +31,7 @@ class CrawlJobResponse(BaseModel):
     lang: str
     markets: list[str] | None = None
     time_window: str | None = None
+    provider: str | None = None
     timeout: int
     proxy: str | None = None
     rotate_ua: bool

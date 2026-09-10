@@ -12,13 +12,19 @@ if TYPE_CHECKING:
 
 from crawler.config import (
     DEFAULT_LANG,
+    DEFAULT_PROVIDER,
     DEFAULT_TIME_WINDOW,
     DEFAULT_WORKERS,
     POOL_MAXSIZE,
     TIMEOUT,
     resolve_locales,
 )
-from crawler.discovery import decode_publisher_url, fetch_rss_multi
+from crawler.discovery import (
+    decode_publisher_url,
+    discover_articles,
+    fetch_bing_rss_multi,
+    fetch_rss_multi,
+)
 from crawler.images import download_images, extract_image_urls
 from crawler.naming import format_article_id, generate_run_tag
 from crawler.network import create_session, fetch_with_status
@@ -76,10 +82,13 @@ def _process_one(
     if stop_event and stop_event.is_set():
         return "interrupted"
 
-    google_url = art.get("google_url", "")
-    publisher_url, decode_status = decode_publisher_url(google_url, session=session, proxy=proxy, timeout=timeout)
-    art["publisher_url"] = publisher_url or ""
-    art["decode_status"] = decode_status
+    publisher_url = art.get("publisher_url")
+    decode_status = art.get("decode_status") or "direct"
+    if not publisher_url or "google.com" in publisher_url:
+        google_url = art.get("google_url", "")
+        publisher_url, decode_status = decode_publisher_url(google_url, session=session, proxy=proxy, timeout=timeout)
+        art["publisher_url"] = publisher_url or ""
+        art["decode_status"] = decode_status
     if not publisher_url:
         return f"decode_failed | {decode_status}"
 
@@ -125,6 +134,7 @@ def crawl_google_news(
     storage: BaseStorageBackend | None = None,
     job_id: str | None = None,
     timezone: str | None = None,
+    provider: str = DEFAULT_PROVIDER,
 ) -> dict:
     if not keyword or not keyword.strip():
         raise ValueError("keyword must be non-empty")
@@ -178,13 +188,14 @@ def crawl_google_news(
 
     with create_session(proxy=proxy, pool_size=pool_size) as session:
         try:
-            articles = fetch_rss_multi(
+            articles = discover_articles(
                 keyword,
                 max_articles,
                 locales=target_locales,
                 time_window=time_window,
                 session=session,
                 timeout=timeout,
+                provider=provider,
             )
         except KeyboardInterrupt:
             print("\n[crawl] Stop requested via Ctrl+C during RSS discovery.")
@@ -227,7 +238,8 @@ def crawl_google_news(
             art["article_id"] = format_article_id(safe_topic, idx)
             art["status"] = ""
             art["saved_images"] = []
-            art["publisher_url"] = ""
+            if "publisher_url" not in art:
+                art["publisher_url"] = ""
 
         try:
             from tqdm.auto import tqdm as _tqdm  # type: ignore
@@ -310,6 +322,28 @@ def crawl_google_news(
     processed_articles = [a for a in articles if a.get("status")]
     processed_articles.sort(key=lambda a: a.get("order", 0))
     decode_ok = sum(1 for a in processed_articles if a.get("publisher_url"))
+
+    # If provider is "auto", we had articles discovered from Google, but ALL failed to decode (e.g. Render datacenter 429 block)
+    if provider.lower() == "auto" and articles and decode_ok == 0 and not interrupted:
+        print("[crawl] [auto-fallback] Google News links failed to decode (datacenter IP block). Falling back to Bing News engine...")
+        return crawl_google_news(
+            keyword,
+            max_articles=max_articles,
+            output_dir=output_dir,
+            workers=workers,
+            proxy=proxy,
+            rotate_ua=rotate_ua,
+            lang=lang,
+            time_window=time_window,
+            timeout=timeout,
+            resume=False,
+            show_progress=show_progress,
+            storage=backend,
+            job_id=effective_job_id,
+            timezone=timezone,
+            provider="bing",
+        )
+
     alive_cnt = sum(1 for a in processed_articles if a.get("http_code") == 200)
     ok = sum(1 for a in processed_articles if " | ok |" in str(a.get("status", "")))
     total = sum(len(a.get("saved_images", [])) for a in processed_articles)

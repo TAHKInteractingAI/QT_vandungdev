@@ -78,6 +78,7 @@ class JobManager:
         storage_mode: str | None = None,
         tz: str | None = None,
         ping_url: str | None = None,
+        provider: str | None = None,
     ) -> dict[str, Any]:
         with self._lock:
             if self._current_job_id is not None:
@@ -85,6 +86,7 @@ class JobManager:
 
             effective_tz = tz or settings.DEFAULT_TIMEZONE
             effective_ping_url = ping_url or settings.CRON_HEARTBEAT_URL
+            effective_provider = provider or settings.DEFAULT_PROVIDER
 
             from crawler.naming import generate_run_tag, get_timezone
             tz_obj = get_timezone(effective_tz)
@@ -113,6 +115,7 @@ class JobManager:
                 "lang": primary_lang,
                 "markets": markets_list,
                 "time_window": time_window,
+                "provider": effective_provider,
                 "timeout": timeout,
                 "proxy": proxy,
                 "rotate_ua": rotate_ua,
@@ -155,6 +158,7 @@ class JobManager:
                 job_dir,
                 effective_tz,
                 effective_ping_url,
+                effective_provider,
             ),
             daemon=True,
         ).start()
@@ -178,6 +182,7 @@ class JobManager:
         output_dir: Path,
         tz: str | None = None,
         ping_url: str | None = None,
+        provider: str = "auto",
     ) -> None:
         job = self.get_job(job_id)
         if not job:
@@ -218,6 +223,7 @@ class JobManager:
                 storage=backend,
                 job_id=job_id,
                 timezone=tz,
+                provider=provider,
             )
             job["status"] = "completed"
             job["message"] = "Crawl job completed successfully"

@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     DEFAULT_SHOW_PROGRESS: bool = False
     DEFAULT_STORAGE_MODE: str = "google"
     DEFAULT_TIMEZONE: str = "Asia/Ho_Chi_Minh"
+    DEFAULT_PROVIDER: str = "auto"
     CRON_HEARTBEAT_URL: str | None = None
     CLOUDFLARE_WORKER_URL: str | None = "https://qt-vandungdev.dungnguyen2661.workers.dev"
 

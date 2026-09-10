@@ -13,8 +13,34 @@ POOL_CONNECTIONS = 20
 POOL_MAXSIZE = 20
 DEFAULT_PROXY: str | None = None
 DEFAULT_TIME_WINDOW: str | None = None  # e.g. "1d" (24h), "2d" (48h), "7d", "1h"
+DEFAULT_PROVIDER: str = "auto"  # 'auto', 'bing', 'google'
 CLOUDFLARE_WORKER_URL: str | None = "https://qt-vandungdev.dungnguyen2661.workers.dev"
 PLACEHOLDER_HOSTS = ("googleusercontent.com", "gstatic.com", "google.com/images", "gnews/logo", "lh3.googleusercontent")
+
+# Bing News RSS locale mapping (country code & language)
+BING_LOCALE_MAP: dict[str, dict[str, str]] = {
+    "vi": {"cc": "VN", "setlang": "vi"},
+    "vn": {"cc": "VN", "setlang": "vi"},
+    "us": {"cc": "US", "setlang": "en"},
+    "en": {"cc": "US", "setlang": "en"},
+    "ca": {"cc": "CA", "setlang": "en"},
+    "sg": {"cc": "SG", "setlang": "en"},
+    "uk": {"cc": "GB", "setlang": "en"},
+    "gb": {"cc": "GB", "setlang": "en"},
+    "jp": {"cc": "JP", "setlang": "ja"},
+    "ja": {"cc": "JP", "setlang": "ja"},
+    "de": {"cc": "DE", "setlang": "de"},
+    "fr": {"cc": "FR", "setlang": "fr"},
+    "kr": {"cc": "KR", "setlang": "ko"},
+    "ko": {"cc": "KR", "setlang": "ko"},
+    "cn": {"cc": "CN", "setlang": "zh-Hans"},
+    "zh": {"cc": "CN", "setlang": "zh-Hans"},
+    "tw": {"cc": "TW", "setlang": "zh-Hant"},
+    "th": {"cc": "TH", "setlang": "th"},
+    "id": {"cc": "ID", "setlang": "id"},
+    "in": {"cc": "IN", "setlang": "en"},
+    "au": {"cc": "AU", "setlang": "en"},
+}
 
 # Standardized multi-market Google News RSS configurations
 SUPPORTED_LOCALES: dict[str, dict[str, str]] = {

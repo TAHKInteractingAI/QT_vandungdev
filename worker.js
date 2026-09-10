@@ -186,6 +186,7 @@ export default {
       if (url.searchParams.get("timezone")) crawlConfig.timezone = url.searchParams.get("timezone");
       if (url.searchParams.get("tz")) crawlConfig.timezone = url.searchParams.get("tz");
       if (url.searchParams.get("ping_url")) crawlConfig.ping_url = url.searchParams.get("ping_url");
+      if (url.searchParams.get("provider")) crawlConfig.provider = url.searchParams.get("provider");
 
       // If POST, merge JSON body parameters
       if (request.method === "POST") {
@@ -200,6 +201,7 @@ export default {
       if (!crawlConfig.max_articles && env.DEFAULT_MAX_ARTICLES) crawlConfig.max_articles = parseInt(env.DEFAULT_MAX_ARTICLES);
       if (!crawlConfig.timezone && env.DEFAULT_TIMEZONE) crawlConfig.timezone = env.DEFAULT_TIMEZONE;
       if (!crawlConfig.ping_url && env.CRON_HEARTBEAT_URL) crawlConfig.ping_url = env.CRON_HEARTBEAT_URL;
+      if (!crawlConfig.provider && env.DEFAULT_PROVIDER) crawlConfig.provider = env.DEFAULT_PROVIDER;
 
       // Forward request to FastAPI Backend in background (via ctx.waitUntil)
       const backendUrl = `${env.BACKEND_API_URL}/api/v1/crawl/trigger`;
