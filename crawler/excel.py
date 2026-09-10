@@ -4,36 +4,30 @@ import json
 from pathlib import Path
 from urllib.parse import urlparse
 
+import openpyxl
 from openpyxl import Workbook
 from openpyxl.packaging.manifest import mimetypes as openpyxl_mimetypes
 from openpyxl.styles import Alignment, Font
 from openpyxl.utils import get_column_letter
 
-openpyxl_mimetypes.add_type("image/webp", ".webp")
+from crawler.sheet_schema import (
+    COLUMN_SPECS,
+    HEADERS,
+    PREVIEW_MAX_H,
+    PREVIEW_MAX_W,
+    ROW_HEIGHT_EXCEL,
+)
 
-_HEADERS = [
-    "#",
-    "Preview",
-    "Title",
-    "Snippet",
-    "Published",
-    "Source",
-    "Google News URL",
-    "Publisher URL",
-    "Image",
-    "Status",
-]
-# Column widths: Title/Snippet=300 (40 chars), Source=100 (14 chars), Published=150 (20 chars), URLs/Image/Status=200 (27 chars), Preview=145 (20 chars), #=45 (6 chars)
-_WIDTHS = [6, 20, 40, 40, 20, 14, 27, 27, 27, 27]
+openpyxl_mimetypes.add_type("image/webp", ".webp")
 
 
 def _style_header(ws):
     for cell in ws[1]:
         cell.font = Font(bold=True)
     ws.freeze_panes = "A2"
-    ws.auto_filter.ref = f"A1:{get_column_letter(len(_HEADERS))}1"
-    for idx, w in enumerate(_WIDTHS, 1):
-        ws.column_dimensions[get_column_letter(idx)].width = w
+    ws.auto_filter.ref = f"A1:{get_column_letter(len(HEADERS))}1"
+    for idx, spec in enumerate(COLUMN_SPECS, 1):
+        ws.column_dimensions[get_column_letter(idx)].width = spec["excel_width"]
     if ws.sheet_properties.pageSetUpPr:
         ws.sheet_properties.pageSetUpPr.fitToPage = True
 
@@ -54,7 +48,7 @@ def _add_hyperlinks(ws, row_idx: int, art: dict, img_rel: str = ""):
         pass
 
 
-def _embed_preview(ws, row_idx: int, thumb_path: Path, max_w: int = 145, max_h: int = 105):
+def _embed_preview(ws, row_idx: int, thumb_path: Path, max_w: int = PREVIEW_MAX_W, max_h: int = PREVIEW_MAX_H):
     try:
         from io import BytesIO
         from openpyxl.drawing.image import Image as XLImage
@@ -78,30 +72,24 @@ def _embed_preview(ws, row_idx: int, thumb_path: Path, max_w: int = 145, max_h: 
             xl.width, xl.height = im.size
             # Column B is Preview
             ws.add_image(xl, f"B{row_idx}")
-        ws.row_dimensions[row_idx].height = 86
+        ws.row_dimensions[row_idx].height = ROW_HEIGHT_EXCEL
     except Exception:
         pass
 
 
-def export_excel(articles: list[dict], output_dir: Path, images_dir_name: str = "images") -> Path:
-    xlsx_path = output_dir / "articles.xlsx"
-    wb = Workbook()
-    ws = wb.active
-    assert ws is not None
-    ws.title = "Articles"
-    ws.append(_HEADERS)
+def populate_worksheet(ws, articles: list[dict], images_dir: Path | None = None) -> None:
+    """Populate a single worksheet with standard header, rows, images and styling."""
+    ws.append(HEADERS)
     _style_header(ws)
 
-    # Sort articles by original order if present
     sorted_articles = sorted(articles, key=lambda a: a.get("order", 0)) if any("order" in a for a in articles) else list(articles)
 
     for i, art in enumerate(sorted_articles, 1):
         order_num = art.get("order", i)
         imgs: list[Path] = art.get("saved_images", [])  # type: ignore
         img_paths = [Path(p) for p in imgs] if imgs else []
-        img_rel = f"{images_dir_name}/{img_paths[0].name}" if len(img_paths) >= 1 else ""
+        img_rel = f"{img_paths[0].name}" if len(img_paths) >= 1 else ""
 
-        # Friendly anchor text for URLs to prevent long unbroken strings expanding row height in Excel
         g_url = art.get("google_url", "")
         g_label = "Google News" if g_url else ""
 
@@ -132,25 +120,77 @@ def export_excel(articles: list[dict], output_dir: Path, images_dir_name: str = 
         _add_hyperlinks(ws, row_idx, art, img_rel=img_rel)
         if img_paths:
             _embed_preview(ws, row_idx, img_paths[0])
-        ws.row_dimensions[row_idx].height = 86
+        ws.row_dimensions[row_idx].height = ROW_HEIGHT_EXCEL
 
-    # User requirement: wrap text + Align Top + Align Left for text, Center for # (Col 1) and Preview (Col 2)
     align_text = Alignment(wrap_text=True, vertical="top", horizontal="left")
     align_center = Alignment(vertical="top", horizontal="center")
 
-    for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=1, max_col=len(_HEADERS)):
+    for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=1, max_col=len(HEADERS)):
         for col_idx, cell in enumerate(row, 1):
             if col_idx in (1, 2):  # '#' and 'Preview'
                 cell.alignment = align_center
             else:
                 cell.alignment = align_text
 
+
+def export_excel(
+    articles: list[dict],
+    output_dir: Path,
+    filename: str = "articles.xlsx",
+    tab_name: str = "Articles",
+    images_dir: Path | None = None,
+) -> Path:
+    """Create standalone workbook for current crawl run."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    xlsx_path = output_dir / filename
+    wb = Workbook()
+    ws = wb.active
+    assert ws is not None
+    ws.title = tab_name[:31]  # Excel tab title max 31 chars
+    populate_worksheet(ws, articles, images_dir=images_dir)
     wb.save(xlsx_path)
     return xlsx_path
 
 
+def append_to_master_excel(
+    articles: list[dict],
+    master_path: Path,
+    tab_name: str,
+    images_dir: Path | None = None,
+) -> Path:
+    """
+    Append new crawl results as the FIRST worksheet (index=0) in master workbook.
+    Matches Google Sheets behavior.
+    """
+    master_path.parent.mkdir(parents=True, exist_ok=True)
+    sanitized_tab = tab_name[:31]
+
+    if master_path.exists():
+        try:
+            wb = openpyxl.load_workbook(master_path)
+            # If tab already exists, append unique suffix
+            if sanitized_tab in wb.sheetnames:
+                sanitized_tab = f"{sanitized_tab[:26]}_{len(wb.sheetnames)}"
+            ws = wb.create_sheet(title=sanitized_tab, index=0)
+        except Exception:
+            wb = Workbook()
+            ws = wb.active
+            assert ws is not None
+            ws.title = sanitized_tab
+    else:
+        wb = Workbook()
+        ws = wb.active
+        assert ws is not None
+        ws.title = sanitized_tab
+
+    wb.active = 0  # Activate newest sheet at position 0
+    populate_worksheet(ws, articles, images_dir=images_dir)
+    wb.save(master_path)
+    return master_path
+
+
 def export_excel_from_jsonl(jsonl_path: str | Path, output_dir: str | Path | None = None) -> Path:
-    """Re-export Excel articles.xlsx from an existing articles.jsonl checkpoint."""
+    """Re-export Excel from an existing articles.jsonl checkpoint."""
     jpath = Path(jsonl_path)
     if not jpath.exists():
         raise FileNotFoundError(f"JSONL checkpoint not found: {jpath}")
@@ -165,11 +205,10 @@ def export_excel_from_jsonl(jsonl_path: str | Path, output_dir: str | Path | Non
             if not line:
                 continue
             art = json.loads(line)
-            # Reconstruct Path objects for saved_images
             if raw_imgs := art.get("saved_images"):
                 art["saved_images"] = [Path(p) for p in raw_imgs]
             articles.append(art)
 
-    # Sort articles by original order so Excel order is strictly consistent
     articles.sort(key=lambda a: a.get("order", 0))
-    return export_excel(articles, out_dir)
+    tab_name = jpath.parent.name or "Articles"
+    return export_excel(articles, out_dir, filename=f"{tab_name}_articles.xlsx", tab_name=tab_name)

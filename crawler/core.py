@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import threading
-from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -18,9 +17,9 @@ from crawler.config import (
     TIMEOUT,
     resolve_locales,
 )
-from crawler.discovery import decode_publisher_url, fetch_rss, fetch_rss_multi
-from crawler.excel import export_excel
+from crawler.discovery import decode_publisher_url, fetch_rss_multi
 from crawler.images import download_images, extract_image_urls
+from crawler.naming import format_article_id, generate_run_tag
 from crawler.network import create_session, fetch_with_status
 from crawler.storage.base import BaseStorageBackend
 from crawler.storage.local import LocalStorageBackend
@@ -76,22 +75,21 @@ def _process_one(
         return "interrupted"
 
     google_url = art.get("google_url", "")
-    if not google_url:
-        return "no_google_url"
-
     publisher_url, decode_status = decode_publisher_url(google_url, session=session, proxy=proxy, timeout=timeout)
-    if stop_event and stop_event.is_set():
-        return "interrupted"
-
+    art["publisher_url"] = publisher_url or ""
+    art["decode_status"] = decode_status
     if not publisher_url:
-        return f"decode_failed ({decode_status})"
-    art["publisher_url"] = publisher_url
-    art["url"] = publisher_url
+        return f"decode_failed | {decode_status}"
 
-    html, code, alive_status = fetch_with_status(publisher_url, session=session, timeout=timeout, rotate_ua=rotate_ua)
     if stop_event and stop_event.is_set():
         return "interrupted"
 
+    html, alive_status, code = fetch_with_status(
+        publisher_url,
+        session=session,
+        rotate_ua=rotate_ua,
+        timeout=timeout,
+    )
     art["alive"] = alive_status
     art["http_code"] = code
     if html is None:
@@ -112,7 +110,7 @@ def _process_one(
 def crawl_google_news(
     keyword: str,
     max_articles: int = 20,
-    output_dir: str | Path = "output",
+    output_dir: str | Path | None = None,
     *,
     workers: int = DEFAULT_WORKERS,
     proxy: str | None = None,
@@ -133,16 +131,20 @@ def crawl_google_news(
         raise ValueError("workers must be > 0")
 
     keyword = keyword.strip()
-    safe_keyword = "".join(c if c.isalnum() or c in ("-", "_") else "_" for c in keyword)
-    safe_keyword = safe_keyword.strip("_") or "News"
-    effective_job_id = job_id or f"{safe_keyword}_{datetime.now().strftime('%H%M_%d%m%Y')}"
-    backend = storage or LocalStorageBackend(output_dir=output_dir)
-    backend.init_session(job_id=effective_job_id, keyword=keyword, output_dir=output_dir)
+    safe_topic, default_run_tag = generate_run_tag(keyword)
+    effective_job_id = job_id or default_run_tag
 
-    output_dir = Path(output_dir)
-    images_dir = output_dir / "images"
-    jsonl_path = output_dir / "articles.jsonl"
-    output_dir.mkdir(parents=True, exist_ok=True)
+    # Default to storage directory if not specified
+    base_output = output_dir or "storage"
+    backend = storage or LocalStorageBackend(output_dir=base_output)
+    backend.init_session(job_id=effective_job_id, keyword=keyword, output_dir=base_output)
+
+    # Use backend-resolved output directory
+    effective_out_dir = getattr(backend, "output_dir", Path("storage") / default_run_tag)
+    images_dir = getattr(backend, "images_dir", effective_out_dir / "images")
+    jsonl_path = getattr(backend, "jsonl_path", effective_out_dir / f"{default_run_tag}_articles.jsonl")
+
+    effective_out_dir.mkdir(parents=True, exist_ok=True)
     images_dir.mkdir(parents=True, exist_ok=True)
 
     # Resolve target locales purely from lang (code, comma-string, or preset)
@@ -157,7 +159,7 @@ def crawl_google_news(
     if rotate_ua:
         extra_info.append("rotate_ua=True")
     extra_str = f" ({', '.join(extra_info)})" if extra_info else ""
-    print(f"[crawl] keyword={keyword!r} max={max_articles} workers={workers} markets=[{locales_label}]{extra_str} output={output_dir}")
+    print(f"[crawl] keyword={keyword!r} max={max_articles} workers={workers} markets=[{locales_label}]{extra_str} output={effective_out_dir}")
     print("[crawl] Press Ctrl+C to stop safely at any time.")
 
     if not resume and jsonl_path.exists():
@@ -183,8 +185,8 @@ def crawl_google_news(
             )
         except KeyboardInterrupt:
             print("\n[crawl] Stop requested via Ctrl+C during RSS discovery.")
-            xlsx = export_excel([], output_dir)
-            return {
+            dest_info = backend.finalize([])
+            res = {
                 "keyword": keyword,
                 "discovered": 0,
                 "processed": 0,
@@ -193,16 +195,16 @@ def crawl_google_news(
                 "with_images": 0,
                 "saved_images": 0,
                 "interrupted": True,
-                "xlsx": str(xlsx),
-                "jsonl": str(jsonl_path),
-                "output_dir": str(output_dir),
+                "output_dir": str(effective_out_dir),
                 "images_dir": str(images_dir),
             }
+            res.update(dest_info)
+            return res
 
         print(f"[crawl] discovered {len(articles)} articles")
         if not articles:
-            xlsx = export_excel([], output_dir)
-            return {
+            dest_info = backend.finalize([])
+            res = {
                 "keyword": keyword,
                 "discovered": 0,
                 "processed": 0,
@@ -211,15 +213,15 @@ def crawl_google_news(
                 "with_images": 0,
                 "saved_images": 0,
                 "interrupted": False,
-                "xlsx": str(xlsx),
-                "jsonl": str(jsonl_path),
-                "output_dir": str(output_dir),
+                "output_dir": str(effective_out_dir),
                 "images_dir": str(images_dir),
             }
+            res.update(dest_info)
+            return res
 
         for idx, art in enumerate(articles, 1):
             art["order"] = idx
-            art["article_id"] = f"article_{idx:05d}"
+            art["article_id"] = format_article_id(safe_topic, idx)
             art["status"] = ""
             art["saved_images"] = []
             art["publisher_url"] = ""
@@ -233,37 +235,21 @@ def crawl_google_news(
             _tqdm = None  # type: ignore
 
         use_bar = show_progress and _has_tqdm
-        pbar = _tqdm(total=len(articles), desc=keyword[:30], unit=" News", ncols=90) if use_bar else None  # type: ignore
-
-        stop_event = threading.Event()
+        pbar = None
+        if use_bar:
+            pbar = _tqdm(total=len(articles), desc="[crawl]", unit="art")  # type: ignore
 
         def _report_progress(idx: int, art: dict) -> None:
-            if stop_event.is_set():
-                return
             with _ui_lock:
-                if stop_event.is_set():
-                    return
-                title = (art.get("title") or "").strip()
-                if len(title) > 50:
-                    title = title[:47] + "..."
-                source = art.get("source", "")
-                status = art.get("status", "")
-                line = f"{idx:3d}. {title} — {source} [{status}]"
-                if use_bar:
-                    try:
-                        _tqdm.write(line)
-                    except Exception:
-                        print(line)
-                    if pbar is not None:
-                        try:
-                            pbar.update(1)
-                            alive_cnt = sum(1 for a in articles if a.get("http_code") == 200)
-                            ok_cnt = sum(1 for a in articles if " | ok |" in a.get("status", ""))
-                            pbar.set_postfix(alive=alive_cnt, ok=ok_cnt, refresh=False)
-                        except Exception:
-                            pass
+                if use_bar and pbar is not None:
+                    pbar.update(1)
                 else:
-                    print(line)
+                    t = (art.get("title") or "")[:45]
+                    src = art.get("source") or ""
+                    st = art.get("status") or ""
+                    print(f"  {idx:2d}. {t}... — {src} [{st}]")
+
+        stop_event = threading.Event()
 
         def _worker_task(idx: int, art: dict) -> None:
             if stop_event.is_set():
@@ -273,11 +259,11 @@ def crawl_google_news(
                 prev = completed_map[g_url]
                 art.update(prev)
                 art["order"] = idx
-                art["article_id"] = f"article_{idx:05d}"
+                art["article_id"] = format_article_id(safe_topic, idx)
                 _report_progress(idx, art)
                 return
 
-            prefix = art.get("article_id") or f"article_{idx:05d}"
+            prefix = art.get("article_id") or format_article_id(safe_topic, idx)
             status = _process_one(
                 art,
                 prefix,
@@ -340,7 +326,7 @@ def crawl_google_news(
         "with_images": ok,
         "saved_images": total,
         "interrupted": interrupted,
-        "output_dir": str(output_dir),
+        "output_dir": str(effective_out_dir),
         "images_dir": str(images_dir),
     }
     result_payload.update(dest_info)

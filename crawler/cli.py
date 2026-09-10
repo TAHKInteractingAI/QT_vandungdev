@@ -17,7 +17,7 @@ def main() -> None:
     p.add_argument("--keyword", default=DEFAULT_KEYWORD, help=f"Search keyword (default: '{DEFAULT_KEYWORD}')")
     p.add_argument("--max", type=int, default=20, dest="max_articles", help="Max articles to crawl")
     p.add_argument("--workers", type=int, default=DEFAULT_WORKERS, help=f"Number of concurrent workers (default: {DEFAULT_WORKERS})")
-    p.add_argument("--output", type=str, default="output", help="Output directory")
+    p.add_argument("--output", type=str, default="storage", help="Base output directory (default: 'storage')")
     p.add_argument("--lang", "--locales", "--markets", type=str, default=DEFAULT_LANG, dest="lang", help=f"Market/language code(s), e.g. 'vi', 'us', 'vi,us,jp' or preset 'top', 'global', 'asia', 'tech' (default: '{DEFAULT_LANG}')")
     p.add_argument("--time-window", "--when", type=str, default=DEFAULT_TIME_WINDOW, dest="time_window", help="News time window filter, e.g. '1d' (24h), '2d' (48h), '7d', '1h'")
     p.add_argument("--timeout", type=int, default=TIMEOUT, help=f"HTTP timeout in seconds (default: {TIMEOUT})")
