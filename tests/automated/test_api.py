@@ -16,7 +16,7 @@ def test_healthcheck():
 
 def test_trigger_unauthorized():
     # Request without X-API-Key header
-    response = client.post("/api/v1/crawl/trigger", json={"keyword": "AI"})
+    response = client.post("/api/v1/crawl/trigger", json={"keyword": "Trillion"})
     assert response.status_code == 401
     assert "Unauthorized" in response.json()["detail"]
 
@@ -42,7 +42,7 @@ def test_trigger_authorized_with_full_cli_params():
     data1 = res1.json()
     assert "job_id" in data1
     assert data1["status"] in ("pending", "running")
-    assert data1["keyword"] == "Artificial Intelligence"
+    assert data1["keyword"] == payload["keyword"]
     assert data1["max_articles"] == 2
     assert data1["workers"] == 2
     assert data1["lang"] == "vi"
@@ -88,3 +88,22 @@ def test_download_excel_verification():
         assert headers == _HEADERS
         assert ws.max_row > 1, "Excel file must contain at least 1 data row"
         wb.close()
+
+
+def test_download_json_verification():
+    """
+    Test endpoint for downloading output JSON file and inspect JSON content.
+    """
+    job = client.get("/api/v1/jobs/latest")
+    assert job.status_code == 200
+    job_data = job.json()
+
+    if job_data.get("status") == "completed":
+        job_id = job_data["job_id"]
+        res = client.get(f"/api/v1/jobs/{job_id}/download/json")
+        assert res.status_code == 200
+        assert "application/json" in res.headers["content-type"]
+        items = res.json()
+        assert isinstance(items, list)
+        assert len(items) > 0
+        assert "title" in items[0]
