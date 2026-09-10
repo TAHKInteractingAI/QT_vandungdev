@@ -19,6 +19,7 @@ def _trigger_job(
     show_progress: bool | None,
     time_window: str | None = None,
     storage_mode: str | None = None,
+    timezone: str | None = None,
 ) -> dict:
     if job_manager.is_running():
         raise HTTPException(
@@ -37,6 +38,7 @@ def _trigger_job(
     final_resume = resume if resume is not None else settings.DEFAULT_RESUME
     final_show_progress = show_progress if show_progress is not None else settings.DEFAULT_SHOW_PROGRESS
     final_storage_mode = storage_mode or settings.DEFAULT_STORAGE_MODE
+    final_timezone = timezone or settings.DEFAULT_TIMEZONE
 
     try:
         job_data = job_manager.create_and_start_job(
@@ -51,6 +53,7 @@ def _trigger_job(
             show_progress=final_show_progress,
             time_window=final_time_window,
             storage_mode=final_storage_mode,
+            tz=final_timezone,
         )
         return job_data
     except RuntimeError as err:
@@ -92,6 +95,7 @@ async def trigger_crawl_post(
     show_progress = req.show_progress if req else None
     time_window = req.time_window if req else None
     storage_mode = req.storage_mode if req else None
+    timezone = (req.timezone or req.tz) if req else None
 
     job_data = _trigger_job(
         keyword,
@@ -105,6 +109,7 @@ async def trigger_crawl_post(
         show_progress,
         time_window,
         storage_mode,
+        timezone,
     )
     return CrawlJobResponse(
         job_id=job_data["job_id"],
@@ -121,6 +126,7 @@ async def trigger_crawl_post(
         rotate_ua=job_data["rotate_ua"],
         resume=job_data["resume"],
         storage_mode=job_data.get("storage_mode"),
+        timezone=job_data.get("timezone"),
         created_at=job_data["created_at"],
         excel_url=f"/api/v1/jobs/{job_data['job_id']}/download/excel",
         spreadsheet_url=job_data.get("spreadsheet_url"),
@@ -141,11 +147,12 @@ async def trigger_crawl_get(
     resume: bool | None = Query(None),
     show_progress: bool | None = Query(None),
     storage_mode: str | None = Query(None),
+    timezone: str | None = Query(None, alias="tz"),
     _authorized: bool = Depends(verify_api_key),
 ):
     """
     Trigger a new news crawl job via HTTP GET (convenient for webhooks or URL pings).
-    Supports ?lang=vi,us or ?languages=top&when=1d.
+    Supports ?lang=vi,us or ?languages=top&when=1d&tz=Asia/Ho_Chi_Minh.
     """
     job_data = _trigger_job(
         keyword,
@@ -159,6 +166,7 @@ async def trigger_crawl_get(
         show_progress,
         time_window,
         storage_mode,
+        timezone,
     )
     return CrawlJobResponse(
         job_id=job_data["job_id"],
@@ -175,6 +183,7 @@ async def trigger_crawl_get(
         rotate_ua=job_data["rotate_ua"],
         resume=job_data["resume"],
         storage_mode=job_data.get("storage_mode"),
+        timezone=job_data.get("timezone"),
         created_at=job_data["created_at"],
         excel_url=f"/api/v1/jobs/{job_data['job_id']}/download/excel",
         spreadsheet_url=job_data.get("spreadsheet_url"),

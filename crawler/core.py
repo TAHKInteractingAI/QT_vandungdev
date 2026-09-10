@@ -124,6 +124,7 @@ def crawl_google_news(
     show_progress: bool = True,
     storage: BaseStorageBackend | None = None,
     job_id: str | None = None,
+    timezone: str | None = None,
 ) -> dict:
     if not keyword or not keyword.strip():
         raise ValueError("keyword must be non-empty")
@@ -133,13 +134,13 @@ def crawl_google_news(
         raise ValueError("workers must be > 0")
 
     keyword = keyword.strip()
-    safe_topic, default_run_tag = generate_run_tag(keyword)
+    safe_topic, default_run_tag = generate_run_tag(keyword, tz=timezone)
     effective_job_id = job_id or default_run_tag
 
     # Default to storage directory if not specified
     base_output = output_dir or "storage"
     backend = storage or LocalStorageBackend(output_dir=base_output)
-    backend.init_session(job_id=effective_job_id, keyword=keyword, output_dir=base_output)
+    backend.init_session(job_id=effective_job_id, keyword=keyword, output_dir=base_output, tz=timezone)
 
     # Use backend-resolved output directory
     effective_out_dir = getattr(backend, "output_dir", Path("storage") / default_run_tag)

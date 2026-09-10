@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     DEFAULT_RESUME: bool = True
     DEFAULT_SHOW_PROGRESS: bool = False
     DEFAULT_STORAGE_MODE: str = "google"
+    DEFAULT_TIMEZONE: str = "Asia/Ho_Chi_Minh"
 
     STORAGE_DIR: str = "storage"
     JOBS_METADATA_DIR: str = "storage/jobs"

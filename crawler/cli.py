@@ -23,6 +23,7 @@ def main() -> None:
     p.add_argument("--timeout", type=int, default=TIMEOUT, help=f"HTTP timeout in seconds (default: {TIMEOUT})")
     p.add_argument("--proxy", type=str, default=None, help="HTTP/HTTPS/SOCKS5 proxy URL (e.g. http://127.0.0.1:7890)")
     p.add_argument("--rotate-ua", action="store_true", help="Rotate User-Agent per request from modern browser pool")
+    p.add_argument("--timezone", "--tz", type=str, default="Asia/Ho_Chi_Minh", dest="timezone", help="Timezone for naming folders and tabs (default: 'Asia/Ho_Chi_Minh')")
     p.add_argument("--no-resume", action="store_true", help="Disable checkpoint resume, start fresh")
     p.add_argument("--no-progress", action="store_true", help="Hide progress")
     p.add_argument("--export-from-jsonl", type=str, default=None, help="Re-export articles.xlsx from an existing JSONL checkpoint")
@@ -46,6 +47,7 @@ def main() -> None:
             timeout=args.timeout,
             resume=not args.no_resume,
             show_progress=not args.no_progress,
+            timezone=args.timezone,
         )
         if result.get("interrupted"):
             import os

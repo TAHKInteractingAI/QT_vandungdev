@@ -25,8 +25,14 @@ class LocalStorageBackend(BaseStorageBackend):
         self.safe_topic = "News"
         self._lock = threading.Lock()
 
-    def init_session(self, job_id: str, keyword: str, output_dir: str | Path | None = None) -> None:
-        self.safe_topic, default_run_tag = generate_run_tag(keyword)
+    def init_session(
+        self,
+        job_id: str,
+        keyword: str,
+        output_dir: str | Path | None = None,
+        tz: str | None = None,
+    ) -> None:
+        self.safe_topic, default_run_tag = generate_run_tag(keyword, tz=tz)
         self.tab_name = default_run_tag
 
         if output_dir:

@@ -98,10 +98,16 @@ class GoogleCloudStorageBackend(BaseStorageBackend):
         creds = ServiceAccountCredentials.from_service_account_file(str(resolved_sa_path), scopes=_SCOPES)
         return creds, resolved_sa_path
 
-    def init_session(self, job_id: str, keyword: str, output_dir: str | Path | None = None) -> None:
+    def init_session(
+        self,
+        job_id: str,
+        keyword: str,
+        output_dir: str | Path | None = None,
+        tz: str | None = None,
+    ) -> None:
         self.spreadsheet = self.gc.open_by_key(self.spreadsheet_id)
 
-        self.safe_topic, default_run_tag = generate_run_tag(keyword)
+        self.safe_topic, default_run_tag = generate_run_tag(keyword, tz=tz)
         self.tab_name = default_run_tag
 
         # Insert new worksheet at index=0 (the very first tab on the left)

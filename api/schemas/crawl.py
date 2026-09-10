@@ -15,6 +15,8 @@ class CrawlTriggerRequest(BaseModel):
     show_progress: bool | None = Field(default=False, description="Display progress bar in server stdout (default: False)")
     time_window: str | None = Field(default=None, description="News time window filter, e.g. '1d' (24h), '2d' (48h), '7d', '1h'")
     storage_mode: str | None = Field(default=None, description="Storage mode: 'google' (Google Sheets + Drive) or 'local' (Excel + folder)")
+    timezone: str | None = Field(default=None, description="Timezone for naming folders and tabs, e.g. 'Asia/Ho_Chi_Minh' (default), 'UTC'")
+    tz: str | None = Field(default=None, description="Alias for timezone")
 
 
 class CrawlJobResponse(BaseModel):
@@ -32,6 +34,7 @@ class CrawlJobResponse(BaseModel):
     rotate_ua: bool
     resume: bool
     storage_mode: str | None = None
+    timezone: str | None = None
     created_at: datetime
     started_at: datetime | None = None
     completed_at: datetime | None = None

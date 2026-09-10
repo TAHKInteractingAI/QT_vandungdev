@@ -52,11 +52,32 @@ def test_trigger_authorized_with_full_cli_params():
     assert data1["timeout"] == 12
     assert data1["rotate_ua"] is True
     assert data1["resume"] is True
+    assert data1.get("timezone") == "Asia/Ho_Chi_Minh"
 
     # Trigger second job immediately -> Concurrency Lock must return 409 Conflict
     res2 = client.post("/api/v1/crawl/trigger", json=payload, headers=headers)
     assert res2.status_code == 409
     assert "Concurrency lock is active" in res2.json()["detail"]
+
+
+def test_trigger_custom_timezone_get():
+    """Verify triggering job with custom timezone (e.g. UTC, Asia/Tokyo) via GET/query."""
+    import time
+    from api.services.job_manager import job_manager
+
+    # Wait for previous background job to finish if needed
+    for _ in range(30):
+        if not job_manager.is_running():
+            break
+        time.sleep(0.5)
+
+    headers = {"X-API-Key": settings.CRON_API_KEY}
+    res = client.get("/api/v1/crawl/trigger?keyword=TimezoneTest&max=1&tz=UTC", headers=headers)
+    assert res.status_code == 202
+    data = res.json()
+    assert data["keyword"] == "TimezoneTest"
+    assert data["timezone"] == "UTC"
+    assert "TimezoneTest_" in data["job_id"]
 
 
 def test_download_excel_verification():

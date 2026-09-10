@@ -9,7 +9,13 @@ class BaseStorageBackend(ABC):
     """Abstract interface for crawler storage backends."""
 
     @abstractmethod
-    def init_session(self, job_id: str, keyword: str, output_dir: str | Path | None = None) -> None:
+    def init_session(
+        self,
+        job_id: str,
+        keyword: str,
+        output_dir: str | Path | None = None,
+        tz: str | None = None,
+    ) -> None:
         """Initialize storage session resources (e.g. folders, spreadsheets)."""
         pass
 

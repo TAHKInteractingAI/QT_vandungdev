@@ -9,6 +9,7 @@ import requests
 from selectolax.parser import HTMLParser
 
 from crawler.config import HEADERS, TIMEOUT
+from crawler.naming import format_published_date
 
 try:
     from googlenewsdecoder import gnewsdecoder
@@ -59,6 +60,7 @@ def fetch_rss(
         title = (it.findtext("title") or "").strip()
         link = (it.findtext("link") or "").strip()
         pub = (it.findtext("pubDate") or "").strip()
+        formatted_pub = format_published_date(pub)
         desc_raw = it.findtext("description") or ""
         desc_unesc = html.unescape(desc_raw)
         snippet = HTMLParser(desc_unesc).text(separator=" ", strip=True)[:500]
@@ -72,7 +74,8 @@ def fetch_rss(
                 "source": source,
                 "google_url": link,
                 "url": link,
-                "published": pub,
+                "published": formatted_pub,
+                "published_raw": pub,
                 "snippet": snippet,
                 "description_raw": desc_raw,
                 "locale": locale_name,

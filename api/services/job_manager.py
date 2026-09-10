@@ -76,14 +76,17 @@ class JobManager:
         show_progress: bool,
         time_window: str | None = None,
         storage_mode: str | None = None,
+        tz: str | None = None,
     ) -> dict[str, Any]:
         with self._lock:
             if self._current_job_id is not None:
                 raise RuntimeError(f"Another crawl job is currently running: {self._current_job_id}")
 
-            now = datetime.now()
-            from crawler.naming import generate_run_tag
-            safe_keyword, time_tag = generate_run_tag(keyword, now)
+            effective_tz = tz or settings.DEFAULT_TIMEZONE
+            from crawler.naming import generate_run_tag, get_timezone
+            tz_obj = get_timezone(effective_tz)
+            now = datetime.now(tz_obj)
+            safe_keyword, time_tag = generate_run_tag(keyword, now, tz=effective_tz)
             short_id = uuid.uuid4().hex[:4]
             job_id = f"{time_tag}_{short_id}"
 
@@ -113,6 +116,7 @@ class JobManager:
                 "resume": resume,
                 "show_progress": show_progress,
                 "storage_mode": effective_storage_mode,
+                "timezone": effective_tz,
                 "created_at": now.isoformat(),
                 "started_at": None,
                 "completed_at": None,
@@ -145,6 +149,7 @@ class JobManager:
                 show_progress,
                 effective_storage_mode,
                 job_dir,
+                effective_tz,
             ),
             daemon=True,
         ).start()
@@ -166,6 +171,7 @@ class JobManager:
         show_progress: bool,
         storage_mode: str,
         output_dir: Path,
+        tz: str | None = None,
     ) -> None:
         job = self.get_job(job_id)
         if not job:
@@ -205,6 +211,7 @@ class JobManager:
                 show_progress=show_progress,
                 storage=backend,
                 job_id=job_id,
+                timezone=tz,
             )
             job["status"] = "completed"
             job["message"] = "Crawl job completed successfully"
