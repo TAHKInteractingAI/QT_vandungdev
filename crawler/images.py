@@ -6,8 +6,8 @@ from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import requests
-from bs4 import BeautifulSoup
 from PIL import Image
+from selectolax.parser import HTMLParser, Node
 
 from crawler.config import HEADERS, PLACEHOLDER_HOSTS, TIMEOUT
 
@@ -48,40 +48,51 @@ def is_placeholder_url(url: str) -> bool:
     return any(h in low for h in PLACEHOLDER_HOSTS)
 
 
-def _meta_candidates(soup, base_url: str) -> list[str]:
+def _meta_candidates(tree: HTMLParser, base_url: str) -> list[str]:
     out: list[str] = []
-    for tag in soup.find_all("meta"):
-        prop = (tag.get("property", "") or tag.get("name", "")).strip().lower()
+    for tag in tree.css("meta"):
+        prop = (tag.attributes.get("property", "") or tag.attributes.get("name", "")).strip().lower()
         if prop not in ("og:image", "og:image:secure_url", "twitter:image", "twitter:image:src"):
             continue
-        content = (tag.get("content") or "").strip()
+        content = (tag.attributes.get("content") or "").strip()
         if not content or is_placeholder_url(content):
             continue
         out.append(urljoin(base_url, content))
     return out
 
 
-def _link_candidates(soup, base_url: str) -> list[str]:
+def _link_candidates(tree: HTMLParser, base_url: str) -> list[str]:
     out: list[str] = []
-    for tag in soup.find_all("link", rel=lambda x: x and "image_src" in x.lower() if isinstance(x, str) else False):
-        href = (tag.get("href") or "").strip()
+    for tag in tree.css("link"):
+        rel = (tag.attributes.get("rel") or "").lower()
+        if "image_src" not in rel:
+            continue
+        href = (tag.attributes.get("href") or "").strip()
         if not href or is_placeholder_url(href):
             continue
         out.append(urljoin(base_url, href))
     return out
 
 
-def _picture_candidates(soup, base_url: str) -> list[str]:
+def _picture_candidates(tree: HTMLParser, base_url: str) -> list[str]:
     out: list[str] = []
-    for source in soup.find_all("source"):
-        parent_names = {p.name.lower() for p in source.parents}
-        if parent_names & _PARENT_JUNK_TAGS:
+    for source in tree.css("picture source"):
+        curr = source.parent
+        p_tags: set[str] = set()
+        p_classes: list[str] = []
+        while curr and curr.tag != "-root":
+            p_tags.add(curr.tag.lower())
+            if cls := curr.attributes.get("class"):
+                p_classes.append(cls.lower())
+            curr = curr.parent
+
+        if p_tags & _PARENT_JUNK_TAGS:
             continue
-        parent_classes = " ".join(" ".join(p.get("class", [])) for p in source.parents if p.get("class")).lower()
+        parent_classes = " ".join(p_classes)
         if any(bad in parent_classes for bad in _PARENT_JUNK_CLASSES):
             continue
 
-        srcset = source.get("srcset", "") or source.get("data-srcset", "")
+        srcset = source.attributes.get("srcset", "") or source.attributes.get("data-srcset", "")
         if not srcset:
             continue
         first = srcset.split(",")[0].strip().split()[0]
@@ -94,18 +105,18 @@ def _picture_candidates(soup, base_url: str) -> list[str]:
     return out
 
 
-def _img_candidates(soup, base_url: str) -> list[str]:
+def _img_candidates(tree: HTMLParser, base_url: str) -> list[str]:
     out: list[str] = []
-    for img in soup.find_all("img"):
+    for img in tree.css("img"):
         src = (
-            img.get("data-src")
-            or img.get("data-original")
-            or img.get("data-lazy-src")
-            or img.get("src")
+            img.attributes.get("data-src")
+            or img.attributes.get("data-original")
+            or img.attributes.get("data-lazy-src")
+            or img.attributes.get("src")
             or ""
         ).strip()
         if not src:
-            srcset = img.get("srcset", "") or img.get("data-srcset", "")
+            srcset = img.attributes.get("srcset", "") or img.attributes.get("data-srcset", "")
             if srcset:
                 parts = [p.strip().split()[0] for p in srcset.split(",") if p.strip()]
                 if parts:
@@ -113,16 +124,27 @@ def _img_candidates(soup, base_url: str) -> list[str]:
         if not src or src.startswith("data:") or is_placeholder_url(src):
             continue
 
-        parent_names = {p.name.lower() for p in img.parents}
-        if parent_names & _PARENT_JUNK_TAGS:
+        curr = img.parent
+        p_tags: set[str] = set()
+        p_classes: list[str] = []
+        p_ids: list[str] = []
+        while curr and curr.tag != "-root":
+            p_tags.add(curr.tag.lower())
+            if cls := curr.attributes.get("class"):
+                p_classes.append(cls.lower())
+            if cid := curr.attributes.get("id"):
+                p_ids.append(cid.lower())
+            curr = curr.parent
+
+        if p_tags & _PARENT_JUNK_TAGS:
             continue
 
-        parent_classes = " ".join(" ".join(p.get("class", [])) for p in img.parents if p.get("class")).lower()
-        parent_ids = " ".join(str(p.get("id", "")) for p in img.parents if p.get("id")).lower()
+        parent_classes = " ".join(p_classes)
+        parent_ids = " ".join(p_ids)
         if any(bad in parent_classes or bad in parent_ids for bad in _PARENT_JUNK_CLASSES):
             continue
 
-        w, h = img.get("width", ""), img.get("height", "")
+        w, h = img.attributes.get("width", ""), img.attributes.get("height", "")
         try:
             if (w and int(w) < 150) or (h and int(h) < 100):
                 continue
@@ -133,8 +155,8 @@ def _img_candidates(soup, base_url: str) -> list[str]:
         if any(x in low for x in _JUNK):
             continue
 
-        cls = " ".join(img.get("class", [])).lower()
-        alt = (img.get("alt") or "").lower()
+        cls = (img.attributes.get("class") or "").lower()
+        alt = (img.attributes.get("alt") or "").lower()
         if any(bad in cls or bad in alt for bad in ["logo", "icon", "avatar", "banner", "adv"]):
             continue
 
@@ -145,13 +167,13 @@ def _img_candidates(soup, base_url: str) -> list[str]:
 
 
 def extract_image_urls(page_url: str, html_text: str, base_url: str) -> list[str]:
-    """Extract up to 8 clean image candidates for post-download validation."""
-    soup = BeautifulSoup(html_text, "lxml")
+    """Extract up to 8 clean image candidates for post-download validation using high performance selectolax."""
+    tree = HTMLParser(html_text)
     candidates = [
-        *_meta_candidates(soup, base_url),
-        *_link_candidates(soup, base_url),
-        *_picture_candidates(soup, base_url),
-        *_img_candidates(soup, base_url),
+        *_meta_candidates(tree, base_url),
+        *_link_candidates(tree, base_url),
+        *_picture_candidates(tree, base_url),
+        *_img_candidates(tree, base_url),
     ]
     uniq = list(dict.fromkeys(u.split("#")[0].strip().rstrip('",\'') for u in candidates))
     return [u for u in uniq if u.startswith("http") and not is_placeholder_url(u)][:8]

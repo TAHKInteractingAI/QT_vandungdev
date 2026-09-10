@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 from urllib.parse import quote_plus
 
 import requests
-from bs4 import BeautifulSoup
+from selectolax.parser import HTMLParser
 
 from crawler.config import HEADERS, TIMEOUT
 
@@ -61,7 +61,7 @@ def fetch_rss(
         pub = (it.findtext("pubDate") or "").strip()
         desc_raw = it.findtext("description") or ""
         desc_unesc = html.unescape(desc_raw)
-        snippet = BeautifulSoup(desc_unesc, "html.parser").get_text(" ", strip=True)[:500]
+        snippet = HTMLParser(desc_unesc).text(separator=" ", strip=True)[:500]
         source_el = it.find("source")
         source = (source_el.text.strip() if source_el is not None and source_el.text else "")
         if not source and " - " in title:
@@ -140,28 +140,29 @@ def fetch_rss_multi(
 
 def _extract_url_from_html(html_text: str) -> str | None:
     """Extract destination URL from Google redirect HTML page."""
-    soup = BeautifulSoup(html_text, "html.parser")
+    tree = HTMLParser(html_text)
     # 1. Meta refresh
-    for meta in soup.find_all("meta", attrs={"http-equiv": lambda x: x and x.lower() == "refresh"}):
-        content = meta.get("content", "")
-        if "url=" in content.lower():
-            target = content.lower().split("url=")[-1].split(";")[0].strip("\"' ")
-            if target.startswith("http") and "google.com" not in target:
-                return target
+    for meta in tree.css("meta"):
+        http_equiv = meta.attributes.get("http-equiv") or ""
+        if http_equiv.lower() == "refresh":
+            content = meta.attributes.get("content", "")
+            if "url=" in content.lower():
+                target = content.lower().split("url=")[-1].split(";")[0].strip("\"' ")
+                if target.startswith("http") and "google.com" not in target:
+                    return target
     # 2. Noscript anchors
-    for ns in soup.find_all("noscript"):
-        for a in ns.find_all("a"):
-            href = (a.get("href") or "").strip()
-            if href.startswith("http") and "google.com" not in href:
-                return href
+    for a in tree.css("noscript a"):
+        href = (a.attributes.get("href") or "").strip()
+        if href.startswith("http") and "google.com" not in href:
+            return href
     # 3. Data attributes / data-n-au
-    for el in soup.find_all(attrs={"data-n-au": True}):
-        u = el["data-n-au"].strip()
+    for el in tree.css("[data-n-au]"):
+        u = (el.attributes.get("data-n-au") or "").strip()
         if u.startswith("http") and "google.com" not in u:
             return u
     # 4. Fallback: check any external link inside main containers
-    for a in soup.find_all("a"):
-        href = (a.get("href") or "").strip()
+    for a in tree.css("a"):
+        href = (a.attributes.get("href") or "").strip()
         if href.startswith("http") and not any(h in href for h in ("google.com", "gstatic.com", "googleusercontent.com")):
             return href
     return None
