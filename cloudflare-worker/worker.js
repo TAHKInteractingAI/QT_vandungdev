@@ -42,6 +42,9 @@ export default {
       if (url.searchParams.get("proxy")) crawlConfig.proxy = url.searchParams.get("proxy");
       if (url.searchParams.get("rotate_ua")) crawlConfig.rotate_ua = url.searchParams.get("rotate_ua") === "true";
       if (url.searchParams.get("resume")) crawlConfig.resume = url.searchParams.get("resume") !== "false";
+      if (url.searchParams.get("time_window")) crawlConfig.time_window = url.searchParams.get("time_window");
+      if (url.searchParams.get("when")) crawlConfig.time_window = url.searchParams.get("when");
+      if (url.searchParams.get("storage_mode")) crawlConfig.storage_mode = url.searchParams.get("storage_mode");
 
       // If POST, merge JSON body parameters
       if (request.method === "POST") {
