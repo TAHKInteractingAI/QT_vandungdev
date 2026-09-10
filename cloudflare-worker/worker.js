@@ -35,9 +35,9 @@ export default {
       let crawlConfig = {};
       if (url.searchParams.get("keyword")) crawlConfig.keyword = url.searchParams.get("keyword");
       if (url.searchParams.get("max")) crawlConfig.max_articles = parseInt(url.searchParams.get("max"));
-      if (url.searchParams.get("workers")) crawlConfig.workers = parseInt(url.searchParams.get("workers"));
       if (url.searchParams.get("lang")) crawlConfig.lang = url.searchParams.get("lang");
-      if (url.searchParams.get("country")) crawlConfig.country = url.searchParams.get("country");
+      if (url.searchParams.get("languages")) crawlConfig.lang = url.searchParams.get("languages");
+      if (url.searchParams.get("markets")) crawlConfig.lang = url.searchParams.get("markets");
       if (url.searchParams.get("timeout")) crawlConfig.timeout = parseInt(url.searchParams.get("timeout"));
       if (url.searchParams.get("proxy")) crawlConfig.proxy = url.searchParams.get("proxy");
       if (url.searchParams.get("rotate_ua")) crawlConfig.rotate_ua = url.searchParams.get("rotate_ua") === "true";
