@@ -23,11 +23,13 @@ def test_google_cloud_storage_live_integration():
     )
 
     keyword = "Trillion"
-    max_articles = 2
+    max_articles = 4
     res = crawl_google_news(
         keyword=keyword,
         max_articles=max_articles,
         workers=2,
+        lang="vi,us",
+        time_window="2d",
         show_progress=False,
         storage=storage,
         job_id="test_cloud_live",

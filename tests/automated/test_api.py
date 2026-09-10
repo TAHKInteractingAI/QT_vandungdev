@@ -27,8 +27,7 @@ def test_trigger_authorized_with_full_cli_params():
         "keyword": "Trillion",
         "max_articles": 2,
         "workers": 2,
-        "lang": "vi",
-        "country": "VN",
+        "lang": "top",
         "timeout": 12,
         "proxy": None,
         "rotate_ua": True,
@@ -46,8 +45,9 @@ def test_trigger_authorized_with_full_cli_params():
     assert data1["keyword"] == payload["keyword"]
     assert data1["max_articles"] == 2
     assert data1["workers"] == 2
-    assert data1["lang"] == "vi"
-    assert data1["country"] == "VN"
+    assert data1["lang"] == "top"
+    assert "markets" in data1
+    assert len(data1["markets"]) >= 4
     assert data1["time_window"] == "1d"
     assert data1["timeout"] == 12
     assert data1["rotate_ua"] is True

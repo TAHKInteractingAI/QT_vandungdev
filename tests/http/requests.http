@@ -51,9 +51,8 @@ X-API-Key: {{api_key}}
 {
   "keyword": "Trillion",
   "max_articles": 3,
-  "workers": 2,
-  "lang": "vi",
-  "country": "VN",
+  "lang": "top",
+  "time_window": "1d",
   "timeout": 12,
   "proxy": null,
   "rotate_ua": true,
