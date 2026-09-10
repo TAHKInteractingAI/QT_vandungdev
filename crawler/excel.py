@@ -11,8 +11,8 @@ from openpyxl.utils import get_column_letter
 
 openpyxl_mimetypes.add_type("image/webp", ".webp")
 
-_HEADERS = ["#", "Title", "Source", "Google News URL", "Publisher URL", "Published", "Snippet", "Preview", "Image", "Status"]
-_WIDTHS = [5, 42, 14, 30, 30, 18, 42, 16, 28, 26]
+_HEADERS = ["#", "Title", "Source", "Google News URL", "Publisher URL", "Published", "Snippet", "Preview", "Image", "Content", "Status"]
+_WIDTHS = [5, 42, 14, 30, 30, 18, 42, 16, 28, 28, 26]
 
 
 def _style_header(ws):
@@ -26,7 +26,7 @@ def _style_header(ws):
         ws.sheet_properties.pageSetUpPr.fitToPage = True
 
 
-def _add_hyperlinks(ws, row_idx: int, art: dict, img_rel: str = ""):
+def _add_hyperlinks(ws, row_idx: int, art: dict, img_rel: str = "", content_rel: str = ""):
     try:
         if link := art.get("publisher_url") or art.get("google_url", ""):
             ws.cell(row=row_idx, column=5).hyperlink = link
@@ -37,6 +37,9 @@ def _add_hyperlinks(ws, row_idx: int, art: dict, img_rel: str = ""):
         if img_rel:
             ws.cell(row=row_idx, column=9).hyperlink = img_rel
             ws.cell(row=row_idx, column=9).style = "Hyperlink"
+        if content_rel:
+            ws.cell(row=row_idx, column=10).hyperlink = content_rel
+            ws.cell(row=row_idx, column=10).style = "Hyperlink"
     except Exception:
         pass
 
@@ -87,6 +90,10 @@ def export_excel(articles: list[dict], output_dir: Path, images_dir_name: str = 
         img_paths = [Path(p) for p in imgs] if imgs else []
         img_rel = f"{images_dir_name}/{img_paths[0].name}" if len(img_paths) >= 1 else ""
 
+        # Markdown content file reference
+        content_path_str = art.get("content_path", "")
+        content_rel = str(content_path_str) if content_path_str else ""
+
         # Friendly anchor text for URLs to prevent long unbroken strings expanding row height in Excel
         g_url = art.get("google_url", "")
         g_label = "Google News" if g_url else ""
@@ -112,15 +119,16 @@ def export_excel(articles: list[dict], output_dir: Path, images_dir_name: str = 
             art.get("snippet", ""),
             "",  # Column 8: Preview thumbnail
             img_rel,
+            content_rel,  # Column 10: Content markdown path
             art.get("status", "ok"),
         ])
         row_idx = i + 1
-        _add_hyperlinks(ws, row_idx, art, img_rel=img_rel)
+        _add_hyperlinks(ws, row_idx, art, img_rel=img_rel, content_rel=content_rel)
         if img_paths:
             _embed_preview(ws, row_idx, img_paths[0])
         ws.row_dimensions[row_idx].height = 60
 
-    # User requirement: wrap text + Align Top + Align Left for text, Center for # and Preview
+    # Do not adjust this section as the structure is already good.
     align_text = Alignment(wrap_text=True, vertical="top", horizontal="left")
     align_center = Alignment(vertical="top", horizontal="center")
 
