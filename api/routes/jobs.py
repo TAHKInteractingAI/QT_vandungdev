@@ -61,3 +61,44 @@ async def download_job_excel(job_id: str):
         filename=f"articles_{job_id}.xlsx",
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
+
+
+@router.get("/{job_id}/download/json")
+async def download_job_json(job_id: str):
+    job = job_manager.get_job(job_id)
+    if not job:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Job {job_id} not found",
+        )
+
+    if job["status"] == "running":
+        raise HTTPException(
+            status_code=status.HTTP_425_TOO_EARLY,
+            detail="Job is still running. Please wait for completion.",
+        )
+    if job["status"] == "failed":
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Job failed: {job.get('error')}",
+        )
+
+    json_path_str = job.get("json_path")
+    # Fallback to output_dir / articles.json if json_path is not explicitly saved
+    if not json_path_str and job.get("output_dir"):
+        candidate = Path(job["output_dir"]) / "articles.json"
+        if candidate.exists():
+            json_path_str = str(candidate)
+
+    if not json_path_str or not Path(json_path_str).exists():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="JSON output file not found",
+        )
+
+    path = Path(json_path_str)
+    return FileResponse(
+        path=path,
+        filename=f"articles_{job_id}.json",
+        media_type="application/json",
+    )

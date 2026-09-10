@@ -18,6 +18,7 @@ def _trigger_job(
     rotate_ua: bool | None,
     resume: bool | None,
     show_progress: bool | None,
+    storage_mode: str | None = None,
 ) -> dict:
     if job_manager.is_running():
         raise HTTPException(
@@ -35,6 +36,7 @@ def _trigger_job(
     final_rotate_ua = rotate_ua if rotate_ua is not None else settings.DEFAULT_ROTATE_UA
     final_resume = resume if resume is not None else settings.DEFAULT_RESUME
     final_show_progress = show_progress if show_progress is not None else settings.DEFAULT_SHOW_PROGRESS
+    final_storage_mode = storage_mode or settings.DEFAULT_STORAGE_MODE
 
     try:
         job_data = job_manager.create_and_start_job(
@@ -48,6 +50,7 @@ def _trigger_job(
             rotate_ua=final_rotate_ua,
             resume=final_resume,
             show_progress=final_show_progress,
+            storage_mode=final_storage_mode,
         )
         return job_data
     except RuntimeError as err:
@@ -76,6 +79,7 @@ async def trigger_crawl_post(
     - rotate_ua: Rotate User-Agent per request from modern browser pool
     - resume: Resume from checkpoint articles.jsonl (default: True)
     - show_progress: Show progress bar in server terminal output (default: False)
+    - storage_mode: Storage mode 'google' (Cloud) or 'local' (Excel)
     """
     keyword = req.keyword if req else None
     max_articles = req.max_articles if req else None
@@ -87,6 +91,7 @@ async def trigger_crawl_post(
     rotate_ua = req.rotate_ua if req else None
     resume = req.resume if req else None
     show_progress = req.show_progress if req else None
+    storage_mode = req.storage_mode if req else None
 
     job_data = _trigger_job(
         keyword,
@@ -99,6 +104,7 @@ async def trigger_crawl_post(
         rotate_ua,
         resume,
         show_progress,
+        storage_mode,
     )
     return CrawlJobResponse(
         job_id=job_data["job_id"],
@@ -113,8 +119,11 @@ async def trigger_crawl_post(
         proxy=job_data["proxy"],
         rotate_ua=job_data["rotate_ua"],
         resume=job_data["resume"],
+        storage_mode=job_data.get("storage_mode"),
         created_at=job_data["created_at"],
         excel_url=f"/api/v1/jobs/{job_data['job_id']}/download/excel",
+        spreadsheet_url=job_data.get("spreadsheet_url"),
+        drive_folder_url=job_data.get("drive_folder_url"),
     )
 
 
@@ -130,6 +139,7 @@ async def trigger_crawl_get(
     rotate_ua: bool | None = Query(None),
     resume: bool | None = Query(None),
     show_progress: bool | None = Query(None),
+    storage_mode: str | None = Query(None),
     _authorized: bool = Depends(verify_api_key),
 ):
     """
@@ -146,6 +156,7 @@ async def trigger_crawl_get(
         rotate_ua,
         resume,
         show_progress,
+        storage_mode,
     )
     return CrawlJobResponse(
         job_id=job_data["job_id"],
@@ -160,6 +171,9 @@ async def trigger_crawl_get(
         proxy=job_data["proxy"],
         rotate_ua=job_data["rotate_ua"],
         resume=job_data["resume"],
+        storage_mode=job_data.get("storage_mode"),
         created_at=job_data["created_at"],
         excel_url=f"/api/v1/jobs/{job_data['job_id']}/download/excel",
+        spreadsheet_url=job_data.get("spreadsheet_url"),
+        drive_folder_url=job_data.get("drive_folder_url"),
     )

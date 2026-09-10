@@ -2,6 +2,7 @@ from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from crawler.config import (
     DEFAULT_COUNTRY,
+    DEFAULT_KEYWORD,
     DEFAULT_LANG,
     DEFAULT_WORKERS,
     TIMEOUT,
@@ -16,7 +17,7 @@ class Settings(BaseSettings):
     CRON_API_KEY: str = "test-secret-key-123"
 
     # Defaults compatible with crawler/cli.py
-    DEFAULT_KEYWORD: str = "Semiconductor technology"
+    DEFAULT_KEYWORD: str = DEFAULT_KEYWORD
     DEFAULT_MAX_ARTICLES: int = 20
     DEFAULT_WORKERS: int = DEFAULT_WORKERS
     DEFAULT_LANG: str = DEFAULT_LANG
@@ -26,6 +27,7 @@ class Settings(BaseSettings):
     DEFAULT_ROTATE_UA: bool = False
     DEFAULT_RESUME: bool = True
     DEFAULT_SHOW_PROGRESS: bool = False
+    DEFAULT_STORAGE_MODE: str = "google"
 
     STORAGE_DIR: str = "storage/outputs"
     JOBS_METADATA_DIR: str = "storage/jobs"

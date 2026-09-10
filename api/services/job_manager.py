@@ -74,18 +74,24 @@ class JobManager:
         rotate_ua: bool,
         resume: bool,
         show_progress: bool,
+        storage_mode: str | None = None,
     ) -> dict[str, Any]:
         with self._lock:
             if self._current_job_id is not None:
                 raise RuntimeError(f"Another crawl job is currently running: {self._current_job_id}")
 
-            now = datetime.now(timezone.utc)
-            timestamp_str = now.strftime("%Y%m%d_%H%M%S")
-            short_id = uuid.uuid4().hex[:6]
-            job_id = f"job_{timestamp_str}_{short_id}"
+            now = datetime.now()
+            time_str = now.strftime("%H%M_%d%m%Y")
+            # Sanitize keyword for folder name (remove spaces and special characters)
+            safe_keyword = "".join(c if c.isalnum() or c in ("-", "_") else "_" for c in keyword.strip())
+            safe_keyword = safe_keyword.strip("_") or "News"
+            short_id = uuid.uuid4().hex[:4]
+            job_id = f"{safe_keyword}_{time_str}_{short_id}"
 
             job_dir = settings.storage_path / job_id
             job_dir.mkdir(parents=True, exist_ok=True)
+
+            effective_storage_mode = (storage_mode or settings.DEFAULT_STORAGE_MODE or "google").lower()
 
             job_data: dict[str, Any] = {
                 "job_id": job_id,
@@ -101,11 +107,16 @@ class JobManager:
                 "rotate_ua": rotate_ua,
                 "resume": resume,
                 "show_progress": show_progress,
+                "storage_mode": effective_storage_mode,
                 "created_at": now.isoformat(),
                 "started_at": None,
                 "completed_at": None,
                 "output_dir": str(job_dir),
                 "excel_path": None,
+                "json_path": None,
+                "jsonl_path": None,
+                "spreadsheet_url": None,
+                "drive_folder_url": None,
                 "stats": None,
                 "error": None,
             }
@@ -127,6 +138,7 @@ class JobManager:
                 rotate_ua,
                 resume,
                 show_progress,
+                effective_storage_mode,
                 job_dir,
             ),
             daemon=True,
@@ -147,6 +159,7 @@ class JobManager:
         rotate_ua: bool,
         resume: bool,
         show_progress: bool,
+        storage_mode: str,
         output_dir: Path,
     ) -> None:
         job = self.get_job(job_id)
@@ -159,6 +172,20 @@ class JobManager:
         self._save_job_state(job)
 
         try:
+            # Instantiate backend based on storage_mode
+            backend = None
+            if storage_mode == "google":
+                try:
+                    from crawler.storage.google import GoogleCloudStorageBackend
+                    backend = GoogleCloudStorageBackend()
+                except Exception as g_err:
+                    print(f"[JobManager] Warning: Google Cloud storage init failed ({g_err}), falling back to local Excel.")
+                    from crawler.storage.local import LocalStorageBackend
+                    backend = LocalStorageBackend(output_dir=output_dir)
+            else:
+                from crawler.storage.local import LocalStorageBackend
+                backend = LocalStorageBackend(output_dir=output_dir)
+
             result = crawl_google_news(
                 keyword=keyword,
                 max_articles=max_articles,
@@ -171,11 +198,17 @@ class JobManager:
                 rotate_ua=rotate_ua,
                 resume=resume,
                 show_progress=show_progress,
+                storage=backend,
+                job_id=job_id,
             )
             job["status"] = "completed"
             job["message"] = "Crawl job completed successfully"
             job["completed_at"] = datetime.now(timezone.utc).isoformat()
             job["excel_path"] = result.get("xlsx")
+            job["json_path"] = result.get("json")
+            job["jsonl_path"] = result.get("jsonl")
+            job["spreadsheet_url"] = result.get("spreadsheet_url")
+            job["drive_folder_url"] = result.get("drive_folder_url")
             job["stats"] = result
         except Exception as exc:
             job["status"] = "failed"
