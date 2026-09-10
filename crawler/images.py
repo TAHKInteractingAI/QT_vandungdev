@@ -11,6 +11,11 @@ from selectolax.parser import HTMLParser, Node
 
 from crawler.config import HEADERS, PLACEHOLDER_HOSTS, TIMEOUT
 
+try:
+    from curl_cffi import requests as curl_requests
+except ImportError:
+    curl_requests = None  # type: ignore
+
 _JUNK = (
     "spinner",
     "pixel",
@@ -187,11 +192,20 @@ def _download_single(
     timeout: int = TIMEOUT,
 ) -> Path | None:
     try:
+        resp = None
         if session is not None:
             resp = session.get(url, timeout=timeout, stream=True)
         else:
             resp = requests.get(url, headers=HEADERS, timeout=timeout, stream=True)
-        if resp.status_code != 200:
+
+        if resp.status_code != 200 and curl_requests is not None:
+            # Fallback to curl_cffi (Chrome TLS fingerprint) if blocked by Cloudflare/CDN (e.g. 403)
+            try:
+                resp = curl_requests.get(url, headers=HEADERS, timeout=timeout, impersonate="chrome")
+            except Exception:
+                pass
+
+        if resp is None or resp.status_code != 200:
             return None
         data = resp.content
         if len(data) < 2048:

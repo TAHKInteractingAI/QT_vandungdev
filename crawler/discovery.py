@@ -12,6 +12,11 @@ from crawler.config import HEADERS, TIMEOUT
 from crawler.naming import format_published_date
 
 try:
+    from curl_cffi import requests as curl_requests
+except ImportError:
+    curl_requests = None  # type: ignore
+
+try:
     from googlenewsdecoder import gnewsdecoder
 except ImportError:
     gnewsdecoder = None  # type: ignore
@@ -189,9 +194,22 @@ def _decode_once(
         except Exception:
             pass
 
-    # Strategy 2: HTTP Follow Redirect
-    client = session or requests
+    # Strategy 2: HTTP Follow Redirect with curl_cffi (Chrome TLS fingerprint) or requests
     try:
+        if curl_requests is not None and session is None:
+            c_kwargs: dict = {"timeout": timeout, "allow_redirects": True, "impersonate": "chrome"}
+            if proxy:
+                c_kwargs["proxies"] = {"http": proxy, "https": proxy}
+            c_resp = curl_requests.get(google_url, **c_kwargs)
+            final_url = c_resp.url
+            if final_url and "google.com" not in final_url and "google." not in final_url:
+                return final_url, "redirect_followed (curl_cffi)"
+            if c_resp.text:
+                extracted = _extract_url_from_html(c_resp.text)
+                if extracted:
+                    return extracted, "html_extracted (curl_cffi)"
+
+        client = session or requests
         req_kwargs: dict = {"timeout": timeout, "allow_redirects": True}
         if session is None:
             req_kwargs["headers"] = HEADERS
