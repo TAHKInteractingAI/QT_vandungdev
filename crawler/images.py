@@ -2,110 +2,90 @@ from __future__ import annotations
 
 from io import BytesIO
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from urllib.parse import urljoin, urlparse
 
-import requests
 from bs4 import BeautifulSoup
 from PIL import Image
 
-from crawler.config import HEADERS, PLACEHOLDER_HOSTS, TIMEOUT
+if TYPE_CHECKING:
+    import requests
 
-_JUNK = (
-    "spinner",
-    "pixel",
-    "transparent",
-    "1x1",
-    "avatar",
-    "thumb/24x24",
-    "thumb/48x48",
-    "icon-",
-    "icon.",
-    "/icon",
-    "logo",
-    "banner",
-    "adv",
-    "badge",
-    "button",
-    "favicon",
-    "placeholder",
-    "share",
-    "social",
-    "widget",
-)
-_VALID_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".gif")
-_PARENT_JUNK_TAGS = {"header", "footer", "nav", "aside", "menu"}
-_PARENT_JUNK_CLASSES = ("header", "footer", "sidebar", "menu", "banner", "adv", "social", "widget", "logo", "icon")
+from crawler.config import TIMEOUT
 
-# Minimum size threshold and aspect ratio for article content images
+PLACEHOLDER_HOSTS = ("gstatic.com", "google.com", "googleusercontent.com")
+_VALID_EXTS = (".jpg", ".png", ".webp", ".gif")
+_JUNK = ("icon", "avatar", "blank.gif", "spacer", "advert", "tracker", "button", "pixel")
+_PARENT_JUNK_CLASSES = {"footer", "header", "nav", "menu", "sidebar", "comment", "related", "recommend", "share", "social"}
+_PARENT_JUNK_TAGS = {"nav", "header", "footer", "aside", "form"}
+
 MIN_WIDTH = 200
 MIN_HEIGHT = 150
 MAX_ASPECT_RATIO = 4.0
 
 
 def is_placeholder_url(url: str) -> bool:
-    low = url.lower()
-    return any(h in low for h in PLACEHOLDER_HOSTS)
+    return any(h in url.lower() for h in PLACEHOLDER_HOSTS)
 
 
-def _meta_candidates(soup, base_url: str) -> list[str]:
+def _meta_candidates(soup: BeautifulSoup, base_url: str) -> list[str]:
     out: list[str] = []
     for tag in soup.find_all("meta"):
-        prop = (tag.get("property", "") or tag.get("name", "")).strip().lower()
-        if prop not in ("og:image", "og:image:secure_url", "twitter:image", "twitter:image:src"):
-            continue
-        content = (tag.get("content") or "").strip()
-        if not content or is_placeholder_url(content):
-            continue
-        out.append(urljoin(base_url, content))
+        prop = tag.get("property", "") or tag.get("name", "")
+        if prop in ("og:image", "twitter:image", "og:image:url", "twitter:image:src"):
+            if val := tag.get("content"):
+                v = val.strip().split("#")[0]
+                if v.startswith("http") and not is_placeholder_url(v):
+                    out.append(v)
+                elif v and not is_placeholder_url(v):
+                    out.append(urljoin(base_url, v))
     return out
 
 
-def _link_candidates(soup, base_url: str) -> list[str]:
+def _link_candidates(soup: BeautifulSoup, base_url: str) -> list[str]:
     out: list[str] = []
-    for tag in soup.find_all("link", rel=lambda x: x and "image_src" in x.lower() if isinstance(x, str) else False):
-        href = (tag.get("href") or "").strip()
-        if not href or is_placeholder_url(href):
-            continue
-        out.append(urljoin(base_url, href))
+    for link in soup.find_all("link", rel=True):
+        rels = link.get("rel")
+        rel_list = rels if isinstance(rels, list) else [str(rels)]
+        if "image_src" in rel_list or "apple-touch-icon" in rel_list:
+            if href := link.get("href"):
+                h = href.strip().split("#")[0]
+                if h.startswith("http") and not is_placeholder_url(h):
+                    out.append(h)
+                elif h and not is_placeholder_url(h):
+                    out.append(urljoin(base_url, h))
     return out
 
 
-def _picture_candidates(soup, base_url: str) -> list[str]:
+def _picture_candidates(soup: BeautifulSoup, base_url: str) -> list[str]:
     out: list[str] = []
-    for source in soup.find_all("source"):
-        parent_names = {p.name.lower() for p in source.parents}
-        if parent_names & _PARENT_JUNK_TAGS:
-            continue
-        parent_classes = " ".join(" ".join(p.get("class", [])) for p in source.parents if p.get("class")).lower()
-        if any(bad in parent_classes for bad in _PARENT_JUNK_CLASSES):
-            continue
-
-        srcset = source.get("srcset", "") or source.get("data-srcset", "")
-        if not srcset:
-            continue
-        first = srcset.split(",")[0].strip().split()[0]
-        if not first or first.startswith("data:") or is_placeholder_url(first):
-            continue
-        low = first.lower()
-        if any(x in low for x in _JUNK):
-            continue
-        out.append(urljoin(base_url, first))
+    for pic in soup.find_all("picture"):
+        for source in pic.find_all("source"):
+            srcset = source.get("srcset", "")
+            if srcset:
+                parts = [p.strip().split()[0] for p in srcset.split(",") if p.strip()]
+                if parts:
+                    best = parts[-1]
+                    if best.startswith("http") and not is_placeholder_url(best):
+                        out.append(best)
+                    elif best and not is_placeholder_url(best):
+                        out.append(urljoin(base_url, best))
+                    break
+        img = pic.find("img")
+        if img:
+            src = img.get("src") or img.get("data-src") or ""
+            if src and not src.startswith("data:") and not is_placeholder_url(src):
+                full_src = urljoin(base_url, src)
+                out.append(full_src)
     return out
 
 
-def _img_candidates(soup, base_url: str) -> list[str]:
+def _img_candidates(soup: BeautifulSoup, base_url: str) -> list[str]:
     out: list[str] = []
     for img in soup.find_all("img"):
-        src = (
-            img.get("data-src")
-            or img.get("data-original")
-            or img.get("data-lazy-src")
-            or img.get("src")
-            or ""
-        ).strip()
+        src = img.get("src") or img.get("data-src") or img.get("data-original") or ""
         if not src:
-            srcset = img.get("srcset", "") or img.get("data-srcset", "")
+            srcset = img.get("srcset", "")
             if srcset:
                 parts = [p.strip().split()[0] for p in srcset.split(",") if p.strip()]
                 if parts:
@@ -145,7 +125,7 @@ def _img_candidates(soup, base_url: str) -> list[str]:
 
 
 def extract_image_urls(page_url: str, html_text: str, base_url: str) -> list[str]:
-    """Extract up to 8 clean image candidates for post-download validation."""
+    """Extract clean image candidates for post-download validation."""
     soup = BeautifulSoup(html_text, "lxml")
     candidates = [
         *_meta_candidates(soup, base_url),
@@ -154,30 +134,28 @@ def extract_image_urls(page_url: str, html_text: str, base_url: str) -> list[str
         *_img_candidates(soup, base_url),
     ]
     uniq = list(dict.fromkeys(u.split("#")[0].strip().rstrip('",\'') for u in candidates))
-    return [u for u in uniq if u.startswith("http") and not is_placeholder_url(u)][:8]
+    return [u for u in uniq if u.startswith("http") and not is_placeholder_url(u)][:12]
 
 
-def _download_single(
+def download_single_image(
     url: str,
     dest_dir: Path,
     filename: str,
     session: requests.Session | None = None,
     timeout: int = TIMEOUT,
 ) -> Path | None:
+    """Download single image and validate dimensions."""
     try:
-        if session is not None:
-            resp = session.get(url, timeout=timeout, stream=True)
-        else:
-            resp = requests.get(url, headers=HEADERS, timeout=timeout, stream=True)
-        if resp.status_code != 200:
-            return None
-        data = resp.content
-        if len(data) < 2048:
+        import requests as _requests
+
+        sess = session or _requests.Session()
+        resp = sess.get(url, timeout=timeout, headers={"User-Agent": "Mozilla/5.0"})
+        if resp.status_code != 200 or len(resp.content) < 2048:
             return None
 
-        # Assessing the actual size and aspect ratio of images via PIL
+        # Validate with PIL
         try:
-            with Image.open(BytesIO(data)) as im:
+            with Image.open(BytesIO(resp.content)) as im:
                 w, h = im.size
                 ratio = max(w, h) / max(min(w, h), 1)
                 if w < MIN_WIDTH or h < MIN_HEIGHT or ratio > MAX_ASPECT_RATIO:
@@ -185,6 +163,7 @@ def _download_single(
         except Exception:
             return None
 
+        data = resp.content
         ctype = resp.headers.get("Content-Type", "")
         ext = Path(urlparse(url).path).suffix.lower()
         if ext == ".jpeg":
@@ -210,26 +189,27 @@ def download_images(
     image_urls: list[str],
     dest_dir: Path,
     prefix: str,
-    max_images: int = 1,
+    max_images: int | None = None,
     session: requests.Session | None = None,
     timeout: int = TIMEOUT,
     stop_event: Any = None,
 ) -> list[Path]:
-    """Download valid article images sequentially or concurrently with candidate fallback."""
+    """Download valid article images with candidate fallback."""
     if not image_urls or (stop_event and stop_event.is_set()):
         return []
     dest_dir.mkdir(parents=True, exist_ok=True)
 
     saved: list[Path] = []
-    # Iterate through the list of candidates (maximum 8) until you have collected enough valid images (max_images).
+    limit = max_images if max_images is not None else len(image_urls)
+
     for url in image_urls:
         if stop_event and stop_event.is_set():
             break
         idx = len(saved) + 1
-        res = _download_single(url, dest_dir, f"{prefix}_{idx:02d}", session=session, timeout=timeout)
+        res = download_single_image(url, dest_dir, f"{prefix}_{idx:02d}", session=session, timeout=timeout)
         if res is not None:
             saved.append(res)
-            if len(saved) >= max_images:
+            if len(saved) >= limit:
                 break
 
     return saved
