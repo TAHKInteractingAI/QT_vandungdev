@@ -11,14 +11,14 @@ if TYPE_CHECKING:
     import requests
 
 from crawler.config import (
-    DEFAULT_COUNTRY,
     DEFAULT_LANG,
     DEFAULT_TIME_WINDOW,
     DEFAULT_WORKERS,
     POOL_MAXSIZE,
     TIMEOUT,
+    resolve_locales,
 )
-from crawler.discovery import decode_publisher_url, fetch_rss
+from crawler.discovery import decode_publisher_url, fetch_rss, fetch_rss_multi
 from crawler.excel import export_excel
 from crawler.images import download_images, extract_image_urls
 from crawler.network import create_session, fetch_with_status
@@ -117,8 +117,7 @@ def crawl_google_news(
     workers: int = DEFAULT_WORKERS,
     proxy: str | None = None,
     rotate_ua: bool = False,
-    lang: str = DEFAULT_LANG,
-    country: str = DEFAULT_COUNTRY,
+    lang: str | list[str] = DEFAULT_LANG,
     time_window: str | None = DEFAULT_TIME_WINDOW,
     timeout: int = TIMEOUT,
     resume: bool = True,
@@ -146,6 +145,10 @@ def crawl_google_news(
     output_dir.mkdir(parents=True, exist_ok=True)
     images_dir.mkdir(parents=True, exist_ok=True)
 
+    # Resolve target locales purely from lang (code, comma-string, or preset)
+    target_locales = resolve_locales(lang)
+    locales_label = ", ".join(loc.get("name", loc["lang"]) for loc in target_locales)
+
     extra_info = []
     if time_window:
         extra_info.append(f"time_window={time_window}")
@@ -154,7 +157,7 @@ def crawl_google_news(
     if rotate_ua:
         extra_info.append("rotate_ua=True")
     extra_str = f" ({', '.join(extra_info)})" if extra_info else ""
-    print(f"[crawl] keyword={keyword!r} max={max_articles} workers={workers} lang={lang} country={country}{extra_str} output={output_dir}")
+    print(f"[crawl] keyword={keyword!r} max={max_articles} workers={workers} markets=[{locales_label}]{extra_str} output={output_dir}")
     print("[crawl] Press Ctrl+C to stop safely at any time.")
 
     if not resume and jsonl_path.exists():
@@ -170,11 +173,10 @@ def crawl_google_news(
 
     with create_session(proxy=proxy, pool_size=pool_size) as session:
         try:
-            articles = fetch_rss(
+            articles = fetch_rss_multi(
                 keyword,
                 max_articles,
-                lang=lang,
-                country=country,
+                locales=target_locales,
                 time_window=time_window,
                 session=session,
                 timeout=timeout,
