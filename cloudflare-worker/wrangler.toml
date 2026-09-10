@@ -1,9 +1,0 @@
-name = "google-news-crawler-worker"
-main = "worker.js"
-compatibility_date = "2026-09-01"
-
-[vars]
-BACKEND_API_URL = "http://127.0.0.1:8000"
-CRON_SECRET = "test-secret-key-123"
-DEFAULT_KEYWORD = "Trillion"
-DEFAULT_MAX_ARTICLES = "20"

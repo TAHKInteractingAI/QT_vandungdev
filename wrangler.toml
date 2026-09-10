@@ -1,0 +1,27 @@
+name = "google-news-crawler-worker"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# Backend API Base URL (FastAPI endpoint exposed via Cloudflare Tunnel / Ngrok / Domain)
+BACKEND_API_URL = "http://127.0.0.1:8000"
+# Shared secret key fallback (matching CRON_API_KEY in .env)
+CRON_SECRET = "vandungdev@qt"
+# Default crawler fallback parameters
+DEFAULT_KEYWORD = "Trillion"
+DEFAULT_MAX_ARTICLES = "20"
+DEFAULT_TIMEZONE = "Asia/Ho_Chi_Minh"
+CRON_HEARTBEAT_URL = ""
+
+# Cloudflare Secrets Store
+# STORE-ID: 88f3158e6632461c95303163bc72d6a9 | Secret: crawler_bot
+[[secrets_store_secrets]]
+binding = "CRAWLER_BOT"
+store_id = "88f3158e6632461c95303163bc72d6a9"
+secret_name = "crawler_bot"
+
+# Cloudflare Cron Triggers (Optional)
+# Uncomment to enable native scheduled runs (e.g. 23:00 UTC = 06:00 AM UTC+7 daily)
+# [triggers]
+# crons = ["0 23 * * *"]

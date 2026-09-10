@@ -124,6 +124,7 @@ celerybeat.pid
 
 # Environments
 .env
+.dev.vars
 .venv
 env/
 venv/
@@ -162,6 +163,7 @@ logs/
 service_account.json
 client_secret.json
 token.json
+.wrangler/
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can

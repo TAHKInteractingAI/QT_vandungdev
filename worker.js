@@ -2,6 +2,21 @@
  * Cloudflare Worker: Edge HTTP Endpoint for cron-job.org
  * Forwards full configuration parameters compatible with crawler/cli.py to the FastAPI Backend.
  */
+/**
+ * Resolves secret from Cloudflare Secrets Store (CRAWLER_BOT) or fallback to env.CRON_SECRET
+ */
+async function resolveSecret(env) {
+  if (env.CRAWLER_BOT && typeof env.CRAWLER_BOT.get === "function") {
+    try {
+      const val = await env.CRAWLER_BOT.get();
+      if (val) return val;
+    } catch (err) {
+      console.warn("[SecretsStore] Failed to retrieve secret from CRAWLER_BOT binding:", err);
+    }
+  }
+  return env.CRON_SECRET || "vandungdev@qt";
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -22,7 +37,7 @@ export default {
     if (url.pathname === "/trigger") {
       const authHeader = request.headers.get("X-API-Key") || request.headers.get("Authorization");
       const authQuery = url.searchParams.get("key");
-      const secret = env.CRON_SECRET || "test-secret-key-123";
+      const secret = await resolveSecret(env);
 
       if (authHeader !== secret && authHeader !== `Bearer ${secret}` && authQuery !== secret) {
         return new Response(JSON.stringify({ error: "Unauthorized: Invalid API Key" }), {
@@ -58,6 +73,12 @@ export default {
         } catch (e) {}
       }
 
+      // Apply environment variable defaults if not specified
+      if (!crawlConfig.keyword && env.DEFAULT_KEYWORD) crawlConfig.keyword = env.DEFAULT_KEYWORD;
+      if (!crawlConfig.max_articles && env.DEFAULT_MAX_ARTICLES) crawlConfig.max_articles = parseInt(env.DEFAULT_MAX_ARTICLES);
+      if (!crawlConfig.timezone && env.DEFAULT_TIMEZONE) crawlConfig.timezone = env.DEFAULT_TIMEZONE;
+      if (!crawlConfig.ping_url && env.CRON_HEARTBEAT_URL) crawlConfig.ping_url = env.CRON_HEARTBEAT_URL;
+
       // Forward request to FastAPI Backend in background (via ctx.waitUntil)
       const backendUrl = `${env.BACKEND_API_URL}/api/v1/crawl/trigger`;
       const backendPromise = fetch(backendUrl, {
@@ -87,5 +108,34 @@ export default {
       status: 404,
       headers: { "Content-Type": "application/json" }
     });
+  },
+
+  /**
+   * Cloudflare Native Cron Trigger Handler (Optional)
+   * Invoked automatically when Cloudflare Cron Trigger fires.
+   */
+  async scheduled(event, env, ctx) {
+    const backendUrl = `${env.BACKEND_API_URL}/api/v1/crawl/trigger`;
+    const secret = await resolveSecret(env);
+    const crawlConfig = {
+      keyword: env.DEFAULT_KEYWORD || "Trillion",
+      max_articles: parseInt(env.DEFAULT_MAX_ARTICLES || "20"),
+      timezone: env.DEFAULT_TIMEZONE || "Asia/Ho_Chi_Minh",
+    };
+    if (env.CRON_HEARTBEAT_URL) {
+      crawlConfig.ping_url = env.CRON_HEARTBEAT_URL;
+    }
+
+    const backendPromise = fetch(backendUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": secret
+      },
+      body: JSON.stringify(crawlConfig)
+    }).catch(err => console.error("[Cron Scheduled] Forwarding failed:", err));
+
+    ctx.waitUntil(backendPromise);
   }
 };
+
