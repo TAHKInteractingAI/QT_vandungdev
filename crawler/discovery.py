@@ -1,9 +1,10 @@
-from __future__ import annotations
-
-import time
+import base64
 import html
+import json
+import re
+import time
 import xml.etree.ElementTree as ET
-from urllib.parse import quote_plus
+from urllib.parse import quote, quote_plus, urlparse
 
 import requests
 from selectolax.parser import HTMLParser
@@ -176,27 +177,151 @@ def _extract_url_from_html(html_text: str) -> str | None:
     return None
 
 
+def _extract_cbm_direct(google_url: str) -> str | None:
+    """Strategy 0: Try direct base64 extraction for older Google News CBM URL formats."""
+    try:
+        path = urlparse(google_url).path.split("/")
+        if len(path) > 1 and path[-2] in ["articles", "read"]:
+            b64 = path[-1]
+            padded = b64 + "=" * ((4 - len(b64) % 4) % 4)
+            raw = base64.urlsafe_b64decode(padded)
+            m = re.search(rb"https?://[^\x00-\x1f\x7f-\xff\s\"\'<>]+", raw)
+            if m:
+                u = m.group(0).decode("utf-8", errors="ignore")
+                if "google.com" not in u and "google." not in u:
+                    return u
+    except Exception:
+        pass
+    return None
+
+
+def _decode_cbm_batchexecute(
+    base64_str: str,
+    proxy: str | None = None,
+    timeout: int = TIMEOUT,
+) -> str | None:
+    """Strategy 1: Fetch signature from rss/articles endpoint with SOCS cookie to bypass Google CAPTCHA,
+    then resolve target URL via Google batchexecute RPC.
+    """
+    rss_url = f"https://news.google.com/rss/articles/{base64_str}"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Cookie": "SOCS=CAESEwgDEgk2NDgyOTM5MDQaAmVuIAEaBgiA_L20Bg",
+    }
+    proxies = {"http": proxy, "https": proxy} if proxy else None
+
+    html_text: str | None = None
+    if curl_requests is not None:
+        try:
+            c_resp = curl_requests.get(rss_url, headers=headers, impersonate="chrome", timeout=timeout, proxies=proxies)
+            if c_resp.status_code == 200:
+                html_text = c_resp.text
+        except Exception:
+            pass
+
+    if not html_text:
+        try:
+            resp = requests.get(rss_url, headers=headers, timeout=timeout, proxies=proxies)
+            if resp.status_code == 200:
+                html_text = resp.text
+        except Exception:
+            pass
+
+    if not html_text:
+        return None
+
+    tree = HTMLParser(html_text)
+    data_el = tree.css_first("c-wiz > div[jscontroller]")
+    if not data_el:
+        return None
+
+    sig = data_el.attributes.get("data-n-a-sg")
+    ts = data_el.attributes.get("data-n-a-ts")
+    if not sig or not ts:
+        return None
+
+    be_url = "https://news.google.com/_/DotsSplashUi/data/batchexecute"
+    payload = [
+        "Fbv4je",
+        f'["garturlreq",[["X","X",["X","X"],null,null,1,1,"US:en",null,1,null,null,null,null,null,0,1],"X","X",1,[1,1,1],1,1,null,0,0,null,0],"{base64_str}",{ts},"{sig}"]',
+    ]
+    be_headers = {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "User-Agent": headers["User-Agent"],
+    }
+    be_data = f"f.req={quote(json.dumps([[payload]]))}"
+
+    be_resp_text: str | None = None
+    if curl_requests is not None:
+        try:
+            be_resp = curl_requests.post(be_url, headers=be_headers, data=be_data, impersonate="chrome", timeout=timeout, proxies=proxies)
+            if be_resp.status_code == 200:
+                be_resp_text = be_resp.text
+        except Exception:
+            pass
+
+    if not be_resp_text:
+        try:
+            be_resp = requests.post(be_url, headers=be_headers, data=be_data, timeout=timeout, proxies=proxies)
+            if be_resp.status_code == 200:
+                be_resp_text = be_resp.text
+        except Exception:
+            pass
+
+    if not be_resp_text:
+        return None
+
+    try:
+        parsed_data = json.loads(be_resp_text.split("\n\n")[1])[:-2]
+        decoded_url = json.loads(parsed_data[0][2])[1]
+        if decoded_url and "google.com" not in decoded_url and "google." not in decoded_url:
+            return decoded_url
+    except Exception:
+        pass
+
+    return None
+
+
 def _decode_once(
     google_url: str,
     session: requests.Session | None = None,
     proxy: str | None = None,
     timeout: int = TIMEOUT,
 ) -> tuple[str | None, str]:
-    """Single attempt to decode Google News URL using 3 fallback strategies."""
-    # Strategy 1: googlenewsdecoder
+    """Single attempt to decode Google News URL using multi-strategy cascading resolution."""
+    # Strategy 0: Direct base64 regex decode (0ms, offline)
+    direct = _extract_cbm_direct(google_url)
+    if direct:
+        return direct, "direct_b64"
+
+    # Extract base64 token for online strategies
+    try:
+        path = urlparse(google_url).path.split("/")
+        base64_str = path[-1] if path else ""
+    except Exception:
+        base64_str = ""
+
+    # Strategy 1: Robust batchexecute via rss/articles with SOCS cookie (bypasses cloud datacenter CAPTCHA)
+    if base64_str:
+        decoded = _decode_cbm_batchexecute(base64_str, proxy=proxy, timeout=timeout)
+        if decoded:
+            return decoded, "decoded"
+
+    # Strategy 2: googlenewsdecoder library fallback
     if gnewsdecoder is not None:
         try:
             res = gnewsdecoder(google_url, interval=0.1, proxy=proxy)
             if isinstance(res, dict) and res.get("status") and res.get("decoded_url"):
-                decoded = res["decoded_url"]
-                if decoded and "google.com" not in decoded:
-                    return decoded, "decoded"
+                g_decoded = res["decoded_url"]
+                if g_decoded and "google.com" not in g_decoded:
+                    return g_decoded, "decoded"
         except Exception:
             pass
 
-    # Strategy 2: HTTP Follow Redirect with curl_cffi (Chrome TLS fingerprint) or requests
+    # Strategy 3: HTTP Follow Redirect with curl_cffi (Chrome TLS impersonation)
     try:
-        if curl_requests is not None and session is None:
+        if curl_requests is not None:
             c_kwargs: dict = {"timeout": timeout, "allow_redirects": True, "impersonate": "chrome"}
             if proxy:
                 c_kwargs["proxies"] = {"http": proxy, "https": proxy}
@@ -221,7 +346,7 @@ def _decode_once(
         if final_url and "google.com" not in final_url and "google." not in final_url:
             return final_url, "redirect_followed"
 
-        # Strategy 3: HTML Parser for meta refresh / embedded links
+        # Strategy 4: HTML Parser for meta refresh / embedded links
         if resp.text:
             extracted = _extract_url_from_html(resp.text)
             if extracted:
