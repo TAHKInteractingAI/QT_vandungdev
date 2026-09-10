@@ -1,9 +1,10 @@
 from datetime import datetime, timezone
-import json
 from pathlib import Path
 import threading
 import uuid
 from typing import Any
+
+import orjson
 
 from api.config import settings
 from crawler.core import crawl_google_news
@@ -36,8 +37,9 @@ class JobManager:
         job_id = job_data["job_id"]
         self._jobs_cache[job_id] = job_data
         file_path = self._job_file(job_id)
-        with open(file_path, "w", encoding="utf-8") as f:
-            json.dump(job_data, f, ensure_ascii=False, indent=2, default=str)
+        json_bytes = orjson.dumps(job_data, option=orjson.OPT_INDENT_2)
+        with open(file_path, "wb") as f:
+            f.write(json_bytes)
 
     def get_job(self, job_id: str) -> dict[str, Any] | None:
         if job_id in self._jobs_cache:
@@ -45,8 +47,8 @@ class JobManager:
         file_path = self._job_file(job_id)
         if file_path.exists():
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
+                with open(file_path, "rb") as f:
+                    data = orjson.loads(f.read())
                     self._jobs_cache[job_id] = data
                     return data
             except Exception:

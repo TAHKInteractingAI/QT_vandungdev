@@ -10,7 +10,6 @@ dependencies = [
     "googlenewsdecoder>=0.1.7",
     "selectolax>=0.4",
     "pillow>=12.0",
-    "gnews>=0.8.2",
     "matplotlib>=3.11.1",
     "ipykernel>=7.3.0",
     "tqdm>=4.66",
@@ -26,6 +25,7 @@ dependencies = [
     "google-auth>=2.57.1",
     "google-auth-httplib2>=0.4.2",
     "gspread>=6.2.1",
+    "orjson>=3.12.0",
 ]
 
 [project.scripts]

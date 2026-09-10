@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-import json
 import threading
 from pathlib import Path
 from typing import Any
+
+import orjson
 
 from crawler.excel import append_to_master_excel, export_excel
 from crawler.naming import generate_run_tag
@@ -47,21 +48,22 @@ class LocalStorageBackend(BaseStorageBackend):
         rec = dict(record)
         if imgs := rec.get("saved_images"):
             rec["saved_images"] = [str(p) for p in imgs]
+        line_bytes = orjson.dumps(rec) + b"\n"
         with self._lock:
-            with open(self.jsonl_path, "a", encoding="utf-8") as f:
-                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+            with open(self.jsonl_path, "ab") as f:
+                f.write(line_bytes)
 
     def load_completed_checkpoint(self) -> dict[str, dict]:
         if not self.jsonl_path.exists():
             return {}
         completed: dict[str, dict] = {}
-        with open(self.jsonl_path, "r", encoding="utf-8") as f:
+        with open(self.jsonl_path, "rb") as f:
             for line in f:
                 line = line.strip()
                 if not line:
                     continue
                 try:
-                    data = json.loads(line)
+                    data = orjson.loads(line)
                     key = data.get("google_url") or data.get("url") or data.get("title")
                     if key:
                         if imgs := data.get("saved_images"):
@@ -108,8 +110,9 @@ class LocalStorageBackend(BaseStorageBackend):
             clean_articles.append(item)
 
         try:
-            with open(json_path, "w", encoding="utf-8") as f:
-                json.dump(clean_articles, f, ensure_ascii=False, indent=2)
+            json_bytes = orjson.dumps(clean_articles, option=orjson.OPT_INDENT_2)
+            with open(json_path, "wb") as f:
+                f.write(json_bytes)
         except Exception as e:
             print(f"[LocalStorage] Warning: Failed to write {json_path}: {e}")
 

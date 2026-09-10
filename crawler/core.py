@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-import json
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import TYPE_CHECKING
+
+import orjson
 
 if TYPE_CHECKING:
     import requests
@@ -33,9 +34,10 @@ def _append_checkpoint(jsonl_path: Path, art: dict) -> None:
     record = dict(art)
     if imgs := record.get("saved_images"):
         record["saved_images"] = [str(p) for p in imgs]
+    line_bytes = orjson.dumps(record) + b"\n"
     with _checkpoint_lock:
-        with open(jsonl_path, "a", encoding="utf-8") as f:
-            f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        with open(jsonl_path, "ab") as f:
+            f.write(line_bytes)
 
 
 def _load_completed_checkpoint(jsonl_path: Path) -> dict[str, dict]:
@@ -43,13 +45,13 @@ def _load_completed_checkpoint(jsonl_path: Path) -> dict[str, dict]:
     if not jsonl_path.exists():
         return {}
     completed: dict[str, dict] = {}
-    with open(jsonl_path, "r", encoding="utf-8") as f:
+    with open(jsonl_path, "rb") as f:
         for line in f:
             line = line.strip()
             if not line:
                 continue
             try:
-                data = json.loads(line)
+                data = orjson.loads(line)
                 key = data.get("google_url") or data.get("url") or data.get("title")
                 if key:
                     if imgs := data.get("saved_images"):

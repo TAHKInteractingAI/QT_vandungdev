@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import os
 import threading
 from pathlib import Path
@@ -8,6 +7,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 import gspread
+import orjson
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials as UserCredentials
 from google.oauth2.service_account import Credentials as ServiceAccountCredentials
@@ -151,8 +151,9 @@ class GoogleCloudStorageBackend(BaseStorageBackend):
                 self._completed[key] = rec
                 if hasattr(self, "jsonl_path") and self.jsonl_path:
                     try:
-                        with open(self.jsonl_path, "a", encoding="utf-8") as f:
-                            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+                        line_bytes = orjson.dumps(rec) + b"\n"
+                        with open(self.jsonl_path, "ab") as f:
+                            f.write(line_bytes)
                     except Exception:
                         pass
 
@@ -357,8 +358,9 @@ class GoogleCloudStorageBackend(BaseStorageBackend):
 
         if hasattr(self, "json_path") and self.json_path:
             try:
-                with open(self.json_path, "w", encoding="utf-8") as f:
-                    json.dump(clean_articles, f, ensure_ascii=False, indent=2)
+                json_bytes = orjson.dumps(clean_articles, option=orjson.OPT_INDENT_2)
+                with open(self.json_path, "wb") as f:
+                    f.write(json_bytes)
             except Exception as e:
                 print(f"[GoogleStorage] Warning: Failed to write {self.json_path}: {e}")
 
