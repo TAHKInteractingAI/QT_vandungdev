@@ -21,11 +21,22 @@ def fetch_rss(
     max_articles: int,
     lang: str = "vi",
     country: str = "VN",
+    time_window: str | None = None,
     session: requests.Session | None = None,
     timeout: int = TIMEOUT,
 ) -> list[dict]:
-    """Discover articles via Google News RSS. Returns google_url (CBM)."""
-    q = quote_plus(keyword)
+    """Discover articles via Google News RSS. Returns google_url (CBM).
+    Supports time_window (e.g. '1d', '2d', '48h', '7d', '1h') via 'when:' operator.
+    """
+    query = keyword.strip()
+    if time_window and "when:" not in query.lower():
+        # Clean potential prefix if caller provided e.g. "when:1d"
+        tw = time_window.strip().lower()
+        if tw.startswith("when:"):
+            tw = tw[5:]
+        query = f"{query} when:{tw}"
+
+    q = quote_plus(query)
     ceid = f"{country}:{lang}"
     url = f"https://news.google.com/rss/search?q={q}&hl={lang}&gl={country}&ceid={ceid}"
     if session is not None:

@@ -1,7 +1,14 @@
 import argparse
 from pathlib import Path
 
-from crawler.config import DEFAULT_COUNTRY, DEFAULT_KEYWORD, DEFAULT_LANG, DEFAULT_WORKERS, TIMEOUT
+from crawler.config import (
+    DEFAULT_COUNTRY,
+    DEFAULT_KEYWORD,
+    DEFAULT_LANG,
+    DEFAULT_TIME_WINDOW,
+    DEFAULT_WORKERS,
+    TIMEOUT,
+)
 from crawler.core import crawl_google_news
 from crawler.excel import export_excel_from_jsonl
 
@@ -14,6 +21,7 @@ def main() -> None:
     p.add_argument("--output", type=str, default="output", help="Output directory")
     p.add_argument("--lang", type=str, default=DEFAULT_LANG, help=f"News language (default: {DEFAULT_LANG})")
     p.add_argument("--country", type=str, default=DEFAULT_COUNTRY, help=f"News country (default: {DEFAULT_COUNTRY})")
+    p.add_argument("--time-window", "--when", type=str, default=DEFAULT_TIME_WINDOW, dest="time_window", help="News time window filter, e.g. '1d' (24h), '2d' (48h), '7d', '1h'")
     p.add_argument("--timeout", type=int, default=TIMEOUT, help=f"HTTP timeout in seconds (default: {TIMEOUT})")
     p.add_argument("--proxy", type=str, default=None, help="HTTP/HTTPS/SOCKS5 proxy URL (e.g. http://127.0.0.1:7890)")
     p.add_argument("--rotate-ua", action="store_true", help="Rotate User-Agent per request from modern browser pool")
@@ -37,6 +45,7 @@ def main() -> None:
             rotate_ua=args.rotate_ua,
             lang=args.lang,
             country=args.country,
+            time_window=args.time_window,
             timeout=args.timeout,
             resume=not args.no_resume,
             show_progress=not args.no_progress,

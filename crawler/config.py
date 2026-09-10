@@ -13,6 +13,7 @@ DEFAULT_WORKERS = 5
 POOL_CONNECTIONS = 20
 POOL_MAXSIZE = 20
 DEFAULT_PROXY: str | None = None
+DEFAULT_TIME_WINDOW: str | None = None  # e.g. "1d" (24h), "2d" (48h), "7d", "1h"
 PLACEHOLDER_HOSTS = ("googleusercontent.com", "gstatic.com", "google.com/images", "gnews/logo", "lh3.googleusercontent")
 
 USER_AGENTS = [

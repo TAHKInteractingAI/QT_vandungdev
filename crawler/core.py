@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 from crawler.config import (
     DEFAULT_COUNTRY,
     DEFAULT_LANG,
+    DEFAULT_TIME_WINDOW,
     DEFAULT_WORKERS,
     POOL_MAXSIZE,
     TIMEOUT,
@@ -118,6 +119,7 @@ def crawl_google_news(
     rotate_ua: bool = False,
     lang: str = DEFAULT_LANG,
     country: str = DEFAULT_COUNTRY,
+    time_window: str | None = DEFAULT_TIME_WINDOW,
     timeout: int = TIMEOUT,
     resume: bool = True,
     show_progress: bool = True,
@@ -143,7 +145,10 @@ def crawl_google_news(
     jsonl_path = output_dir / "articles.jsonl"
     output_dir.mkdir(parents=True, exist_ok=True)
     images_dir.mkdir(parents=True, exist_ok=True)
+
     extra_info = []
+    if time_window:
+        extra_info.append(f"time_window={time_window}")
     if proxy:
         extra_info.append(f"proxy={proxy}")
     if rotate_ua:
@@ -165,7 +170,15 @@ def crawl_google_news(
 
     with create_session(proxy=proxy, pool_size=pool_size) as session:
         try:
-            articles = fetch_rss(keyword, max_articles, lang=lang, country=country, session=session, timeout=timeout)
+            articles = fetch_rss(
+                keyword,
+                max_articles,
+                lang=lang,
+                country=country,
+                time_window=time_window,
+                session=session,
+                timeout=timeout,
+            )
         except KeyboardInterrupt:
             print("\n[crawl] Stop requested via Ctrl+C during RSS discovery.")
             xlsx = export_excel([], output_dir)
