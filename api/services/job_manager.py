@@ -67,8 +67,7 @@ class JobManager:
         keyword: str,
         max_articles: int,
         workers: int,
-        lang: str,
-        country: str,
+        lang: str | list[str],
         timeout: int,
         proxy: str | None,
         rotate_ua: bool,
@@ -94,6 +93,11 @@ class JobManager:
 
             effective_storage_mode = (storage_mode or settings.DEFAULT_STORAGE_MODE or "google").lower()
 
+            from crawler.config import resolve_locales
+            resolved = resolve_locales(lang)
+            markets_list = [m.get("name", m["lang"]) for m in resolved]
+            primary_lang = ",".join(lang) if isinstance(lang, list) else str(lang)
+
             job_data: dict[str, Any] = {
                 "job_id": job_id,
                 "status": "pending",
@@ -101,8 +105,8 @@ class JobManager:
                 "keyword": keyword,
                 "max_articles": max_articles,
                 "workers": workers,
-                "lang": lang,
-                "country": country,
+                "lang": primary_lang,
+                "markets": markets_list,
                 "time_window": time_window,
                 "timeout": timeout,
                 "proxy": proxy,
@@ -134,7 +138,6 @@ class JobManager:
                 max_articles,
                 workers,
                 lang,
-                country,
                 time_window,
                 timeout,
                 proxy,
@@ -155,8 +158,7 @@ class JobManager:
         keyword: str,
         max_articles: int,
         workers: int,
-        lang: str,
-        country: str,
+        lang: str | list[str],
         time_window: str | None,
         timeout: int,
         proxy: str | None,
@@ -196,7 +198,6 @@ class JobManager:
                 output_dir=output_dir,
                 workers=workers,
                 lang=lang,
-                country=country,
                 time_window=time_window,
                 timeout=timeout,
                 proxy=proxy,

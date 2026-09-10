@@ -11,8 +11,7 @@ def _trigger_job(
     keyword: str | None,
     max_articles: int | None,
     workers: int | None,
-    lang: str | None,
-    country: str | None,
+    lang: str | list[str] | None,
     timeout: int | None,
     proxy: str | None,
     rotate_ua: bool | None,
@@ -31,7 +30,6 @@ def _trigger_job(
     final_max = max_articles if max_articles is not None else settings.DEFAULT_MAX_ARTICLES
     final_workers = workers if workers is not None else settings.DEFAULT_WORKERS
     final_lang = lang or settings.DEFAULT_LANG
-    final_country = country or settings.DEFAULT_COUNTRY
     final_time_window = time_window or settings.DEFAULT_TIME_WINDOW
     final_timeout = timeout if timeout is not None else settings.DEFAULT_TIMEOUT
     final_proxy = proxy if proxy is not None else settings.DEFAULT_PROXY
@@ -46,7 +44,6 @@ def _trigger_job(
             max_articles=final_max,
             workers=final_workers,
             lang=final_lang,
-            country=final_country,
             timeout=final_timeout,
             proxy=final_proxy,
             rotate_ua=final_rotate_ua,
@@ -75,8 +72,7 @@ async def trigger_crawl_post(
     - keyword: Search query keyword
     - max_articles: Maximum number of articles (default: 20)
     - workers: Concurrent worker threads for image/article download (default: 5)
-    - lang: News language code (default: 'vi')
-    - country: News country code (default: 'VN')
+    - lang/languages: Market code(s) e.g. 'vi', 'us', 'vi,us,jp' or preset 'top', 'global', 'asia', 'tech'
     - timeout: HTTP request timeout in seconds (default: 10)
     - proxy: HTTP/HTTPS/SOCKS5 proxy address
     - rotate_ua: Rotate User-Agent per request from modern browser pool
@@ -88,8 +84,7 @@ async def trigger_crawl_post(
     keyword = req.keyword if req else None
     max_articles = req.max_articles if req else None
     workers = req.workers if req else None
-    lang = req.lang if req else None
-    country = req.country if req else None
+    lang = (req.languages or req.lang) if req else None
     timeout = req.timeout if req else None
     proxy = req.proxy if req else None
     rotate_ua = req.rotate_ua if req else None
@@ -103,7 +98,6 @@ async def trigger_crawl_post(
         max_articles,
         workers,
         lang,
-        country,
         timeout,
         proxy,
         rotate_ua,
@@ -120,7 +114,7 @@ async def trigger_crawl_post(
         max_articles=job_data["max_articles"],
         workers=job_data["workers"],
         lang=job_data["lang"],
-        country=job_data["country"],
+        markets=job_data.get("markets"),
         time_window=job_data.get("time_window"),
         timeout=job_data["timeout"],
         proxy=job_data["proxy"],
@@ -139,8 +133,7 @@ async def trigger_crawl_get(
     keyword: str | None = Query(None),
     max_articles: int | None = Query(None, alias="max"),
     workers: int | None = Query(None),
-    lang: str | None = Query(None),
-    country: str | None = Query(None),
+    lang: str | None = Query(None, alias="languages"),
     time_window: str | None = Query(None, alias="when"),
     timeout: int | None = Query(None),
     proxy: str | None = Query(None),
@@ -152,14 +145,13 @@ async def trigger_crawl_get(
 ):
     """
     Trigger a new news crawl job via HTTP GET (convenient for webhooks or URL pings).
-    Supports ?time_window=1d or ?when=1d.
+    Supports ?lang=vi,us or ?languages=top&when=1d.
     """
     job_data = _trigger_job(
         keyword,
         max_articles,
         workers,
         lang,
-        country,
         timeout,
         proxy,
         rotate_ua,
@@ -176,7 +168,7 @@ async def trigger_crawl_get(
         max_articles=job_data["max_articles"],
         workers=job_data["workers"],
         lang=job_data["lang"],
-        country=job_data["country"],
+        markets=job_data.get("markets"),
         time_window=job_data.get("time_window"),
         timeout=job_data["timeout"],
         proxy=job_data["proxy"],

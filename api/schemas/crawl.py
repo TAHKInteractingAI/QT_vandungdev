@@ -6,8 +6,8 @@ class CrawlTriggerRequest(BaseModel):
     keyword: str | None = Field(default=None, description="Search keyword, e.g. 'Công nghệ bán dẫn' or 'AI'")
     max_articles: int | None = Field(default=None, ge=1, le=100, description="Max articles to crawl (default: 20)")
     workers: int | None = Field(default=None, ge=1, le=20, description="Number of concurrent workers (default: 5)")
-    lang: str | None = Field(default=None, description="News language, e.g. 'vi', 'en'")
-    country: str | None = Field(default=None, description="News country, e.g. 'VN', 'US'")
+    lang: str | list[str] | None = Field(default=None, description="Market/language code(s), e.g. 'vi', 'us', 'vi,us,jp' or preset 'top', 'global', 'asia', 'tech'")
+    languages: str | list[str] | None = Field(default=None, description="Alias for lang")
     timeout: int | None = Field(default=None, ge=1, le=60, description="HTTP timeout in seconds (default: 10)")
     proxy: str | None = Field(default=None, description="HTTP/HTTPS/SOCKS5 proxy URL (e.g. http://127.0.0.1:7890)")
     rotate_ua: bool | None = Field(default=None, description="Rotate User-Agent per request from modern browser pool")
@@ -25,7 +25,7 @@ class CrawlJobResponse(BaseModel):
     max_articles: int
     workers: int
     lang: str
-    country: str
+    markets: list[str] | None = None
     time_window: str | None = None
     timeout: int
     proxy: str | None = None

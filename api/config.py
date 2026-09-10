@@ -1,7 +1,6 @@
 from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from crawler.config import (
-    DEFAULT_COUNTRY,
     DEFAULT_KEYWORD,
     DEFAULT_LANG,
     DEFAULT_TIME_WINDOW,
@@ -22,7 +21,6 @@ class Settings(BaseSettings):
     DEFAULT_MAX_ARTICLES: int = 20
     DEFAULT_WORKERS: int = DEFAULT_WORKERS
     DEFAULT_LANG: str = DEFAULT_LANG
-    DEFAULT_COUNTRY: str = DEFAULT_COUNTRY
     DEFAULT_TIME_WINDOW: str | None = DEFAULT_TIME_WINDOW
     DEFAULT_TIMEOUT: int = TIMEOUT
     DEFAULT_PROXY: str | None = None
