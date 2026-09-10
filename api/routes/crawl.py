@@ -18,6 +18,7 @@ def _trigger_job(
     rotate_ua: bool | None,
     resume: bool | None,
     show_progress: bool | None,
+    time_window: str | None = None,
     storage_mode: str | None = None,
 ) -> dict:
     if job_manager.is_running():
@@ -31,6 +32,7 @@ def _trigger_job(
     final_workers = workers if workers is not None else settings.DEFAULT_WORKERS
     final_lang = lang or settings.DEFAULT_LANG
     final_country = country or settings.DEFAULT_COUNTRY
+    final_time_window = time_window or settings.DEFAULT_TIME_WINDOW
     final_timeout = timeout if timeout is not None else settings.DEFAULT_TIMEOUT
     final_proxy = proxy if proxy is not None else settings.DEFAULT_PROXY
     final_rotate_ua = rotate_ua if rotate_ua is not None else settings.DEFAULT_ROTATE_UA
@@ -50,6 +52,7 @@ def _trigger_job(
             rotate_ua=final_rotate_ua,
             resume=final_resume,
             show_progress=final_show_progress,
+            time_window=final_time_window,
             storage_mode=final_storage_mode,
         )
         return job_data
@@ -79,6 +82,7 @@ async def trigger_crawl_post(
     - rotate_ua: Rotate User-Agent per request from modern browser pool
     - resume: Resume from checkpoint articles.jsonl (default: True)
     - show_progress: Show progress bar in server terminal output (default: False)
+    - time_window: News time window filter, e.g. '1d' (24h), '2d' (48h), '7d', '1h'
     - storage_mode: Storage mode 'google' (Cloud) or 'local' (Excel)
     """
     keyword = req.keyword if req else None
@@ -91,6 +95,7 @@ async def trigger_crawl_post(
     rotate_ua = req.rotate_ua if req else None
     resume = req.resume if req else None
     show_progress = req.show_progress if req else None
+    time_window = req.time_window if req else None
     storage_mode = req.storage_mode if req else None
 
     job_data = _trigger_job(
@@ -104,6 +109,7 @@ async def trigger_crawl_post(
         rotate_ua,
         resume,
         show_progress,
+        time_window,
         storage_mode,
     )
     return CrawlJobResponse(
@@ -115,6 +121,7 @@ async def trigger_crawl_post(
         workers=job_data["workers"],
         lang=job_data["lang"],
         country=job_data["country"],
+        time_window=job_data.get("time_window"),
         timeout=job_data["timeout"],
         proxy=job_data["proxy"],
         rotate_ua=job_data["rotate_ua"],
@@ -134,6 +141,7 @@ async def trigger_crawl_get(
     workers: int | None = Query(None),
     lang: str | None = Query(None),
     country: str | None = Query(None),
+    time_window: str | None = Query(None, alias="when"),
     timeout: int | None = Query(None),
     proxy: str | None = Query(None),
     rotate_ua: bool | None = Query(None),
@@ -144,6 +152,7 @@ async def trigger_crawl_get(
 ):
     """
     Trigger a new news crawl job via HTTP GET (convenient for webhooks or URL pings).
+    Supports ?time_window=1d or ?when=1d.
     """
     job_data = _trigger_job(
         keyword,
@@ -156,6 +165,7 @@ async def trigger_crawl_get(
         rotate_ua,
         resume,
         show_progress,
+        time_window,
         storage_mode,
     )
     return CrawlJobResponse(
@@ -167,6 +177,7 @@ async def trigger_crawl_get(
         workers=job_data["workers"],
         lang=job_data["lang"],
         country=job_data["country"],
+        time_window=job_data.get("time_window"),
         timeout=job_data["timeout"],
         proxy=job_data["proxy"],
         rotate_ua=job_data["rotate_ua"],

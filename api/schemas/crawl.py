@@ -13,6 +13,7 @@ class CrawlTriggerRequest(BaseModel):
     rotate_ua: bool | None = Field(default=None, description="Rotate User-Agent per request from modern browser pool")
     resume: bool | None = Field(default=None, description="Enable/disable checkpoint resume from articles.jsonl (default: True)")
     show_progress: bool | None = Field(default=False, description="Display progress bar in server stdout (default: False)")
+    time_window: str | None = Field(default=None, description="News time window filter, e.g. '1d' (24h), '2d' (48h), '7d', '1h'")
     storage_mode: str | None = Field(default=None, description="Storage mode: 'google' (Google Sheets + Drive) or 'local' (Excel + folder)")
 
 
@@ -25,6 +26,7 @@ class CrawlJobResponse(BaseModel):
     workers: int
     lang: str
     country: str
+    time_window: str | None = None
     timeout: int
     proxy: str | None = None
     rotate_ua: bool
