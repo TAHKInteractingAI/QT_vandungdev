@@ -11,8 +11,20 @@ from openpyxl.utils import get_column_letter
 
 openpyxl_mimetypes.add_type("image/webp", ".webp")
 
-_HEADERS = ["#", "Title", "Source", "Google News URL", "Publisher URL", "Published", "Snippet", "Preview", "Image", "Status"]
-_WIDTHS = [5, 42, 14, 30, 30, 18, 42, 16, 28, 26]
+_HEADERS = [
+    "#",
+    "Preview",
+    "Title",
+    "Snippet",
+    "Published",
+    "Source",
+    "Google News URL",
+    "Publisher URL",
+    "Image",
+    "Status",
+]
+# Column widths: Title/Snippet=300 (40 chars), Source=100 (14 chars), Published=150 (20 chars), URLs/Image/Status=200 (27 chars), Preview=145 (20 chars), #=45 (6 chars)
+_WIDTHS = [6, 20, 40, 40, 20, 14, 27, 27, 27, 27]
 
 
 def _style_header(ws):
@@ -28,12 +40,13 @@ def _style_header(ws):
 
 def _add_hyperlinks(ws, row_idx: int, art: dict, img_rel: str = ""):
     try:
-        if link := art.get("publisher_url") or art.get("google_url", ""):
-            ws.cell(row=row_idx, column=5).hyperlink = link
-            ws.cell(row=row_idx, column=5).style = "Hyperlink"
+        # Col 7: Google News URL, Col 8: Publisher URL, Col 9: Image
         if g_link := art.get("google_url", ""):
-            ws.cell(row=row_idx, column=4).hyperlink = g_link
-            ws.cell(row=row_idx, column=4).style = "Hyperlink"
+            ws.cell(row=row_idx, column=7).hyperlink = g_link
+            ws.cell(row=row_idx, column=7).style = "Hyperlink"
+        if link := art.get("publisher_url") or art.get("google_url", ""):
+            ws.cell(row=row_idx, column=8).hyperlink = link
+            ws.cell(row=row_idx, column=8).style = "Hyperlink"
         if img_rel:
             ws.cell(row=row_idx, column=9).hyperlink = img_rel
             ws.cell(row=row_idx, column=9).style = "Hyperlink"
@@ -41,7 +54,7 @@ def _add_hyperlinks(ws, row_idx: int, art: dict, img_rel: str = ""):
         pass
 
 
-def _embed_preview(ws, row_idx: int, thumb_path: Path, max_w: int = 100, max_h: int = 75):
+def _embed_preview(ws, row_idx: int, thumb_path: Path, max_w: int = 145, max_h: int = 105):
     try:
         from io import BytesIO
         from openpyxl.drawing.image import Image as XLImage
@@ -63,8 +76,9 @@ def _embed_preview(ws, row_idx: int, thumb_path: Path, max_w: int = 100, max_h: 
             bio.seek(0)
             xl = XLImage(bio)
             xl.width, xl.height = im.size
-            ws.add_image(xl, f"H{row_idx}")
-        ws.row_dimensions[row_idx].height = 60
+            # Column B is Preview
+            ws.add_image(xl, f"B{row_idx}")
+        ws.row_dimensions[row_idx].height = 86
     except Exception:
         pass
 
@@ -104,13 +118,13 @@ def export_excel(articles: list[dict], output_dir: Path, images_dir_name: str = 
 
         ws.append([
             order_num,
+            "",  # Column 2 (B): Preview thumbnail
             art.get("title", ""),
+            art.get("snippet", ""),
+            art.get("published", ""),
             art.get("source", ""),
             g_label,
             pub_label,
-            art.get("published", ""),
-            art.get("snippet", ""),
-            "",  # Column 8: Preview thumbnail
             img_rel,
             art.get("status", "ok"),
         ])
@@ -118,15 +132,15 @@ def export_excel(articles: list[dict], output_dir: Path, images_dir_name: str = 
         _add_hyperlinks(ws, row_idx, art, img_rel=img_rel)
         if img_paths:
             _embed_preview(ws, row_idx, img_paths[0])
-        ws.row_dimensions[row_idx].height = 60
+        ws.row_dimensions[row_idx].height = 86
 
-    # User requirement: wrap text + Align Top + Align Left for text, Center for # and Preview
+    # User requirement: wrap text + Align Top + Align Left for text, Center for # (Col 1) and Preview (Col 2)
     align_text = Alignment(wrap_text=True, vertical="top", horizontal="left")
     align_center = Alignment(vertical="top", horizontal="center")
 
     for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=1, max_col=len(_HEADERS)):
         for col_idx, cell in enumerate(row, 1):
-            if col_idx in (1, 8):  # '#' and 'Preview'
+            if col_idx in (1, 2):  # '#' and 'Preview'
                 cell.alignment = align_center
             else:
                 cell.alignment = align_text

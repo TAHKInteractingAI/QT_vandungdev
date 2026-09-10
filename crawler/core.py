@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import threading
+from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -20,6 +21,8 @@ from crawler.discovery import decode_publisher_url, fetch_rss
 from crawler.excel import export_excel
 from crawler.images import download_images, extract_image_urls
 from crawler.network import create_session, fetch_with_status
+from crawler.storage.base import BaseStorageBackend
+from crawler.storage.local import LocalStorageBackend
 
 _checkpoint_lock = threading.Lock()
 _ui_lock = threading.Lock()
@@ -94,6 +97,7 @@ def _process_one(
         return alive_status
 
     urls = extract_image_urls(publisher_url, html, publisher_url)
+    art["image_urls"] = urls
     if not urls:
         return f"{alive_status} | no_images_found"
 
@@ -117,6 +121,8 @@ def crawl_google_news(
     timeout: int = TIMEOUT,
     resume: bool = True,
     show_progress: bool = True,
+    storage: BaseStorageBackend | None = None,
+    job_id: str | None = None,
 ) -> dict:
     if not keyword or not keyword.strip():
         raise ValueError("keyword must be non-empty")
@@ -126,6 +132,12 @@ def crawl_google_news(
         raise ValueError("workers must be > 0")
 
     keyword = keyword.strip()
+    safe_keyword = "".join(c if c.isalnum() or c in ("-", "_") else "_" for c in keyword)
+    safe_keyword = safe_keyword.strip("_") or "News"
+    effective_job_id = job_id or f"{safe_keyword}_{datetime.now().strftime('%H%M_%d%m%Y')}"
+    backend = storage or LocalStorageBackend(output_dir=output_dir)
+    backend.init_session(job_id=effective_job_id, keyword=keyword, output_dir=output_dir)
+
     output_dir = Path(output_dir)
     images_dir = output_dir / "images"
     jsonl_path = output_dir / "articles.jsonl"
@@ -143,7 +155,7 @@ def crawl_google_news(
     if not resume and jsonl_path.exists():
         jsonl_path.unlink()
 
-    completed_map = _load_completed_checkpoint(jsonl_path) if resume else {}
+    completed_map = backend.load_completed_checkpoint() if resume else {}
     if completed_map:
         print(f"[crawl] loaded {len(completed_map)} previously completed article(s) from checkpoint")
 
@@ -264,7 +276,9 @@ def crawl_google_news(
             if stop_event.is_set():
                 return
             art["status"] = status
-            _append_checkpoint(jsonl_path, art)
+            if art.get("saved_images"):
+                art["saved_images"] = backend.process_saved_images(art["saved_images"], prefix)
+            backend.append_checkpoint(art)
             _report_progress(idx, art)
 
         executor = ThreadPoolExecutor(max_workers=max(1, workers))
@@ -296,13 +310,13 @@ def crawl_google_news(
     ok = sum(1 for a in processed_articles if " | ok |" in a.get("status", ""))
     total = sum(len(a.get("saved_images", [])) for a in processed_articles)
 
-    xlsx = export_excel(processed_articles, output_dir)
+    dest_info = backend.finalize(processed_articles)
     if interrupted:
-        print(f"[crawl] safe exit (Ctrl+C): {len(processed_articles)}/{len(articles)} articles processed, {ok} with images -> {xlsx}")
+        print(f"[crawl] safe exit (Ctrl+C): {len(processed_articles)}/{len(articles)} articles processed, {ok} with images -> {dest_info}")
     else:
-        print(f"[crawl] done: {len(articles)} discovered, {decode_ok} decoded, {alive_cnt} alive 200, {ok} with images, {total} files -> {xlsx}")
+        print(f"[crawl] done: {len(articles)} discovered, {decode_ok} decoded, {alive_cnt} alive 200, {ok} with images, {total} files -> {dest_info}")
 
-    return {
+    result_payload = {
         "keyword": keyword,
         "discovered": len(articles),
         "processed": len(processed_articles),
@@ -311,8 +325,8 @@ def crawl_google_news(
         "with_images": ok,
         "saved_images": total,
         "interrupted": interrupted,
-        "xlsx": str(xlsx),
-        "jsonl": str(jsonl_path),
         "output_dir": str(output_dir),
         "images_dir": str(images_dir),
     }
+    result_payload.update(dest_info)
+    return result_payload

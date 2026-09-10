@@ -1,14 +1,14 @@
 import argparse
 from pathlib import Path
 
-from crawler.config import DEFAULT_COUNTRY, DEFAULT_LANG, DEFAULT_WORKERS, TIMEOUT
+from crawler.config import DEFAULT_COUNTRY, DEFAULT_KEYWORD, DEFAULT_LANG, DEFAULT_WORKERS, TIMEOUT
 from crawler.core import crawl_google_news
 from crawler.excel import export_excel_from_jsonl
 
 
 def main() -> None:
     p = argparse.ArgumentParser(description="Crawl Google News MVP")
-    p.add_argument("--keyword", required=False, help="Search keyword, e.g. Trillion")
+    p.add_argument("--keyword", default=DEFAULT_KEYWORD, help=f"Search keyword (default: '{DEFAULT_KEYWORD}')")
     p.add_argument("--max", type=int, default=20, dest="max_articles", help="Max articles to crawl")
     p.add_argument("--workers", type=int, default=DEFAULT_WORKERS, help=f"Number of concurrent workers (default: {DEFAULT_WORKERS})")
     p.add_argument("--output", type=str, default="output", help="Output directory")
@@ -26,9 +26,6 @@ def main() -> None:
         out_path = export_excel_from_jsonl(args.export_from_jsonl, args.output)
         print(f"[export] generated {out_path}")
         return
-
-    if not args.keyword:
-        p.error("--keyword is required when not using --export-from-jsonl")
 
     try:
         result = crawl_google_news(

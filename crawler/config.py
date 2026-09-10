@@ -6,6 +6,7 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.9",
 }
 TIMEOUT = 10
+DEFAULT_KEYWORD = "Trillion"
 DEFAULT_LANG = "vi"
 DEFAULT_COUNTRY = "VN"
 DEFAULT_WORKERS = 5
