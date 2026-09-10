@@ -214,32 +214,45 @@ def fetch_bing_rss(
         desc_raw = it.findtext("description") or ""
         snippet = HTMLParser(desc_raw).text(separator=" ", strip=True)[:500]
 
-        source = ""
-        if " - " in title:
+        # Extract namespace-qualified Bing tags (Source, Image)
+        b_source = None
+        b_image = None
+        for child in it:
+            tag = child.tag.split("}")[-1] if "}" in child.tag else child.tag
+            tag_l = tag.lower()
+            if tag_l == "source" and child.text:
+                b_source = child.text.strip()
+            elif tag_l == "image" and child.text:
+                b_image = child.text.strip()
+
+        source = b_source or ""
+        if not source and " - " in title:
             source = title.rsplit(" - ", 1)[-1].strip()
         if not source:
-            source = "News"
+            source = "Bing News"
 
         pub_url = extract_bing_publisher_url(link)
 
-        articles.append(
-            {
-                "title": title,
-                "source": source,
-                "google_url": link,
-                "url": pub_url,
-                "publisher_url": pub_url,
-                "decode_status": "direct_bing",
-                "source_engine": "bing",
-                "published": formatted_pub,
-                "published_raw": pub,
-                "snippet": snippet,
-                "description_raw": desc_raw,
-                "locale": locale_name,
-                "country": cc,
-                "lang": setlang,
-            }
-        )
+        art_dict = {
+            "title": title,
+            "source": source,
+            "google_url": link,
+            "url": pub_url,
+            "publisher_url": pub_url,
+            "decode_status": "direct_bing",
+            "source_engine": "bing",
+            "published": formatted_pub,
+            "published_raw": pub,
+            "snippet": snippet,
+            "description_raw": desc_raw,
+            "locale": locale_name,
+            "country": cc,
+            "lang": setlang,
+        }
+        if b_image and b_image.startswith("http"):
+            art_dict["image_urls"] = [b_image]
+
+        articles.append(art_dict)
     return articles
 
 
@@ -266,15 +279,15 @@ def fetch_bing_rss_multi(
 
     all_articles: list[dict] = []
     seen_keys: set[str] = set()
-    per_locale_limit = max(1, (max_articles + len(locales) - 1) // len(locales))
 
     for loc in locales:
-        if len(all_articles) >= max_articles:
+        remaining = max_articles - len(all_articles)
+        if remaining <= 0:
             break
         try:
             fetched = fetch_bing_rss(
                 keyword,
-                per_locale_limit,
+                remaining,
                 loc,
                 time_window=time_window,
                 session=session,

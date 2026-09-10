@@ -91,7 +91,7 @@ def populate_worksheet(ws, articles: list[dict], images_dir: Path | None = None)
         img_rel = f"{img_paths[0].name}" if len(img_paths) >= 1 else ""
 
         g_url = art.get("google_url", "")
-        g_label = "Google News" if g_url else ""
+        g_label = ("Bing News" if art.get("source_engine") == "bing" or "bing.com" in g_url else "Google News") if g_url else ""
 
         pub_url = art.get("publisher_url", "")
         pub_label = ""
