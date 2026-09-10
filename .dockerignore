@@ -1,0 +1,16 @@
+.git
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+storage/outputs/
+storage/jobs/
+tests/output/
+.wrangler/
+.env
+.dev.vars
+service_account.json
+token.json
+client_secret.json

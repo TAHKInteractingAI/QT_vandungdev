@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: google-news-crawler-api
+    runtime: python
+    region: singapore
+    plan: free
+    buildCommand: "pip install uv && uv sync --frozen --no-dev"
+    startCommand: "uv run uvicorn api.app:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: APP_ENV
+        value: production
+      - key: APP_HOST
+        value: 0.0.0.0
+      - key: CRON_API_KEY
+        value: vandungdev@qt
+      - key: DEFAULT_STORAGE_MODE
+        value: google
+      - key: DEFAULT_TIMEZONE
+        value: Asia/Ho_Chi_Minh
+      - key: GOOGLE_SPREADSHEET_ID
+        sync: false
+      - key: GOOGLE_DRIVE_PARENT_FOLDER_ID
+        sync: false
+      - key: GOOGLE_TOKEN_JSON
+        sync: false
+      - key: GOOGLE_SERVICE_ACCOUNT_JSON
+        sync: false

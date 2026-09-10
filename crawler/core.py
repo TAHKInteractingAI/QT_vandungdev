@@ -86,7 +86,7 @@ def _process_one(
     if stop_event and stop_event.is_set():
         return "interrupted"
 
-    html, alive_status, code = fetch_with_status(
+    html, code, alive_status = fetch_with_status(
         publisher_url,
         session=session,
         rotate_ua=rotate_ua,
@@ -311,7 +311,7 @@ def crawl_google_news(
     processed_articles.sort(key=lambda a: a.get("order", 0))
     decode_ok = sum(1 for a in processed_articles if a.get("publisher_url"))
     alive_cnt = sum(1 for a in processed_articles if a.get("http_code") == 200)
-    ok = sum(1 for a in processed_articles if " | ok |" in a.get("status", ""))
+    ok = sum(1 for a in processed_articles if " | ok |" in str(a.get("status", "")))
     total = sum(len(a.get("saved_images", [])) for a in processed_articles)
 
     dest_info = backend.finalize(processed_articles)

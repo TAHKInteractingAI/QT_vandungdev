@@ -59,11 +59,26 @@ class GoogleCloudStorageBackend(BaseStorageBackend):
     def _resolve_credentials(self, path: str | Path | None) -> tuple[Any, str | None]:
         root = Path(__file__).resolve().parents[2]
 
+        # 1. Try OAuth 2.0 User Token from env var JSON string
+        token_env = os.getenv("GOOGLE_TOKEN_JSON")
+        if token_env:
+            try:
+                info = orjson.loads(token_env)
+                creds = UserCredentials.from_authorized_user_info(info, scopes=_SCOPES)
+                if creds and creds.expired and creds.refresh_token:
+                    creds.refresh(Request())
+                print("[GoogleStorage] Authenticated using OAuth 2.0 User Credentials from GOOGLE_TOKEN_JSON env var")
+                return creds, "env:GOOGLE_TOKEN_JSON"
+            except Exception as e:
+                print(f"[GoogleStorage] Warning: Failed to load user token from GOOGLE_TOKEN_JSON: {e}")
+
+        # 2. Try OAuth 2.0 User Token from files (including Render /etc/secrets/token.json)
         token_candidates = []
         if path and Path(path).name == "token.json":
             token_candidates.append(Path(path))
         token_candidates.append(root / "token.json")
         token_candidates.append(Path("token.json"))
+        token_candidates.append(Path("/etc/secrets/token.json"))
 
         for tok_path in token_candidates:
             if tok_path.exists():
@@ -76,11 +91,25 @@ class GoogleCloudStorageBackend(BaseStorageBackend):
                 except Exception as e:
                     print(f"[GoogleStorage] Warning: Failed to load user token from {tok_path}: {e}")
 
+        # 3. Try Service Account from env var JSON string
+        sa_env = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
+        if sa_env:
+            try:
+                info = orjson.loads(sa_env)
+                creds = ServiceAccountCredentials.from_service_account_info(info, scopes=_SCOPES)
+                print("[GoogleStorage] Authenticated using Service Account from GOOGLE_SERVICE_ACCOUNT_JSON env var")
+                return creds, "env:GOOGLE_SERVICE_ACCOUNT_JSON"
+            except Exception as e:
+                print(f"[GoogleStorage] Warning: Failed to load service account from GOOGLE_SERVICE_ACCOUNT_JSON: {e}")
+
+        # 4. Try Service Account from files
         resolved_sa_path: str | None = None
         if path and Path(path).exists() and Path(path).name != "token.json":
             resolved_sa_path = str(path)
         elif os.getenv("GOOGLE_APPLICATION_CREDENTIALS") and Path(os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")).exists():
             resolved_sa_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+        elif Path("/etc/secrets/service_account.json").exists():
+            resolved_sa_path = "/etc/secrets/service_account.json"
         else:
             for pattern in ["service_account.json", "plucky-courier-*.json", "credentials*.json"]:
                 matches = list(root.glob(pattern))
@@ -91,7 +120,7 @@ class GoogleCloudStorageBackend(BaseStorageBackend):
         if not resolved_sa_path or not Path(resolved_sa_path).exists():
             raise FileNotFoundError(
                 "Neither valid token.json (OAuth2 User) nor Service Account credentials JSON found. "
-                "Run `python scripts/auth_google_drive.py` or provide service_account.json."
+                "Run `python scripts/auth_google_drive.py`, upload secret file on Render, or provide service_account.json."
             )
 
         print(f"[GoogleStorage] Authenticated using Service Account: {resolved_sa_path}")
