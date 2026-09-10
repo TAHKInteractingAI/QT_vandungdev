@@ -34,6 +34,7 @@ def test_trigger_authorized_with_full_cli_params():
         "rotate_ua": True,
         "resume": True,
         "show_progress": False,
+        "time_window": "1d",
     }
 
     # Trigger first job with full CLI parameters
@@ -47,6 +48,7 @@ def test_trigger_authorized_with_full_cli_params():
     assert data1["workers"] == 2
     assert data1["lang"] == "vi"
     assert data1["country"] == "VN"
+    assert data1["time_window"] == "1d"
     assert data1["timeout"] == 12
     assert data1["rotate_ua"] is True
     assert data1["resume"] is True
