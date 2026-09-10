@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     DEFAULT_SHOW_PROGRESS: bool = False
     DEFAULT_STORAGE_MODE: str = "google"
 
-    STORAGE_DIR: str = "storage/outputs"
+    STORAGE_DIR: str = "storage"
     JOBS_METADATA_DIR: str = "storage/jobs"
 
     model_config = SettingsConfigDict(

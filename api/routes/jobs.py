@@ -84,11 +84,12 @@ async def download_job_json(job_id: str):
         )
 
     json_path_str = job.get("json_path")
-    # Fallback to output_dir / articles.json if json_path is not explicitly saved
+    # Fallback to output_dir / *_articles.json if json_path is not explicitly saved
     if not json_path_str and job.get("output_dir"):
-        candidate = Path(job["output_dir"]) / "articles.json"
-        if candidate.exists():
-            json_path_str = str(candidate)
+        out_dir = Path(job["output_dir"])
+        matches = list(out_dir.glob("*_articles.json")) + list(out_dir.glob("articles.json"))
+        if matches:
+            json_path_str = str(matches[0])
 
     if not json_path_str or not Path(json_path_str).exists():
         raise HTTPException(

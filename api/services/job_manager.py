@@ -1,4 +1,3 @@
-import asyncio
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -81,14 +80,12 @@ class JobManager:
                 raise RuntimeError(f"Another crawl job is currently running: {self._current_job_id}")
 
             now = datetime.now()
-            time_str = now.strftime("%H%M_%d%m%Y")
-            # Sanitize keyword for folder name (remove spaces and special characters)
-            safe_keyword = "".join(c if c.isalnum() or c in ("-", "_") else "_" for c in keyword.strip())
-            safe_keyword = safe_keyword.strip("_") or "News"
+            from crawler.naming import generate_run_tag
+            safe_keyword, time_tag = generate_run_tag(keyword, now)
             short_id = uuid.uuid4().hex[:4]
-            job_id = f"{safe_keyword}_{time_str}_{short_id}"
+            job_id = f"{time_tag}_{short_id}"
 
-            job_dir = settings.storage_path / job_id
+            job_dir = settings.storage_path / time_tag
             job_dir.mkdir(parents=True, exist_ok=True)
 
             effective_storage_mode = (storage_mode or settings.DEFAULT_STORAGE_MODE or "google").lower()
