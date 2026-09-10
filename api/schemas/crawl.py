@@ -17,6 +17,7 @@ class CrawlTriggerRequest(BaseModel):
     storage_mode: str | None = Field(default=None, description="Storage mode: 'google' (Google Sheets + Drive) or 'local' (Excel + folder)")
     timezone: str | None = Field(default=None, description="Timezone for naming folders and tabs, e.g. 'Asia/Ho_Chi_Minh' (default), 'UTC'")
     tz: str | None = Field(default=None, description="Alias for timezone")
+    ping_url: str | None = Field(default=None, description="Heartbeat ping URL called upon crawl completion (e.g. cron-job.org or Healthchecks.io)")
 
 
 class CrawlJobResponse(BaseModel):
@@ -35,6 +36,7 @@ class CrawlJobResponse(BaseModel):
     resume: bool
     storage_mode: str | None = None
     timezone: str | None = None
+    ping_url: str | None = None
     created_at: datetime
     started_at: datetime | None = None
     completed_at: datetime | None = None

@@ -35,6 +35,7 @@ export default {
       let crawlConfig = {};
       if (url.searchParams.get("keyword")) crawlConfig.keyword = url.searchParams.get("keyword");
       if (url.searchParams.get("max")) crawlConfig.max_articles = parseInt(url.searchParams.get("max"));
+      if (url.searchParams.get("workers")) crawlConfig.workers = parseInt(url.searchParams.get("workers"));
       if (url.searchParams.get("lang")) crawlConfig.lang = url.searchParams.get("lang");
       if (url.searchParams.get("languages")) crawlConfig.lang = url.searchParams.get("languages");
       if (url.searchParams.get("markets")) crawlConfig.lang = url.searchParams.get("markets");
@@ -45,6 +46,9 @@ export default {
       if (url.searchParams.get("time_window")) crawlConfig.time_window = url.searchParams.get("time_window");
       if (url.searchParams.get("when")) crawlConfig.time_window = url.searchParams.get("when");
       if (url.searchParams.get("storage_mode")) crawlConfig.storage_mode = url.searchParams.get("storage_mode");
+      if (url.searchParams.get("timezone")) crawlConfig.timezone = url.searchParams.get("timezone");
+      if (url.searchParams.get("tz")) crawlConfig.timezone = url.searchParams.get("tz");
+      if (url.searchParams.get("ping_url")) crawlConfig.ping_url = url.searchParams.get("ping_url");
 
       // If POST, merge JSON body parameters
       if (request.method === "POST") {

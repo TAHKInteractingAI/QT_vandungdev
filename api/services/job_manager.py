@@ -77,12 +77,15 @@ class JobManager:
         time_window: str | None = None,
         storage_mode: str | None = None,
         tz: str | None = None,
+        ping_url: str | None = None,
     ) -> dict[str, Any]:
         with self._lock:
             if self._current_job_id is not None:
                 raise RuntimeError(f"Another crawl job is currently running: {self._current_job_id}")
 
             effective_tz = tz or settings.DEFAULT_TIMEZONE
+            effective_ping_url = ping_url or settings.CRON_HEARTBEAT_URL
+
             from crawler.naming import generate_run_tag, get_timezone
             tz_obj = get_timezone(effective_tz)
             now = datetime.now(tz_obj)
@@ -117,6 +120,7 @@ class JobManager:
                 "show_progress": show_progress,
                 "storage_mode": effective_storage_mode,
                 "timezone": effective_tz,
+                "ping_url": effective_ping_url,
                 "created_at": now.isoformat(),
                 "started_at": None,
                 "completed_at": None,
@@ -150,6 +154,7 @@ class JobManager:
                 effective_storage_mode,
                 job_dir,
                 effective_tz,
+                effective_ping_url,
             ),
             daemon=True,
         ).start()
@@ -172,6 +177,7 @@ class JobManager:
         storage_mode: str,
         output_dir: Path,
         tz: str | None = None,
+        ping_url: str | None = None,
     ) -> None:
         job = self.get_job(job_id)
         if not job:
@@ -222,6 +228,16 @@ class JobManager:
             job["spreadsheet_url"] = result.get("spreadsheet_url")
             job["drive_folder_url"] = result.get("drive_folder_url")
             job["stats"] = result
+
+            # Send Heartbeat Ping notification to cron-job.org / monitoring service
+            if ping_url:
+                try:
+                    import requests
+                    requests.get(ping_url, timeout=10)
+                    print(f"[JobManager] Heartbeat ping sent successfully to {ping_url}")
+                except Exception as ping_err:
+                    print(f"[JobManager] Warning: Failed to send heartbeat ping: {ping_err}")
+
         except Exception as exc:
             job["status"] = "failed"
             job["message"] = f"Crawl job failed with error: {str(exc)}"

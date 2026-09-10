@@ -131,3 +131,24 @@ def test_download_json_verification():
         assert isinstance(items, list)
         assert len(items) > 0
         assert "title" in items[0]
+
+
+def test_trigger_with_ping_url():
+    """Verify triggering job with ping_url via POST and GET query param."""
+    import time
+    from api.services.job_manager import job_manager
+
+    # Wait for previous background job to finish if needed
+    for _ in range(30):
+        if not job_manager.is_running():
+            break
+        time.sleep(0.5)
+
+    headers = {"X-API-Key": settings.CRON_API_KEY}
+    test_ping = "https://cron-job.org/ping/test-uuid-12345"
+    res = client.get(f"/api/v1/crawl/trigger?keyword=PingTest&max=1&ping_url={test_ping}", headers=headers)
+    assert res.status_code == 202
+    data = res.json()
+    assert data["keyword"] == "PingTest"
+    assert data["ping_url"] == test_ping
+
