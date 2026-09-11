@@ -29,41 +29,7 @@ from crawler.network import create_session, fetch_with_status
 from crawler.storage.base import BaseStorageBackend
 from crawler.storage.local import LocalStorageBackend
 
-_checkpoint_lock = threading.Lock()
 _ui_lock = threading.Lock()
-
-
-def _append_checkpoint(jsonl_path: Path, art: dict) -> None:
-    """Append single article record to JSONL checkpoint file (thread-safe)."""
-    record = dict(art)
-    if imgs := record.get("saved_images"):
-        record["saved_images"] = [str(p) for p in imgs]
-    line_bytes = orjson.dumps(record) + b"\n"
-    with _checkpoint_lock:
-        with open(jsonl_path, "ab") as f:
-            f.write(line_bytes)
-
-
-def _load_completed_checkpoint(jsonl_path: Path) -> dict[str, dict]:
-    """Load existing checkpoint into a mapping of google_url -> article dict."""
-    if not jsonl_path.exists():
-        return {}
-    completed: dict[str, dict] = {}
-    with open(jsonl_path, "rb") as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                data = orjson.loads(line)
-                key = data.get("google_url") or data.get("url") or data.get("title")
-                if key:
-                    if imgs := data.get("saved_images"):
-                        data["saved_images"] = [Path(p) for p in imgs]
-                    completed[key] = data
-            except Exception:
-                continue
-    return completed
 
 
 def _process_one(

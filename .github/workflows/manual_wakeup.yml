@@ -1,0 +1,30 @@
+name: Manual Wake Up Render
+
+on:
+  workflow_dispatch: # Chỉ chạy khi người dùng chủ động bấm "Run workflow"
+
+jobs:
+  manual-wake-up:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Wake Up Signal to Render
+        run: |
+          URL="https://crawler-bot-pf33.onrender.com/health"
+          echo "Bắt đầu chủ động đánh thức Render tại: $URL"
+          
+          # Vòng lặp kiên nhẫn gõ cửa trong tối đa 90 giây
+          for i in {1..4}; do
+            echo "Lần $i: Gửi tín hiệu đánh thức..."
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 35 "$URL" || true)
+            echo "HTTP Status nhận được: $STATUS"
+            
+            if [ "$STATUS" -eq 200 ]; then
+              echo "THÀNH CÔNG: Server Render đã thức dậy và hoạt động bình thường (200 OK)!"
+              exit 0
+            fi
+            
+            echo "Server đang trong giai đoạn khởi động lạnh (Cold start). Chờ 10 giây trước khi thử lại..."
+            sleep 10
+          done
+          
+          echo "Hoàn tất các lượt gửi tín hiệu. Server đang tiếp tục khởi động."
