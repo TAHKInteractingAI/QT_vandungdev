@@ -422,19 +422,24 @@ def decode_publisher_url(
     retry_delay: float = 1.0,
 ) -> tuple[str | None, str]:
     """
-    Multi-strategy decoder with automatic retries: CBM google_url -> publisher_url.
-    Try the `retries` again (default 2 times, total 3 attempts) if it fails.
+    Multi-strategy decoder with automatic retries and proxy failover rotation:
+    CBM google_url -> publisher_url.
+    Try the `retries` again (default 2 times, total 3 attempts) if it fails,
+    rotating to a fresh Webshare proxy IP on each attempt.
     """
     if not google_url:
         return None, "empty_url"
     if "news.google.com" not in google_url and "google.com" not in google_url:
         return google_url, "direct"
 
+    from crawler.proxy_manager import proxy_manager
+
     last_status = "decode_failed"
     for attempt in range(retries + 1):
         if attempt > 0:
             time.sleep(retry_delay * attempt)
-        url, status = _decode_once(google_url, session=session, proxy=proxy, timeout=timeout)
+        effective_proxy = proxy_manager.get_proxy(requested_proxy=proxy, attempt=attempt)
+        url, status = _decode_once(google_url, session=session, proxy=effective_proxy, timeout=timeout)
         if url:
             suffix = f" (retry {attempt})" if attempt > 0 else ""
             return url, f"{status}{suffix}"

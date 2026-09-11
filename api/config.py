@@ -31,6 +31,8 @@ class Settings(BaseSettings):
     DEFAULT_TIMEZONE: str = "Asia/Ho_Chi_Minh"
     DEFAULT_PROVIDER: str = "google"
     CRON_HEARTBEAT_URL: str | None = None
+    WEBSHARE_API_KEY: str | None = None
+    DEFAULT_BACKBONE_PROXY: str | None = None
 
     STORAGE_DIR: str = "storage"
     JOBS_METADATA_DIR: str = "storage/jobs"
