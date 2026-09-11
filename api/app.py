@@ -4,7 +4,7 @@ from api.routes import crawl, health, jobs
 
 app = FastAPI(
     title="Google News Crawler API",
-    description="FastAPI Backend for automated background news crawling triggered via Cloudflare Worker and cron-job.org",
+    description="FastAPI Backend for automated background news crawling triggered via cron-job.org or HTTP clients",
     version="1.0.0",
 )
 

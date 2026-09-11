@@ -21,7 +21,7 @@ def main() -> None:
     p.add_argument("--output", type=str, default="storage", help="Base output directory (default: 'storage')")
     p.add_argument("--lang", "--locales", "--markets", type=str, default=DEFAULT_LANG, dest="lang", help=f"Market/language code(s), e.g. 'vi', 'us', 'vi,us,jp' or preset 'top', 'global', 'asia', 'tech' (default: '{DEFAULT_LANG}')")
     p.add_argument("--time-window", "--when", type=str, default=DEFAULT_TIME_WINDOW, dest="time_window", help="News time window filter, e.g. '1d' (24h), '2d' (48h), '7d', '1h'")
-    p.add_argument("--provider", type=str, default=DEFAULT_PROVIDER, help="Search engine provider: 'auto' (default), 'bing', 'google'")
+    p.add_argument("--provider", type=str, default=DEFAULT_PROVIDER, help="Search engine provider (default: 'google')")
     p.add_argument("--timeout", type=int, default=TIMEOUT, help=f"HTTP timeout in seconds (default: {TIMEOUT})")
     p.add_argument("--proxy", type=str, default=None, help="HTTP/HTTPS/SOCKS5 proxy URL (e.g. http://127.0.0.1:7890)")
     p.add_argument("--rotate-ua", action="store_true", help="Rotate User-Agent per request from modern browser pool")

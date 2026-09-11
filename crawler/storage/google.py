@@ -265,7 +265,7 @@ class GoogleCloudStorageBackend(BaseStorageBackend):
             sep = ";" if any(loc in (getattr(self.spreadsheet, "locale", "") or "").lower() for loc in ["vi", "fr", "de", "es", "it", "nl", "pt", "ru"]) else ","
 
             g_url = art.get("google_url", "")
-            engine_name = "Bing News" if art.get("source_engine") == "bing" or "bing.com" in g_url else "Google News"
+            engine_name = "Google News"
             g_formula = f'=HYPERLINK("{_esc_formula_str(g_url)}"{sep} "{engine_name}")' if g_url else ""
 
             pub_url = art.get("publisher_url", "")

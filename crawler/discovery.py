@@ -1,18 +1,15 @@
 import base64
 import html
 import json
-import os
 import re
 import time
 import xml.etree.ElementTree as ET
-from urllib.parse import parse_qs, quote, quote_plus, unquote, urlparse
+from urllib.parse import quote, quote_plus, urlparse
 
 import requests
 from selectolax.parser import HTMLParser
 
 from crawler.config import (
-    BING_LOCALE_MAP,
-    CLOUDFLARE_WORKER_URL,
     DEFAULT_PROVIDER,
     HEADERS,
     TIMEOUT,
@@ -154,158 +151,6 @@ def fetch_rss_multi(
     return all_articles[:max_articles]
 
 
-def extract_bing_publisher_url(link: str) -> str:
-    """Extract real publisher URL from Bing News apiclick link."""
-    if not link:
-        return ""
-    if "url=" in link:
-        try:
-            parsed = urlparse(link)
-            qs = parse_qs(parsed.query)
-            if "url" in qs and qs["url"]:
-                target = qs["url"][0].strip()
-                if target.startswith("http"):
-                    return target
-        except Exception:
-            pass
-    return link
-
-
-def fetch_bing_rss(
-    keyword: str,
-    max_articles: int,
-    locale: str | dict[str, str] = "vi",
-    time_window: str | None = None,
-    session: requests.Session | None = None,
-    timeout: int = TIMEOUT,
-) -> list[dict]:
-    """Discover articles via Bing News RSS. Returns direct publisher URLs (100% un-obfuscated)."""
-    lang = "vi"
-    locale_name = "Vietnam (Tiếng Việt)"
-    if isinstance(locale, dict):
-        loc_key = locale.get("lang") or "vi"
-        locale_name = locale.get("name") or loc_key
-    else:
-        loc_key = locale.lower()
-
-    b_info = BING_LOCALE_MAP.get(loc_key, {"cc": "VN", "setlang": "vi"})
-    cc = b_info["cc"]
-    setlang = b_info["setlang"]
-
-    query = keyword.strip()
-    q = quote_plus(query)
-    url = f"https://www.bing.com/news/search?q={q}&cc={cc}&setlang={setlang}&format=rss"
-
-    resp = None
-    if session is not None:
-        resp = session.get(url, timeout=timeout)
-    else:
-        resp = requests.get(url, headers=HEADERS, timeout=timeout)
-    resp.raise_for_status()
-
-    root = ET.fromstring(resp.content)
-    items = root.findall(".//item")
-    articles: list[dict] = []
-    for it in items[:max_articles]:
-        title = (it.findtext("title") or "").strip()
-        link = (it.findtext("link") or "").strip()
-        pub = (it.findtext("pubDate") or "").strip()
-        formatted_pub = format_published_date(pub)
-        desc_raw = it.findtext("description") or ""
-        snippet = HTMLParser(desc_raw).text(separator=" ", strip=True)[:500]
-
-        # Extract namespace-qualified Bing tags (Source, Image)
-        b_source = None
-        b_image = None
-        for child in it:
-            tag = child.tag.split("}")[-1] if "}" in child.tag else child.tag
-            tag_l = tag.lower()
-            if tag_l == "source" and child.text:
-                b_source = child.text.strip()
-            elif tag_l == "image" and child.text:
-                b_image = child.text.strip()
-
-        source = b_source or ""
-        if not source and " - " in title:
-            source = title.rsplit(" - ", 1)[-1].strip()
-        if not source:
-            source = "Bing News"
-
-        pub_url = extract_bing_publisher_url(link)
-
-        art_dict = {
-            "title": title,
-            "source": source,
-            "google_url": link,
-            "url": pub_url,
-            "publisher_url": pub_url,
-            "decode_status": "direct_bing",
-            "source_engine": "bing",
-            "published": formatted_pub,
-            "published_raw": pub,
-            "snippet": snippet,
-            "description_raw": desc_raw,
-            "locale": locale_name,
-            "country": cc,
-            "lang": setlang,
-        }
-        if b_image and b_image.startswith("http"):
-            art_dict["image_urls"] = [b_image]
-
-        articles.append(art_dict)
-    return articles
-
-
-def fetch_bing_rss_multi(
-    keyword: str,
-    max_articles: int,
-    locales: list[dict[str, str]],
-    time_window: str | None = None,
-    session: requests.Session | None = None,
-    timeout: int = TIMEOUT,
-) -> list[dict]:
-    """Fetch articles from Bing News across multiple locales."""
-    if not locales:
-        return []
-    if len(locales) == 1:
-        return fetch_bing_rss(
-            keyword,
-            max_articles,
-            locales[0],
-            time_window=time_window,
-            session=session,
-            timeout=timeout,
-        )
-
-    all_articles: list[dict] = []
-    seen_keys: set[str] = set()
-
-    for loc in locales:
-        remaining = max_articles - len(all_articles)
-        if remaining <= 0:
-            break
-        try:
-            fetched = fetch_bing_rss(
-                keyword,
-                remaining,
-                loc,
-                time_window=time_window,
-                session=session,
-                timeout=timeout,
-            )
-            for art in fetched:
-                dedup_key = (art.get("publisher_url") or art.get("title") or "").strip().lower()
-                if dedup_key and dedup_key not in seen_keys:
-                    seen_keys.add(dedup_key)
-                    all_articles.append(art)
-                if len(all_articles) >= max_articles:
-                    break
-        except Exception as e:
-            print(f"[crawl] Notice: Failed to fetch Bing RSS for locale {loc.get('name') or loc.get('lang')}: {e}")
-
-    return all_articles[:max_articles]
-
-
 def discover_articles(
     keyword: str,
     max_articles: int,
@@ -315,49 +160,9 @@ def discover_articles(
     timeout: int = TIMEOUT,
     provider: str = DEFAULT_PROVIDER,
 ) -> list[dict]:
-    """Unified news discovery supporting 'auto', 'bing', or 'google'."""
-    p = (provider or "auto").strip().lower()
-
-    if p == "bing":
-        print(f"[crawl] Discovering articles via Bing News Engine ({len(locales)} locale(s))...")
-        return fetch_bing_rss_multi(
-            keyword,
-            max_articles,
-            locales,
-            time_window=time_window,
-            session=session,
-            timeout=timeout,
-        )
-
-    if p == "google":
-        print(f"[crawl] Discovering articles via Google News Engine ({len(locales)} locale(s))...")
-        return fetch_rss_multi(
-            keyword,
-            max_articles,
-            locales,
-            time_window=time_window,
-            session=session,
-            timeout=timeout,
-        )
-
-    # Provider == 'auto': Try Google News first; if empty or fails, fallback to Bing News
+    """Discover articles via Google News RSS across specified locales."""
     print(f"[crawl] Discovering articles via Google News RSS ({len(locales)} locale(s))...")
-    try:
-        articles = fetch_rss_multi(
-            keyword,
-            max_articles,
-            locales,
-            time_window=time_window,
-            session=session,
-            timeout=timeout,
-        )
-        if articles:
-            return articles
-    except Exception as e:
-        print(f"[crawl] Notice: Google News discovery failed ({e}). Falling back to Bing News...")
-
-    print(f"[crawl] Falling back to Bing News Engine ({len(locales)} locale(s))...")
-    return fetch_bing_rss_multi(
+    return fetch_rss_multi(
         keyword,
         max_articles,
         locales,
@@ -513,18 +318,6 @@ def _decode_cbm_batchexecute(
             pass
 
     if not be_resp_text:
-        # Fallback: Forward decoding request to Cloudflare Worker Edge
-        try:
-            worker_base = os.getenv("CLOUDFLARE_WORKER_URL", "https://qt-vandungdev.dungnguyen2661.workers.dev").rstrip("/")
-            cf_url = f"{worker_base}/decode"
-            params = {"url": f"https://news.google.com/rss/articles/{base64_str}"}
-            w_resp = requests.get(cf_url, params=params, timeout=timeout)
-            if w_resp.status_code == 200:
-                data = w_resp.json()
-                if data.get("status") and data.get("decoded_url"):
-                    return data["decoded_url"]
-        except Exception as e:
-            print(f"[decode] Cloudflare Worker Edge fallback notice: {e}")
         return None
 
     try:
@@ -544,15 +337,9 @@ def _decode_once(
     proxy: str | None = None,
     timeout: int = TIMEOUT,
 ) -> tuple[str | None, str]:
-    """Single attempt to decode Google News or Bing News URL using multi-strategy cascading resolution."""
+    """Single attempt to decode Google News URL using multi-strategy cascading resolution."""
     if not google_url:
         return None, "empty_url"
-
-    # Bing News Direct URL extraction (0ms)
-    if "bing.com" in google_url:
-        extracted = extract_bing_publisher_url(google_url)
-        if extracted and "bing.com" not in extracted:
-            return extracted, "direct_bing"
 
     # Direct publisher URL already provided
     if "news.google.com" not in google_url and "google.com" not in google_url:
@@ -562,19 +349,6 @@ def _decode_once(
     direct = _extract_cbm_direct(google_url)
     if direct:
         return direct, "direct_b64"
-
-    # Strategy 1: Delegate decoding to Cloudflare Worker Edge Gateway (Clean IP, Zero 429)
-    worker_base = os.getenv("CLOUDFLARE_WORKER_URL", CLOUDFLARE_WORKER_URL)
-    if worker_base:
-        try:
-            cf_url = f"{worker_base.rstrip('/')}/decode"
-            w_resp = (session or requests).get(cf_url, params={"url": google_url}, timeout=timeout)
-            if w_resp.status_code == 200:
-                cf_data = w_resp.json()
-                if cf_data.get("status") and cf_data.get("decoded_url"):
-                    return cf_data["decoded_url"], "cloudflare_worker"
-        except Exception as e:
-            print(f"[decode] Cloudflare Worker Edge notice: {e}")
 
     # Extract base64 token for local fallback strategies
     try:
@@ -651,8 +425,10 @@ def decode_publisher_url(
     Multi-strategy decoder with automatic retries: CBM google_url -> publisher_url.
     Try the `retries` again (default 2 times, total 3 attempts) if it fails.
     """
-    if not google_url or "news.google.com" not in google_url:
-        return None, "not_google_url"
+    if not google_url:
+        return None, "empty_url"
+    if "news.google.com" not in google_url and "google.com" not in google_url:
+        return google_url, "direct"
 
     last_status = "decode_failed"
     for attempt in range(retries + 1):

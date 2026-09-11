@@ -22,8 +22,6 @@ from crawler.config import (
 from crawler.discovery import (
     decode_publisher_url,
     discover_articles,
-    fetch_bing_rss_multi,
-    fetch_rss_multi,
 )
 from crawler.images import download_images, extract_image_urls
 from crawler.naming import format_article_id, generate_run_tag
@@ -322,27 +320,6 @@ def crawl_google_news(
     processed_articles = [a for a in articles if a.get("status")]
     processed_articles.sort(key=lambda a: a.get("order", 0))
     decode_ok = sum(1 for a in processed_articles if a.get("publisher_url"))
-
-    # If provider is "auto", we had articles discovered from Google, but ALL failed to decode (e.g. Render datacenter 429 block)
-    if provider.lower() == "auto" and articles and decode_ok == 0 and not interrupted:
-        print("[crawl] [auto-fallback] Google News links failed to decode (datacenter IP block). Falling back to Bing News engine...")
-        return crawl_google_news(
-            keyword,
-            max_articles=max_articles,
-            output_dir=output_dir,
-            workers=workers,
-            proxy=proxy,
-            rotate_ua=rotate_ua,
-            lang=lang,
-            time_window=time_window,
-            timeout=timeout,
-            resume=False,
-            show_progress=show_progress,
-            storage=backend,
-            job_id=effective_job_id,
-            timezone=timezone,
-            provider="bing",
-        )
 
     alive_cnt = sum(1 for a in processed_articles if a.get("http_code") == 200)
     ok = sum(1 for a in processed_articles if " | ok |" in str(a.get("status", "")))

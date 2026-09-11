@@ -94,24 +94,3 @@ GET {{base_url}}/api/v1/jobs/{{job_id}}/download/jsonl
 
 ###
 
-### ====================================================================
-### CLOUDFLARE WORKER EDGE ENDPOINT TESTS
-### ====================================================================
-
-### 10. Cloudflare Worker - Healthcheck
-# @name worker_healthcheck
-GET {{worker_url}}/health
-Accept: application/json
-
-###
-
-### 11. Cloudflare Worker - Trigger Crawl (Forwarding to FastAPI Backend)
-# @name worker_trigger
-POST {{worker_url}}/trigger
-Content-Type: application/json
-X-API-Key: {{api_key}}
-
-{
-  "keyword": "AI News",
-  "max_articles": 3
-}

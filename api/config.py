@@ -29,9 +29,8 @@ class Settings(BaseSettings):
     DEFAULT_SHOW_PROGRESS: bool = False
     DEFAULT_STORAGE_MODE: str = "google"
     DEFAULT_TIMEZONE: str = "Asia/Ho_Chi_Minh"
-    DEFAULT_PROVIDER: str = "auto"
+    DEFAULT_PROVIDER: str = "google"
     CRON_HEARTBEAT_URL: str | None = None
-    CLOUDFLARE_WORKER_URL: str | None = "https://qt-vandungdev.dungnguyen2661.workers.dev"
 
     STORAGE_DIR: str = "storage"
     JOBS_METADATA_DIR: str = "storage/jobs"
