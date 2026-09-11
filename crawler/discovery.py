@@ -124,15 +124,14 @@ def fetch_rss_multi(
 
     all_articles: list[dict] = []
     seen_keys: set[str] = set()
-    per_locale_limit = max(1, (max_articles + len(locales) - 1) // len(locales))
-
     for loc in locales:
-        if len(all_articles) >= max_articles:
+        remaining = max_articles - len(all_articles)
+        if remaining <= 0:
             break
         try:
             fetched = fetch_rss(
                 keyword=keyword,
-                max_articles=per_locale_limit,
+                max_articles=remaining,
                 locale=loc,
                 time_window=time_window,
                 session=session,
@@ -292,43 +291,50 @@ def _decode_cbm_batchexecute(
     be_data = f"f.req={quote(json.dumps([[payload]]))}"
 
     be_resp_text: str | None = None
-    if c_session is not None:
-        try:
-            be_resp = c_session.post(be_url, headers=be_headers, data=be_data, timeout=timeout, proxies=proxies)
-            if be_resp.status_code == 200:
-                be_resp_text = be_resp.text
-            else:
-                print(f"[decode] batchexecute c_session status: {be_resp.status_code}")
-        except Exception as e:
-            print(f"[decode] batchexecute c_session error: {e}")
-    elif curl_requests is not None:
-        try:
-            be_resp = curl_requests.post(be_url, headers=be_headers, data=be_data, impersonate="chrome", timeout=timeout, proxies=proxies)
-            if be_resp.status_code == 200:
-                be_resp_text = be_resp.text
-        except Exception:
-            pass
-
-    if not be_resp_text:
-        try:
-            be_resp = requests.post(be_url, headers=be_headers, data=be_data, timeout=timeout, proxies=proxies)
-            if be_resp.status_code == 200:
-                be_resp_text = be_resp.text
-        except Exception:
-            pass
-
-    if not be_resp_text:
-        return None
-
     try:
-        parsed_data = json.loads(be_resp_text.split("\n\n")[1])[:-2]
-        decoded_url = json.loads(parsed_data[0][2])[1]
-        if decoded_url and "google.com" not in decoded_url and "google." not in decoded_url:
-            return decoded_url
-    except Exception:
-        pass
+        if c_session is not None:
+            try:
+                be_resp = c_session.post(be_url, headers=be_headers, data=be_data, timeout=timeout, proxies=proxies)
+                if be_resp.status_code == 200:
+                    be_resp_text = be_resp.text
+                else:
+                    print(f"[decode] batchexecute c_session status: {be_resp.status_code}")
+            except Exception as e:
+                print(f"[decode] batchexecute c_session error: {e}")
+        elif curl_requests is not None:
+            try:
+                be_resp = curl_requests.post(be_url, headers=be_headers, data=be_data, impersonate="chrome", timeout=timeout, proxies=proxies)
+                if be_resp.status_code == 200:
+                    be_resp_text = be_resp.text
+            except Exception:
+                pass
 
-    return None
+        if not be_resp_text:
+            try:
+                be_resp = requests.post(be_url, headers=be_headers, data=be_data, timeout=timeout, proxies=proxies)
+                if be_resp.status_code == 200:
+                    be_resp_text = be_resp.text
+            except Exception:
+                pass
+
+        if not be_resp_text:
+            return None
+
+        try:
+            parsed_data = json.loads(be_resp_text.split("\n\n")[1])[:-2]
+            decoded_url = json.loads(parsed_data[0][2])[1]
+            if decoded_url and "google.com" not in decoded_url and "google." not in decoded_url:
+                return decoded_url
+        except Exception:
+            pass
+
+        return None
+    finally:
+        if c_session is not None:
+            try:
+                c_session.close()
+            except Exception:
+                pass
 
 
 def _decode_once(
