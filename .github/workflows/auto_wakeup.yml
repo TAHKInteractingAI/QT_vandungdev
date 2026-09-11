@@ -1,0 +1,33 @@
+name: Auto Wake Up Render (Scheduled)
+
+on:
+  schedule:
+    # 05:55 AM Giờ Việt Nam (UTC+7) = 22:55 UTC
+    - cron: '55 22 * * *'
+    # 11:25 AM Giờ Việt Nam (UTC+7) = 04:25 UTC (ca trưa)
+    - cron: '25 4 * * *'
+    # 16:55 PM Giờ Việt Nam (UTC+7) = 09:55 UTC (ca chiều)
+    - cron: '55 9 * * *'
+
+jobs:
+  auto-wake-up:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Wake Up Signal to Render
+        run: |
+          URL="https://crawler-bot-pf33.onrender.com/health"
+          echo "Bắt đầu tự động đánh thức Render theo lịch: $URL"
+          
+          for i in {1..4}; do
+            echo "Lần $i: Đang ping $URL..."
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 35 "$URL" || true)
+            echo "HTTP Status: $STATUS"
+            
+            if [ "$STATUS" -eq 200 ]; then
+              echo "SUCCESS: Render server is awake and healthy!"
+              exit 0
+            fi
+            
+            echo "Server is still waking up. Waiting 10 seconds before next ping..."
+            sleep 10
+          done
