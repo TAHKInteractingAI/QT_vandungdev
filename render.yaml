@@ -5,7 +5,7 @@ services:
     region: singapore
     plan: free
     buildCommand: "pip install uv && uv sync --frozen --no-dev"
-    startCommand: "uv run uvicorn api.app:app --host 0.0.0.0 --port $PORT"
+    startCommand: "uv run uvicorn crawler.api.app:app --host 0.0.0.0 --port $PORT"
     healthCheckPath: /health
     autoDeploy: true
     envVars:
