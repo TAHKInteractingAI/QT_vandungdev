@@ -1,5 +1,5 @@
 from fastapi import Header, HTTPException, Query, status
-from api.config import settings
+from crawler.api.config import settings
 
 
 async def verify_api_key(

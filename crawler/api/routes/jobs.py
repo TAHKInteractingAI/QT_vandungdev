@@ -1,7 +1,7 @@
 from pathlib import Path
 from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import FileResponse
-from api.services.job_manager import job_manager
+from crawler.api.services.job_manager import job_manager
 
 router = APIRouter(prefix="/api/v1/jobs", tags=["Jobs"])
 

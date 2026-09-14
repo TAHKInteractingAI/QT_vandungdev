@@ -6,7 +6,7 @@ from typing import Any
 
 import orjson
 
-from api.config import settings
+from crawler.api.config import settings
 from crawler.core import crawl_google_news
 
 

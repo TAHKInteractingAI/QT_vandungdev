@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import crawl, health, jobs
+from crawler.api.routes import crawl, health, jobs
 
 app = FastAPI(
     title="Google News Crawler API",

@@ -120,7 +120,7 @@ class GoogleCloudStorageBackend(BaseStorageBackend):
         if not resolved_sa_path or not Path(resolved_sa_path).exists():
             raise FileNotFoundError(
                 "Neither valid token.json (OAuth2 User) nor Service Account credentials JSON found. "
-                "Run `python scripts/auth_google_drive.py`, upload secret file on Render, or provide service_account.json."
+                "Run `python crawler/scripts/auth_google_drive.py`, upload secret file on Render, or provide service_account.json."
             )
 
         print(f"[GoogleStorage] Authenticated using Service Account: {resolved_sa_path}")

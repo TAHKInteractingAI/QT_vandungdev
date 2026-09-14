@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from api.config import settings
-from api.schemas.crawl import CrawlJobResponse, CrawlTriggerRequest
-from api.security import verify_api_key
-from api.services.job_manager import job_manager
+from crawler.api.config import settings
+from crawler.api.schemas.crawl import CrawlJobResponse, CrawlTriggerRequest
+from crawler.api.security import verify_api_key
+from crawler.api.services.job_manager import job_manager
 
 router = APIRouter(prefix="/api/v1/crawl", tags=["Crawl"])
 

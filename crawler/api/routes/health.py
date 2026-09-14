@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from fastapi import APIRouter
-from api.schemas.health import HealthResponse
-from api.services.job_manager import job_manager
+from crawler.api.schemas.health import HealthResponse
+from crawler.api.services.job_manager import job_manager
 
 router = APIRouter(tags=["Health"])
 
