@@ -6,7 +6,7 @@ uv run pytest tests/automated/ -v
 
 echo ""
 echo "=== 2. LAUNCHING LOCAL FASTAPI SERVER IN BACKGROUND ==="
-uv run python run_server.py > /tmp/fastapi_test.log 2>&1 &
+uv run python main.py > /tmp/fastapi_test.log 2>&1 &
 SERVER_PID=$!
 echo "-> Server PID: $SERVER_PID"
 

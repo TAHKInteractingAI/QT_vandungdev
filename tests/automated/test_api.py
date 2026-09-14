@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
-from api.app import app
-from api.config import settings
+from crawler.api.app import app
+from crawler.api.config import settings
 
 client = TestClient(app)
 
@@ -63,13 +63,14 @@ def test_trigger_authorized_with_full_cli_params():
 def test_trigger_custom_timezone_get():
     """Verify triggering job with custom timezone (e.g. UTC, Asia/Tokyo) via GET/query."""
     import time
-    from api.services.job_manager import job_manager
+    from crawler.api.services.job_manager import job_manager
 
     # Wait for previous background job to finish if needed
-    for _ in range(60):
+    for _ in range(120):
         if not job_manager.is_running():
             break
         time.sleep(0.5)
+    assert not job_manager.is_running(), "Previous background job took too long to finish"
 
     headers = {"X-API-Key": settings.CRON_API_KEY}
     res = client.get("/api/v1/crawl/trigger?keyword=TimezoneTest&max=1&tz=UTC", headers=headers)
@@ -136,13 +137,14 @@ def test_download_json_verification():
 def test_trigger_with_ping_url():
     """Verify triggering job with ping_url via POST and GET query param."""
     import time
-    from api.services.job_manager import job_manager
+    from crawler.api.services.job_manager import job_manager
 
     # Wait for previous background job to finish if needed
-    for _ in range(30):
+    for _ in range(120):
         if not job_manager.is_running():
             break
         time.sleep(0.5)
+    assert not job_manager.is_running(), "Previous background job took too long to finish"
 
     headers = {"X-API-Key": settings.CRON_API_KEY}
     test_ping = "https://cron-job.org/ping/test-uuid-12345"
