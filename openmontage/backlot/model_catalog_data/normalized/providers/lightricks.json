@@ -1,0 +1,67 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "lightricks",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "lightricks/ltx-2.5/fast",
+      "label": "Lightricks / Ltx 2.5 / Fast",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "lightricks/ltx-2.5/text-to-video/fast",
+        "image_to_video": "lightricks/ltx-2.5/image-to-video/fast"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/lightricks/ltx-2.5/text-to-video/fast",
+        "https://fal.ai/models/lightricks/ltx-2.5/image-to-video/fast"
+      ],
+      "origin_provider": "lightricks",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "lightricks/ltx-2.5/pro",
+      "label": "Lightricks / Ltx 2.5 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "lightricks/ltx-2.5/text-to-video/pro",
+        "image_to_video": "lightricks/ltx-2.5/image-to-video/pro"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/lightricks/ltx-2.5/text-to-video/pro",
+        "https://fal.ai/models/lightricks/ltx-2.5/image-to-video/pro"
+      ],
+      "origin_provider": "lightricks",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

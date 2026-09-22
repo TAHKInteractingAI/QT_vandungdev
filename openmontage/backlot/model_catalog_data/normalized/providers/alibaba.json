@@ -1,0 +1,151 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "alibaba",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "alibaba/happy-horse",
+      "label": "Alibaba / Happy Horse",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "alibaba/happy-horse/image-to-video",
+        "text_to_video": "alibaba/happy-horse/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/alibaba/happy-horse/image-to-video",
+        "https://fal.ai/models/alibaba/happy-horse/text-to-video"
+      ],
+      "origin_provider": "alibaba",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "alibaba/happy-horse/v1.1",
+      "label": "Alibaba / Happy Horse / V1.1",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "alibaba/happy-horse/v1.1/image-to-video",
+        "text_to_video": "alibaba/happy-horse/v1.1/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/alibaba/happy-horse/v1.1/image-to-video",
+        "https://fal.ai/models/alibaba/happy-horse/v1.1/text-to-video"
+      ],
+      "origin_provider": "alibaba",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "alibaba/qwen-image-3",
+      "label": "Alibaba / Qwen Image 3",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "alibaba/qwen-image-3/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/alibaba/qwen-image-3/text-to-image"
+      ],
+      "origin_provider": "alibaba",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "alibaba/wan-3.0",
+      "label": "Alibaba / Wan 3.0",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "alibaba/wan-3.0/image-to-video",
+        "text_to_video": "alibaba/wan-3.0/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/alibaba/wan-3.0/image-to-video",
+        "https://fal.ai/models/alibaba/wan-3.0/text-to-video"
+      ],
+      "origin_provider": "alibaba",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "alibaba/wan-3.0-prime",
+      "label": "Alibaba / Wan 3.0 Prime",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "alibaba/wan-3.0-prime/text-to-video",
+        "image_to_video": "alibaba/wan-3.0-prime/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/alibaba/wan-3.0-prime/text-to-video",
+        "https://fal.ai/models/alibaba/wan-3.0-prime/image-to-video"
+      ],
+      "origin_provider": "alibaba",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

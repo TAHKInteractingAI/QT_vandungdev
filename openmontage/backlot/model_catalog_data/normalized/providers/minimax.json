@@ -1,0 +1,397 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "minimax",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "fal-ai/minimax/hailuo-02-fast",
+      "label": "Fal Ai / Minimax / Hailuo 02 Fast",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/minimax/hailuo-02-fast/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/minimax/hailuo-02-fast/image-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/minimax/hailuo-02/pro",
+      "label": "Minimax / Hailuo 02 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/minimax/hailuo-02/pro/image-to-video",
+        "text_to_video": "fal-ai/minimax/hailuo-02/pro/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/minimax/hailuo-02/pro/image-to-video",
+        "https://fal.ai/models/fal-ai/minimax/hailuo-02/pro/text-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/minimax/hailuo-02/standard",
+      "label": "Minimax / Hailuo 02 / Standard",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/minimax/hailuo-02/standard/image-to-video",
+        "text_to_video": "fal-ai/minimax/hailuo-02/standard/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/minimax/hailuo-02/standard/image-to-video",
+        "https://fal.ai/models/fal-ai/minimax/hailuo-02/standard/text-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/minimax/hailuo-2.3-fast/pro",
+      "label": "Minimax / Hailuo 2.3 Fast / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/minimax/hailuo-2.3-fast/pro/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/minimax/hailuo-2.3-fast/pro/image-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/minimax/hailuo-2.3-fast/standard",
+      "label": "Minimax / Hailuo 2.3 Fast / Standard",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/minimax/hailuo-2.3-fast/standard/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/minimax/hailuo-2.3-fast/standard/image-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/minimax/hailuo-2.3/pro",
+      "label": "Minimax / Hailuo 2.3 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/minimax/hailuo-2.3/pro/image-to-video",
+        "text_to_video": "fal-ai/minimax/hailuo-2.3/pro/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/minimax/hailuo-2.3/pro/image-to-video",
+        "https://fal.ai/models/fal-ai/minimax/hailuo-2.3/pro/text-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/minimax/hailuo-2.3/standard",
+      "label": "Minimax / Hailuo 2.3 / Standard",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/minimax/hailuo-2.3/standard/image-to-video",
+        "text_to_video": "fal-ai/minimax/hailuo-2.3/standard/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/minimax/hailuo-2.3/standard/image-to-video",
+        "https://fal.ai/models/fal-ai/minimax/hailuo-2.3/standard/text-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/minimax/video-01",
+      "label": "Fal Ai / Minimax / Video 01",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/minimax/video-01/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/minimax/video-01/image-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/minimax/video-01-director",
+      "label": "Fal Ai / Minimax / Video 01 Director",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/minimax/video-01-director/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/minimax/video-01-director/image-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/minimax/video-01-live",
+      "label": "Fal Ai / Minimax / Video 01 Live",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/minimax/video-01-live/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/minimax/video-01-live/image-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "minimax/h3",
+      "label": "Minimax / H3",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "minimax/h3/image-to-video",
+        "text_to_video": "minimax/h3/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/minimax/h3/image-to-video",
+        "https://fal.ai/models/minimax/h3/text-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "minimax/h3-max",
+      "label": "Minimax / H3 Max",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "minimax/h3-max/image-to-video",
+        "text_to_video": "minimax/h3-max/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/minimax/h3-max/image-to-video",
+        "https://fal.ai/models/minimax/h3-max/text-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "minimax/h3-max-turbo",
+      "label": "Minimax / H3 Max Turbo",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "minimax/h3-max-turbo/text-to-video",
+        "image_to_video": "minimax/h3-max-turbo/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/minimax/h3-max-turbo/text-to-video",
+        "https://fal.ai/models/minimax/h3-max-turbo/image-to-video"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "minimax/h3/lora",
+      "label": "Minimax / H3 / Lora",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "minimax/h3/text-to-video/lora",
+        "image_to_video": "minimax/h3/image-to-video/lora"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/minimax/h3/text-to-video/lora",
+        "https://fal.ai/models/minimax/h3/image-to-video/lora"
+      ],
+      "origin_provider": "minimax",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

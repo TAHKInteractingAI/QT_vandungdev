@@ -1,0 +1,33 @@
+name: news-video
+version: "1.0"
+description: Local-only bilingual news explainer with source-first planning and Google media APIs.
+category: custom
+stability: beta
+default_checkpoint_policy: guided
+
+orchestration:
+  mode: direct-tool
+  budget_default_usd: 5.00
+  max_wall_time_minutes: 30
+
+extensions:
+  custom_tools: true
+
+stages:
+  - name: plan
+    produces: [manifest]
+    required_tools: [news_video]
+    checkpoint_required: true
+    human_approval_default: true
+    review_focus:
+      - Sources support the narration claims
+      - Preset, language, scene mix, and predicted media cost are acceptable
+  - name: render
+    required_artifacts_in: [manifest]
+    produces: [render_report]
+    required_tools: [news_video]
+    checkpoint_required: false
+    human_approval_default: false
+    review_focus:
+      - Final output is local only
+      - Captions, narration, aspect ratio, and duration are correct

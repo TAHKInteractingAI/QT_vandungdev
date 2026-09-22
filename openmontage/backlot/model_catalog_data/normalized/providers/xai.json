@@ -1,0 +1,119 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "xai",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "xai/grok-imagine-image/quality",
+      "label": "Xai / Grok Imagine Image / Quality",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "xai/grok-imagine-image/quality/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/xai/grok-imagine-image/quality/text-to-image"
+      ],
+      "origin_provider": "xai",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "xai/grok-imagine-image/v2.0",
+      "label": "Xai / Grok Imagine Image / V2.0",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "xai/grok-imagine-image/v2.0/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/xai/grok-imagine-image/v2.0/text-to-image"
+      ],
+      "origin_provider": "xai",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "xai/grok-imagine-video",
+      "label": "Xai / Grok Imagine Video",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "xai/grok-imagine-video/image-to-video",
+        "text_to_video": "xai/grok-imagine-video/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/xai/grok-imagine-video/image-to-video",
+        "https://fal.ai/models/xai/grok-imagine-video/text-to-video"
+      ],
+      "origin_provider": "xai",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "xai/grok-imagine-video/v1.5",
+      "label": "Xai / Grok Imagine Video / V1.5",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "xai/grok-imagine-video/v1.5/text-to-video",
+        "image_to_video": "xai/grok-imagine-video/v1.5/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/xai/grok-imagine-video/v1.5/text-to-video",
+        "https://fal.ai/models/xai/grok-imagine-video/v1.5/image-to-video"
+      ],
+      "origin_provider": "xai",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "nvidia",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "nvidia/cosmos-3-super",
+      "label": "Nvidia / Cosmos 3 Super",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_image",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "nvidia/cosmos-3-super/image-to-video",
+        "text_to_image": "nvidia/cosmos-3-super/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/nvidia/cosmos-3-super/image-to-video",
+        "https://fal.ai/models/nvidia/cosmos-3-super/text-to-image"
+      ],
+      "origin_provider": "nvidia",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "google",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "google/gemini-omni-flash",
+      "label": "Google / Gemini Omni Flash",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "google/gemini-omni-flash/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/google/gemini-omni-flash/image-to-video"
+      ],
+      "origin_provider": "google",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "google/gemini-omni-flash/v1.1",
+      "label": "Google / Gemini Omni Flash / V1.1",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "google/gemini-omni-flash/v1.1/text-to-video",
+        "image_to_video": "google/gemini-omni-flash/v1.1/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/google/gemini-omni-flash/v1.1/text-to-video",
+        "https://fal.ai/models/google/gemini-omni-flash/v1.1/image-to-video"
+      ],
+      "origin_provider": "google",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

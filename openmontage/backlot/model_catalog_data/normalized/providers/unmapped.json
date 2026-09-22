@@ -1,0 +1,2554 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "unmapped",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "argil/avatars",
+      "label": "Argil / Avatars",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "argil/avatars/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/argil/avatars/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/bernini-r",
+      "label": "Fal Ai / Bernini R",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/bernini-r/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/bernini-r/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/cogvideox-5b",
+      "label": "Fal Ai / Cogvideox 5B",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/cogvideox-5b/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/cogvideox-5b/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/cosmos-predict-2.5",
+      "label": "Fal Ai / Cosmos Predict 2.5",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/cosmos-predict-2.5/image-to-video",
+        "text_to_video": "fal-ai/cosmos-predict-2.5/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/cosmos-predict-2.5/image-to-video",
+        "https://fal.ai/models/fal-ai/cosmos-predict-2.5/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/cosmos-predict-2.5/distilled",
+      "label": "Fal Ai / Cosmos Predict 2.5 / Distilled",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/cosmos-predict-2.5/distilled/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/cosmos-predict-2.5/distilled/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/decart/lucy-5b",
+      "label": "Fal Ai / Decart / Lucy 5B",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/decart/lucy-5b/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/decart/lucy-5b/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/emu-3.5-image",
+      "label": "Fal Ai / Emu 3.5 Image",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/emu-3.5-image/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/emu-3.5-image/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/fast-animatediff",
+      "label": "Fal Ai / Fast Animatediff",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/fast-animatediff/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/fast-animatediff/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/fast-animatediff/turbo",
+      "label": "Fal Ai / Fast Animatediff / Turbo",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/fast-animatediff/turbo/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/fast-animatediff/turbo/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/fast-svd",
+      "label": "Fal Ai / Fast Svd",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/fast-svd/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/fast-svd/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/fast-svd-lcm",
+      "label": "Fal Ai / Fast Svd Lcm",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/fast-svd-lcm/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/fast-svd-lcm/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/flux-kontext-lora",
+      "label": "Fal Ai / Flux Kontext Lora",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/flux-kontext-lora/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/flux-kontext-lora/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/flux-pro/kontext",
+      "label": "Fal Ai / Flux Pro / Kontext",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/flux-pro/kontext/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/flux-pro/kontext/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/flux-pro/kontext/max",
+      "label": "Flux Pro / Kontext / Max",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/flux-pro/kontext/max/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/flux-pro/kontext/max/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/gpt-image-1",
+      "label": "Fal Ai / Gpt Image 1",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/gpt-image-1/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/gpt-image-1/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/hunyuan-image/v2.1",
+      "label": "Fal Ai / Hunyuan Image / V2.1",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/hunyuan-image/v2.1/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/hunyuan-image/v2.1/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/hunyuan-image/v3",
+      "label": "Fal Ai / Hunyuan Image / V3",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/hunyuan-image/v3/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/hunyuan-image/v3/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/hunyuan-image/v3/instruct",
+      "label": "Hunyuan Image / V3 / Instruct",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/hunyuan-image/v3/instruct/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/hunyuan-image/v3/instruct/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/hunyuan-video-v1.5",
+      "label": "Fal Ai / Hunyuan Video V1.5",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/hunyuan-video-v1.5/image-to-video",
+        "text_to_video": "fal-ai/hunyuan-video-v1.5/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/hunyuan-video-v1.5/image-to-video",
+        "https://fal.ai/models/fal-ai/hunyuan-video-v1.5/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/infinity-star",
+      "label": "Fal Ai / Infinity Star",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/infinity-star/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/infinity-star/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kandinsky5",
+      "label": "Fal Ai / Kandinsky5",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/kandinsky5/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kandinsky5/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kandinsky5-pro",
+      "label": "Fal Ai / Kandinsky5 Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/kandinsky5-pro/image-to-video",
+        "text_to_video": "fal-ai/kandinsky5-pro/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kandinsky5-pro/image-to-video",
+        "https://fal.ai/models/fal-ai/kandinsky5-pro/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kandinsky5/distill",
+      "label": "Fal Ai / Kandinsky5 / Distill",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/kandinsky5/text-to-video/distill"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kandinsky5/text-to-video/distill"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-image/o3",
+      "label": "Fal Ai / Kling Image / O3",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/kling-image/o3/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-image/o3/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-image/v3",
+      "label": "Fal Ai / Kling Image / V3",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/kling-image/v3/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-image/v3/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/krea-wan-14b",
+      "label": "Fal Ai / Krea Wan 14B",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/krea-wan-14b/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/krea-wan-14b/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/longcat-video/480p",
+      "label": "Fal Ai / Longcat Video / 480P",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/longcat-video/image-to-video/480p",
+        "text_to_video": "fal-ai/longcat-video/text-to-video/480p"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/longcat-video/image-to-video/480p",
+        "https://fal.ai/models/fal-ai/longcat-video/text-to-video/480p"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/longcat-video/720p",
+      "label": "Fal Ai / Longcat Video / 720P",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/longcat-video/text-to-video/720p",
+        "image_to_video": "fal-ai/longcat-video/image-to-video/720p"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/longcat-video/text-to-video/720p",
+        "https://fal.ai/models/fal-ai/longcat-video/image-to-video/720p"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/longcat-video/distilled/480p",
+      "label": "Longcat Video / Distilled / 480P",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/longcat-video/distilled/image-to-video/480p",
+        "text_to_video": "fal-ai/longcat-video/distilled/text-to-video/480p"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/longcat-video/distilled/image-to-video/480p",
+        "https://fal.ai/models/fal-ai/longcat-video/distilled/text-to-video/480p"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/longcat-video/distilled/720p",
+      "label": "Longcat Video / Distilled / 720P",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/longcat-video/distilled/image-to-video/720p",
+        "text_to_video": "fal-ai/longcat-video/distilled/text-to-video/720p"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/longcat-video/distilled/image-to-video/720p",
+        "https://fal.ai/models/fal-ai/longcat-video/distilled/text-to-video/720p"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2-19b",
+      "label": "Fal Ai / Ltx 2 19B",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/ltx-2-19b/text-to-video",
+        "image_to_video": "fal-ai/ltx-2-19b/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2-19b/text-to-video",
+        "https://fal.ai/models/fal-ai/ltx-2-19b/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2-19b/distilled",
+      "label": "Fal Ai / Ltx 2 19B / Distilled",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-2-19b/distilled/image-to-video",
+        "text_to_video": "fal-ai/ltx-2-19b/distilled/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2-19b/distilled/image-to-video",
+        "https://fal.ai/models/fal-ai/ltx-2-19b/distilled/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2-19b/distilled/lora",
+      "label": "Ltx 2 19B / Distilled / Lora",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-2-19b/distilled/image-to-video/lora",
+        "text_to_video": "fal-ai/ltx-2-19b/distilled/text-to-video/lora"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2-19b/distilled/image-to-video/lora",
+        "https://fal.ai/models/fal-ai/ltx-2-19b/distilled/text-to-video/lora"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2-19b/lora",
+      "label": "Fal Ai / Ltx 2 19B / Lora",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/ltx-2-19b/text-to-video/lora",
+        "image_to_video": "fal-ai/ltx-2-19b/image-to-video/lora"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2-19b/text-to-video/lora",
+        "https://fal.ai/models/fal-ai/ltx-2-19b/image-to-video/lora"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2.3",
+      "label": "Fal Ai / Ltx 2.3",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-2.3/image-to-video",
+        "text_to_video": "fal-ai/ltx-2.3/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2.3/image-to-video",
+        "https://fal.ai/models/fal-ai/ltx-2.3/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2.3-22b",
+      "label": "Fal Ai / Ltx 2.3 22B",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-2.3-22b/image-to-video",
+        "text_to_video": "fal-ai/ltx-2.3-22b/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2.3-22b/image-to-video",
+        "https://fal.ai/models/fal-ai/ltx-2.3-22b/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2.3-22b/distilled",
+      "label": "Fal Ai / Ltx 2.3 22B / Distilled",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-2.3-22b/distilled/image-to-video",
+        "text_to_video": "fal-ai/ltx-2.3-22b/distilled/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2.3-22b/distilled/image-to-video",
+        "https://fal.ai/models/fal-ai/ltx-2.3-22b/distilled/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2.3-22b/distilled/lora",
+      "label": "Ltx 2.3 22B / Distilled / Lora",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-2.3-22b/distilled/image-to-video/lora",
+        "text_to_video": "fal-ai/ltx-2.3-22b/distilled/text-to-video/lora"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2.3-22b/distilled/image-to-video/lora",
+        "https://fal.ai/models/fal-ai/ltx-2.3-22b/distilled/text-to-video/lora"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2.3-22b/lora",
+      "label": "Fal Ai / Ltx 2.3 22B / Lora",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-2.3-22b/image-to-video/lora",
+        "text_to_video": "fal-ai/ltx-2.3-22b/text-to-video/lora"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2.3-22b/image-to-video/lora",
+        "https://fal.ai/models/fal-ai/ltx-2.3-22b/text-to-video/lora"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2.3-quality",
+      "label": "Fal Ai / Ltx 2.3 Quality",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-2.3-quality/image-to-video",
+        "text_to_video": "fal-ai/ltx-2.3-quality/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2.3-quality/image-to-video",
+        "https://fal.ai/models/fal-ai/ltx-2.3-quality/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2.3-quality/lora",
+      "label": "Fal Ai / Ltx 2.3 Quality / Lora",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-2.3-quality/image-to-video/lora",
+        "text_to_video": "fal-ai/ltx-2.3-quality/text-to-video/lora"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2.3-quality/image-to-video/lora",
+        "https://fal.ai/models/fal-ai/ltx-2.3-quality/text-to-video/lora"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-2.3/fast",
+      "label": "Fal Ai / Ltx 2.3 / Fast",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-2.3/image-to-video/fast",
+        "text_to_video": "fal-ai/ltx-2.3/text-to-video/fast"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-2.3/image-to-video/fast",
+        "https://fal.ai/models/fal-ai/ltx-2.3/text-to-video/fast"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-video",
+      "label": "Fal Ai / Ltx Video",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-video/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-video/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltx-video-13b-distilled",
+      "label": "Fal Ai / Ltx Video 13B Distilled",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltx-video-13b-distilled/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltx-video-13b-distilled/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ltxv-13b-098-distilled",
+      "label": "Fal Ai / Ltxv 13B 098 Distilled",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ltxv-13b-098-distilled/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ltxv-13b-098-distilled/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/luma-dream-machine/ray-2",
+      "label": "Fal Ai / Luma Dream Machine / Ray 2",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/luma-dream-machine/ray-2/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/luma-dream-machine/ray-2/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/luma-dream-machine/ray-2-flash",
+      "label": "Fal Ai / Luma Dream Machine / Ray 2 Flash",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/luma-dream-machine/ray-2-flash/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/luma-dream-machine/ray-2-flash/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/magi-distilled",
+      "label": "Fal Ai / Magi Distilled",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/magi-distilled/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/magi-distilled/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/ovi",
+      "label": "Fal Ai / Ovi",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/ovi/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/ovi/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pika/v2.1",
+      "label": "Fal Ai / Pika / V2.1",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/pika/v2.1/text-to-video",
+        "image_to_video": "fal-ai/pika/v2.1/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pika/v2.1/text-to-video",
+        "https://fal.ai/models/fal-ai/pika/v2.1/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pika/v2.2",
+      "label": "Fal Ai / Pika / V2.2",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/pika/v2.2/text-to-video",
+        "image_to_video": "fal-ai/pika/v2.2/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pika/v2.2/text-to-video",
+        "https://fal.ai/models/fal-ai/pika/v2.2/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pika/v2/turbo",
+      "label": "Pika / V2 / Turbo",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/pika/v2/turbo/text-to-video",
+        "image_to_video": "fal-ai/pika/v2/turbo/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pika/v2/turbo/text-to-video",
+        "https://fal.ai/models/fal-ai/pika/v2/turbo/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pixverse/c1",
+      "label": "Fal Ai / Pixverse / C1",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/pixverse/c1/text-to-video",
+        "image_to_video": "fal-ai/pixverse/c1/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pixverse/c1/text-to-video",
+        "https://fal.ai/models/fal-ai/pixverse/c1/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pixverse/v3.5",
+      "label": "Fal Ai / Pixverse / V3.5",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/pixverse/v3.5/text-to-video",
+        "image_to_video": "fal-ai/pixverse/v3.5/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pixverse/v3.5/text-to-video",
+        "https://fal.ai/models/fal-ai/pixverse/v3.5/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pixverse/v3.5/fast",
+      "label": "Pixverse / V3.5 / Fast",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/pixverse/v3.5/image-to-video/fast",
+        "text_to_video": "fal-ai/pixverse/v3.5/text-to-video/fast"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pixverse/v3.5/image-to-video/fast",
+        "https://fal.ai/models/fal-ai/pixverse/v3.5/text-to-video/fast"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pixverse/v4",
+      "label": "Fal Ai / Pixverse / V4",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/pixverse/v4/image-to-video",
+        "text_to_video": "fal-ai/pixverse/v4/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pixverse/v4/image-to-video",
+        "https://fal.ai/models/fal-ai/pixverse/v4/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pixverse/v4.5",
+      "label": "Fal Ai / Pixverse / V4.5",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/pixverse/v4.5/image-to-video",
+        "text_to_video": "fal-ai/pixverse/v4.5/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pixverse/v4.5/image-to-video",
+        "https://fal.ai/models/fal-ai/pixverse/v4.5/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pixverse/v4.5/fast",
+      "label": "Pixverse / V4.5 / Fast",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/pixverse/v4.5/image-to-video/fast",
+        "text_to_video": "fal-ai/pixverse/v4.5/text-to-video/fast"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pixverse/v4.5/image-to-video/fast",
+        "https://fal.ai/models/fal-ai/pixverse/v4.5/text-to-video/fast"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pixverse/v4/fast",
+      "label": "Pixverse / V4 / Fast",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/pixverse/v4/image-to-video/fast",
+        "text_to_video": "fal-ai/pixverse/v4/text-to-video/fast"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pixverse/v4/image-to-video/fast",
+        "https://fal.ai/models/fal-ai/pixverse/v4/text-to-video/fast"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pixverse/v5",
+      "label": "Fal Ai / Pixverse / V5",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/pixverse/v5/image-to-video",
+        "text_to_video": "fal-ai/pixverse/v5/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pixverse/v5/image-to-video",
+        "https://fal.ai/models/fal-ai/pixverse/v5/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pixverse/v5.5",
+      "label": "Fal Ai / Pixverse / V5.5",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/pixverse/v5.5/image-to-video",
+        "text_to_video": "fal-ai/pixverse/v5.5/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pixverse/v5.5/image-to-video",
+        "https://fal.ai/models/fal-ai/pixverse/v5.5/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pixverse/v5.6",
+      "label": "Fal Ai / Pixverse / V5.6",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/pixverse/v5.6/image-to-video",
+        "text_to_video": "fal-ai/pixverse/v5.6/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pixverse/v5.6/image-to-video",
+        "https://fal.ai/models/fal-ai/pixverse/v5.6/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/pixverse/v6",
+      "label": "Fal Ai / Pixverse / V6",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/pixverse/v6/image-to-video",
+        "text_to_video": "fal-ai/pixverse/v6/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/pixverse/v6/image-to-video",
+        "https://fal.ai/models/fal-ai/pixverse/v6/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/qwen-image-max",
+      "label": "Fal Ai / Qwen Image Max",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/qwen-image-max/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/qwen-image-max/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/sync-lipsync/v3",
+      "label": "Fal Ai / Sync Lipsync / V3",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/sync-lipsync/v3/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/sync-lipsync/v3/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/veo3.1",
+      "label": "Fal Ai / Veo3.1",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/veo3.1/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/veo3.1/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/veo3.1/fast",
+      "label": "Fal Ai / Veo3.1 / Fast",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/veo3.1/fast/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/veo3.1/fast/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/veo3.1/lite",
+      "label": "Fal Ai / Veo3.1 / Lite",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/veo3.1/lite/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/veo3.1/lite/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/vidu",
+      "label": "Fal Ai / Vidu",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/vidu/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/vidu/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/vidu/q1",
+      "label": "Fal Ai / Vidu / Q1",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/vidu/q1/text-to-video",
+        "image_to_video": "fal-ai/vidu/q1/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/vidu/q1/text-to-video",
+        "https://fal.ai/models/fal-ai/vidu/q1/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/vidu/q2",
+      "label": "Fal Ai / Vidu / Q2",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image",
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/vidu/q2/text-to-image",
+        "text_to_video": "fal-ai/vidu/q2/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/vidu/q2/text-to-image",
+        "https://fal.ai/models/fal-ai/vidu/q2/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/vidu/q2/pro",
+      "label": "Vidu / Q2 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/vidu/q2/image-to-video/pro"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/vidu/q2/image-to-video/pro"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/vidu/q2/turbo",
+      "label": "Vidu / Q2 / Turbo",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/vidu/q2/image-to-video/turbo"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/vidu/q2/image-to-video/turbo"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/vidu/q3",
+      "label": "Fal Ai / Vidu / Q3",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/vidu/q3/image-to-video",
+        "text_to_video": "fal-ai/vidu/q3/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/vidu/q3/image-to-video",
+        "https://fal.ai/models/fal-ai/vidu/q3/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/vidu/q3/turbo",
+      "label": "Vidu / Q3 / Turbo",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/vidu/q3/image-to-video/turbo",
+        "text_to_video": "fal-ai/vidu/q3/text-to-video/turbo"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/vidu/q3/image-to-video/turbo",
+        "https://fal.ai/models/fal-ai/vidu/q3/text-to-video/turbo"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/wan-25-preview",
+      "label": "Fal Ai / Wan 25 Preview",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image",
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/wan-25-preview/text-to-image",
+        "text_to_video": "fal-ai/wan-25-preview/text-to-video",
+        "image_to_video": "fal-ai/wan-25-preview/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/wan-25-preview/text-to-image",
+        "https://fal.ai/models/fal-ai/wan-25-preview/text-to-video",
+        "https://fal.ai/models/fal-ai/wan-25-preview/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/wan-pro",
+      "label": "Fal Ai / Wan Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/wan-pro/text-to-video",
+        "image_to_video": "fal-ai/wan-pro/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/wan-pro/text-to-video",
+        "https://fal.ai/models/fal-ai/wan-pro/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/wan/v2.2-5b",
+      "label": "Fal Ai / Wan / V2.2 5B",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image",
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/wan/v2.2-5b/text-to-image",
+        "image_to_video": "fal-ai/wan/v2.2-5b/image-to-video",
+        "text_to_video": "fal-ai/wan/v2.2-5b/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/wan/v2.2-5b/text-to-image",
+        "https://fal.ai/models/fal-ai/wan/v2.2-5b/image-to-video",
+        "https://fal.ai/models/fal-ai/wan/v2.2-5b/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/wan/v2.2-5b/distill",
+      "label": "Wan / V2.2 5B / Distill",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/wan/v2.2-5b/text-to-video/distill"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/wan/v2.2-5b/text-to-video/distill"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/wan/v2.2-5b/fast-wan",
+      "label": "Wan / V2.2 5B / Fast Wan",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/wan/v2.2-5b/text-to-video/fast-wan"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/wan/v2.2-5b/text-to-video/fast-wan"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/wan/v2.2-a14b",
+      "label": "Fal Ai / Wan / V2.2 A14B",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image",
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/wan/v2.2-a14b/text-to-image",
+        "text_to_video": "fal-ai/wan/v2.2-a14b/text-to-video",
+        "image_to_video": "fal-ai/wan/v2.2-a14b/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/wan/v2.2-a14b/text-to-image",
+        "https://fal.ai/models/fal-ai/wan/v2.2-a14b/text-to-video",
+        "https://fal.ai/models/fal-ai/wan/v2.2-a14b/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/wan/v2.2-a14b/lora",
+      "label": "Wan / V2.2 A14B / Lora",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_image",
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/wan/v2.2-a14b/text-to-video/lora",
+        "image_to_video": "fal-ai/wan/v2.2-a14b/image-to-video/lora",
+        "text_to_image": "fal-ai/wan/v2.2-a14b/text-to-image/lora"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/wan/v2.2-a14b/text-to-video/lora",
+        "https://fal.ai/models/fal-ai/wan/v2.2-a14b/image-to-video/lora",
+        "https://fal.ai/models/fal-ai/wan/v2.2-a14b/text-to-image/lora"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/wan/v2.2-a14b/turbo",
+      "label": "Wan / V2.2 A14B / Turbo",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/wan/v2.2-a14b/image-to-video/turbo",
+        "text_to_video": "fal-ai/wan/v2.2-a14b/text-to-video/turbo"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/wan/v2.2-a14b/image-to-video/turbo",
+        "https://fal.ai/models/fal-ai/wan/v2.2-a14b/text-to-video/turbo"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/wan/v2.7",
+      "label": "Fal Ai / Wan / V2.7",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image",
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/wan/v2.7/text-to-image",
+        "text_to_video": "fal-ai/wan/v2.7/text-to-video",
+        "image_to_video": "fal-ai/wan/v2.7/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/wan/v2.7/text-to-image",
+        "https://fal.ai/models/fal-ai/wan/v2.7/text-to-video",
+        "https://fal.ai/models/fal-ai/wan/v2.7/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/wan/v2.7/pro",
+      "label": "Wan / V2.7 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/wan/v2.7/pro/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/wan/v2.7/pro/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "imagineart/imagineart-1.5-preview",
+      "label": "Imagineart / Imagineart 1.5 Preview",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "imagineart/imagineart-1.5-preview/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/imagineart/imagineart-1.5-preview/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "imagineart/imagineart-1.5-pro-preview",
+      "label": "Imagineart / Imagineart 1.5 Pro Preview",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "imagineart/imagineart-1.5-pro-preview/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/imagineart/imagineart-1.5-pro-preview/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "imagineart/imagineart-2.0-preview",
+      "label": "Imagineart / Imagineart 2.0 Preview",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "imagineart/imagineart-2.0-preview/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/imagineart/imagineart-2.0-preview/text-to-image"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "mirage-api/avatar-x",
+      "label": "Mirage Api / Avatar X",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "mirage-api/avatar-x/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/mirage-api/avatar-x/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "veed/avatars",
+      "label": "Veed / Avatars",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "veed/avatars/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/veed/avatars/text-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "wan/v2.6",
+      "label": "Wan / V2.6",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image",
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_image": "wan/v2.6/text-to-image",
+        "text_to_video": "wan/v2.6/text-to-video",
+        "image_to_video": "wan/v2.6/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/wan/v2.6/text-to-image",
+        "https://fal.ai/models/wan/v2.6/text-to-video",
+        "https://fal.ai/models/wan/v2.6/image-to-video"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "wan/v2.6/flash",
+      "label": "Wan / V2.6 / Flash",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "wan/v2.6/image-to-video/flash"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/wan/v2.6/image-to-video/flash"
+      ],
+      "origin_provider": "unmapped",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+<div class="creator-shell">
+  <section class="intro">
+    <div class="eyebrow">TOOLROOM / 01</div>
+    <h1>Give an idea<br><em>some motion.</em></h1>
+    <p>Write the scene. Add a visual anchor when you have one. OpenMontage turns it into a narrated local video — no publishing, no black box.</p>
+  </section>
+
+  <div class="workbench">
+    <section class="panel form-panel">
+      <div class="panel-heading"><div><span class="section-number">01</span><h2>Build a clip</h2></div><span class="tiny-note">GOOGLE API + FFMPEG</span></div>
+      <form id="creatorForm">
+        <fieldset class="operation-fieldset"><legend>What are we making?</legend><div class="operation-grid">
+          <label class="operation-card selected"><input type="radio" name="operation" value="text_to_video" checked><strong>Text to video</strong><small>Prompt to narrated motion</small></label>
+          <label class="operation-card"><input type="radio" name="operation" value="image_to_video"><strong>Image to video</strong><small>Animate your visual anchor</small></label>
+          <label class="operation-card"><input type="radio" name="operation" value="text_to_image"><strong>Text to image</strong><small>Make a still visual</small></label>
+        </div></fieldset>
+        <label class="field-label model-field" for="model">Generation model <span id="modelHint">loading</span></label>
+        <select id="model" name="model" required><option value="">Loading models…</option></select>
+        <label class="field-label" for="prompt">Prompt / story seed <span>required</span></label>
+        <textarea id="prompt" name="prompt" rows="5" required placeholder="A quiet morning market in Hội An after the rain…"></textarea>
+        <div class="field-foot"><span id="promptCount">0 / 2,000</span><span>Describe subject · mood · camera · movement</span></div>
+        <div id="imageField" class="image-field is-hidden">
+          <label class="field-label" for="imageInput">Reference image <span>image to video</span></label>
+          <label class="dropzone" for="imageInput" id="dropzone"><input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp"><span><b>Drop an image here</b><small>PNG, JPG or WEBP · up to 15 MB</small></span></label>
+          <div id="imagePreview" class="image-preview is-hidden"><img alt="Selected reference preview"><div><b id="imageName"></b><small id="imageMeta"></small></div><button type="button" id="removeImage">Remove</button></div>
+        </div>
+        <label class="field-label" for="narration">Narration <span>optional</span></label>
+        <textarea id="narration" name="narration" rows="3" placeholder="Leave empty to narrate the prompt. Vietnamese and English are supported."></textarea>
+        <div class="options-row">
+          <label><span class="field-label">Voice language</span><select id="language" name="language"><option value="vi">Tiếng Việt</option><option value="en">English</option></select></label>
+          <fieldset class="format-group"><legend class="field-label">Output</legend><div class="format-switch"><label><input type="radio" name="preset" value="tiktok" checked><span>Vertical <b>9:16</b></span></label><label><input type="radio" name="preset" value="youtube"><span>Landscape <b>16:9</b></span></label></div></fieldset>
+        </div>
+        <button class="generate-button" id="generateButton" type="submit"><span id="buttonLabel">Generate locally</span></button>
+        <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+    <aside class="panel output-panel">
+      <div class="panel-heading"><div><span class="section-number">02</span><h2>Output</h2></div><span class="status-tag" id="statusTag">READY</span></div>
+      <div class="preview-stage" id="previewStage"><div class="preview-empty"><b>Your result appears here</b><small>Generated files stay on this machine.</small></div></div>
+      <div class="output-meta" id="outputMeta"><div><span>MODEL</span><b id="modelMeta">Loading…</b></div><div><span>FORMAT</span><b id="formatMeta">Vertical · 9:16</b></div><div><span>DELIVERY</span><b>Local file</b></div></div>
+      <div class="result-actions is-hidden" id="resultActions"><a id="downloadLink" class="download-link" download>Download file</a></div>
+    </aside>
+  </div>
+  <section class="process-strip"><span>INPUT</span><b>prompt / text / image</b><span>TOOLS</span><b>Imagen, Veo, Gemini TTS</b><span>OUTPUT</span><b>local MP4 / PNG</b></section>
+</div>

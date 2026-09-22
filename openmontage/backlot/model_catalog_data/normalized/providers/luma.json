@@ -1,0 +1,64 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "luma",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "luma/agent/ray/v3.2",
+      "label": "Agent / Ray / V3.2",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "luma/agent/ray/v3.2/text-to-video",
+        "image_to_video": "luma/agent/ray/v3.2/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/luma/agent/ray/v3.2/text-to-video",
+        "https://fal.ai/models/luma/agent/ray/v3.2/image-to-video"
+      ],
+      "origin_provider": "luma",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "luma/agent/uni-1/v1",
+      "label": "Agent / Uni 1 / V1",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "luma/agent/uni-1/v1/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/luma/agent/uni-1/v1/text-to-image"
+      ],
+      "origin_provider": "luma",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

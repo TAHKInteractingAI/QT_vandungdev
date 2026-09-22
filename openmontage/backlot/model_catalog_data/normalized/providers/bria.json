@@ -1,0 +1,113 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "bria",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "bria/fibo-gen-1.5",
+      "label": "Bria / Fibo Gen 1.5",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "bria/fibo-gen-1.5/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/bria/fibo-gen-1.5/text-to-image"
+      ],
+      "origin_provider": "bria",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/bria/base",
+      "label": "Fal Ai / Bria / Base",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/bria/text-to-image/base"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/bria/text-to-image/base"
+      ],
+      "origin_provider": "bria",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/bria/fast",
+      "label": "Fal Ai / Bria / Fast",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/bria/text-to-image/fast"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/bria/text-to-image/fast"
+      ],
+      "origin_provider": "bria",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/bria/hd",
+      "label": "Fal Ai / Bria / Hd",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/bria/text-to-image/hd"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/bria/text-to-image/hd"
+      ],
+      "origin_provider": "bria",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

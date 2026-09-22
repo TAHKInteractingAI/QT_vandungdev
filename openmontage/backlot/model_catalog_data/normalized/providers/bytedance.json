@@ -1,0 +1,345 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "bytedance",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "bytedance/seedance-2.0",
+      "label": "Bytedance / Seedance 2.0",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "bytedance/seedance-2.0/text-to-video",
+        "image_to_video": "bytedance/seedance-2.0/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/bytedance/seedance-2.0/text-to-video",
+        "https://fal.ai/models/bytedance/seedance-2.0/image-to-video"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "bytedance/seedance-2.0/fast",
+      "label": "Bytedance / Seedance 2.0 / Fast",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "bytedance/seedance-2.0/fast/text-to-video",
+        "image_to_video": "bytedance/seedance-2.0/fast/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/bytedance/seedance-2.0/fast/text-to-video",
+        "https://fal.ai/models/bytedance/seedance-2.0/fast/image-to-video"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "bytedance/seedance-2.0/mini",
+      "label": "Bytedance / Seedance 2.0 / Mini",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "bytedance/seedance-2.0/mini/image-to-video",
+        "text_to_video": "bytedance/seedance-2.0/mini/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/bytedance/seedance-2.0/mini/image-to-video",
+        "https://fal.ai/models/bytedance/seedance-2.0/mini/text-to-video"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "bytedance/seedance-2.0/us",
+      "label": "Bytedance / Seedance 2.0 / Us",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "bytedance/seedance-2.0/us/text-to-video",
+        "image_to_video": "bytedance/seedance-2.0/us/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/bytedance/seedance-2.0/us/text-to-video",
+        "https://fal.ai/models/bytedance/seedance-2.0/us/image-to-video"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "bytedance/seedance-2.5",
+      "label": "Bytedance / Seedance 2.5",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "bytedance/seedance-2.5/image-to-video",
+        "text_to_video": "bytedance/seedance-2.5/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/bytedance/seedance-2.5/image-to-video",
+        "https://fal.ai/models/bytedance/seedance-2.5/text-to-video"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "bytedance/seedream/v5/lite",
+      "label": "Seedream / V5 / Lite",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "bytedance/seedream/v5/lite/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/bytedance/seedream/v5/lite/text-to-image"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "bytedance/seedream/v5/pro",
+      "label": "Seedream / V5 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "bytedance/seedream/v5/pro/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/bytedance/seedream/v5/pro/text-to-image"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/bytedance/seedance/v1.5/pro",
+      "label": "Seedance / V1.5 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/bytedance/seedance/v1.5/pro/text-to-video",
+        "image_to_video": "fal-ai/bytedance/seedance/v1.5/pro/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/bytedance/seedance/v1.5/pro/text-to-video",
+        "https://fal.ai/models/fal-ai/bytedance/seedance/v1.5/pro/image-to-video"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/bytedance/seedance/v1/pro",
+      "label": "Seedance / V1 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/bytedance/seedance/v1/pro/text-to-video",
+        "image_to_video": "fal-ai/bytedance/seedance/v1/pro/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/bytedance/seedance/v1/pro/text-to-video",
+        "https://fal.ai/models/fal-ai/bytedance/seedance/v1/pro/image-to-video"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/bytedance/seedance/v1/pro/fast",
+      "label": "V1 / Pro / Fast",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/bytedance/seedance/v1/pro/fast/image-to-video",
+        "text_to_video": "fal-ai/bytedance/seedance/v1/pro/fast/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/bytedance/seedance/v1/pro/fast/image-to-video",
+        "https://fal.ai/models/fal-ai/bytedance/seedance/v1/pro/fast/text-to-video"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/bytedance/seedream/v4",
+      "label": "Bytedance / Seedream / V4",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/bytedance/seedream/v4/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/bytedance/seedream/v4/text-to-image"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/bytedance/seedream/v4.5",
+      "label": "Bytedance / Seedream / V4.5",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/bytedance/seedream/v4.5/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/bytedance/seedream/v4.5/text-to-image"
+      ],
+      "origin_provider": "bytedance",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

@@ -1,0 +1,3287 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "fetched_at": "2026-09-17T02:01:36.408Z",
+  "total_matching_models": 536,
+  "page_size": 48,
+  "pages_scraped": 12,
+  "page_stats": [
+    {
+      "page": 1,
+      "html_bytes": 813329,
+      "card_count": 48
+    },
+    {
+      "page": 2,
+      "html_bytes": 793400,
+      "card_count": 48
+    },
+    {
+      "page": 3,
+      "html_bytes": 772569,
+      "card_count": 48
+    },
+    {
+      "page": 4,
+      "html_bytes": 751924,
+      "card_count": 48
+    },
+    {
+      "page": 5,
+      "html_bytes": 730450,
+      "card_count": 48
+    },
+    {
+      "page": 6,
+      "html_bytes": 733864,
+      "card_count": 48
+    },
+    {
+      "page": 7,
+      "html_bytes": 724184,
+      "card_count": 48
+    },
+    {
+      "page": 8,
+      "html_bytes": 727532,
+      "card_count": 48
+    },
+    {
+      "page": 9,
+      "html_bytes": 725274,
+      "card_count": 48
+    },
+    {
+      "page": 10,
+      "html_bytes": 731987,
+      "card_count": 48
+    },
+    {
+      "page": 11,
+      "html_bytes": 729370,
+      "card_count": 48
+    },
+    {
+      "page": 12,
+      "html_bytes": 435859,
+      "card_count": 8
+    }
+  ],
+  "models": [
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/us/text-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/us/text-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/us/reference-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/us/reference-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/us/image-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/us/image-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "creatify",
+      "remote_model": "creatify/boreal",
+      "detail_url": "https://fal.ai/models/creatify/boreal",
+      "discovered_page": 1
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3-max/camera-controls",
+      "detail_url": "https://fal.ai/models/minimax/h3-max/camera-controls",
+      "discovered_page": 1
+    },
+    {
+      "provider": "openai",
+      "remote_model": "openai/gpt-image-2.5/sunburst/text-to-image",
+      "detail_url": "https://fal.ai/models/openai/gpt-image-2.5/sunburst/text-to-image",
+      "discovered_page": 1
+    },
+    {
+      "provider": "openai",
+      "remote_model": "openai/gpt-image-2.5/flare/text-to-image",
+      "detail_url": "https://fal.ai/models/openai/gpt-image-2.5/flare/text-to-image",
+      "discovered_page": 1
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3-max/director",
+      "detail_url": "https://fal.ai/models/minimax/h3-max/director",
+      "discovered_page": 1
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3-max-turbo/text-to-video",
+      "detail_url": "https://fal.ai/models/minimax/h3-max-turbo/text-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3-max-turbo/image-to-video",
+      "detail_url": "https://fal.ai/models/minimax/h3-max-turbo/image-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3-max/reference-to-video",
+      "detail_url": "https://fal.ai/models/minimax/h3-max/reference-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "google",
+      "remote_model": "google/gemini-omni-flash/v1.1/text-to-video",
+      "detail_url": "https://fal.ai/models/google/gemini-omni-flash/v1.1/text-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "google",
+      "remote_model": "google/gemini-omni-flash/v1.1/image-to-video",
+      "detail_url": "https://fal.ai/models/google/gemini-omni-flash/v1.1/image-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "google",
+      "remote_model": "google/gemini-omni-flash/v1.1/reference-to-video",
+      "detail_url": "https://fal.ai/models/google/gemini-omni-flash/v1.1/reference-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "meta",
+      "remote_model": "meta/muse-image/text-to-image",
+      "detail_url": "https://fal.ai/models/meta/muse-image/text-to-image",
+      "discovered_page": 1
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3-max/image-to-video",
+      "detail_url": "https://fal.ai/models/minimax/h3-max/image-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3-max/text-to-video",
+      "detail_url": "https://fal.ai/models/minimax/h3-max/text-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "recraft",
+      "remote_model": "recraft/v4/style/text-to-image",
+      "detail_url": "https://fal.ai/models/recraft/v4/style/text-to-image",
+      "discovered_page": 1
+    },
+    {
+      "provider": "recraft",
+      "remote_model": "recraft/v4/style/text-to-vector",
+      "detail_url": "https://fal.ai/models/recraft/v4/style/text-to-vector",
+      "discovered_page": 1
+    },
+    {
+      "provider": "recraft",
+      "remote_model": "recraft/v4/style/pro/text-to-image",
+      "detail_url": "https://fal.ai/models/recraft/v4/style/pro/text-to-image",
+      "discovered_page": 1
+    },
+    {
+      "provider": "recraft",
+      "remote_model": "recraft/v4/style/pro/text-to-vector",
+      "detail_url": "https://fal.ai/models/recraft/v4/style/pro/text-to-vector",
+      "discovered_page": 1
+    },
+    {
+      "provider": "bria",
+      "remote_model": "bria/fibo-gen-1.5/text-to-image",
+      "detail_url": "https://fal.ai/models/bria/fibo-gen-1.5/text-to-image",
+      "discovered_page": 1
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/wan-3.0-prime/text-to-video",
+      "detail_url": "https://fal.ai/models/alibaba/wan-3.0-prime/text-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/wan-3.0-prime/image-to-video",
+      "detail_url": "https://fal.ai/models/alibaba/wan-3.0-prime/image-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/wan-3.0/reference-to-video",
+      "detail_url": "https://fal.ai/models/alibaba/wan-3.0/reference-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/wan-3.0/image-to-video",
+      "detail_url": "https://fal.ai/models/alibaba/wan-3.0/image-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/wan-3.0/text-to-video",
+      "detail_url": "https://fal.ai/models/alibaba/wan-3.0/text-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "xai",
+      "remote_model": "xai/grok-imagine-image/v2.0/text-to-image",
+      "detail_url": "https://fal.ai/models/xai/grok-imagine-image/v2.0/text-to-image",
+      "discovered_page": 1
+    },
+    {
+      "provider": "lightricks",
+      "remote_model": "lightricks/ltx-2.5/text-to-video/pro",
+      "detail_url": "https://fal.ai/models/lightricks/ltx-2.5/text-to-video/pro",
+      "discovered_page": 1
+    },
+    {
+      "provider": "lightricks",
+      "remote_model": "lightricks/ltx-2.5/text-to-video/fast",
+      "detail_url": "https://fal.ai/models/lightricks/ltx-2.5/text-to-video/fast",
+      "discovered_page": 1
+    },
+    {
+      "provider": "lightricks",
+      "remote_model": "lightricks/ltx-2.5/image-to-video/pro",
+      "detail_url": "https://fal.ai/models/lightricks/ltx-2.5/image-to-video/pro",
+      "discovered_page": 1
+    },
+    {
+      "provider": "lightricks",
+      "remote_model": "lightricks/ltx-2.5/image-to-video/fast",
+      "detail_url": "https://fal.ai/models/lightricks/ltx-2.5/image-to-video/fast",
+      "discovered_page": 1
+    },
+    {
+      "provider": "mirage-api",
+      "remote_model": "mirage-api/avatar-x/reference-to-video",
+      "detail_url": "https://fal.ai/models/mirage-api/avatar-x/reference-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "mirage-api",
+      "remote_model": "mirage-api/avatar-x/text-to-video",
+      "detail_url": "https://fal.ai/models/mirage-api/avatar-x/text-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3/text-to-video/lora",
+      "detail_url": "https://fal.ai/models/minimax/h3/text-to-video/lora",
+      "discovered_page": 1
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3/image-to-video/lora",
+      "detail_url": "https://fal.ai/models/minimax/h3/image-to-video/lora",
+      "discovered_page": 1
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.5/reference-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.5/reference-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.5/image-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.5/image-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.5/text-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.5/text-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "blackforestlabs",
+      "remote_model": "blackforestlabs/flux-3/text-to-video",
+      "detail_url": "https://fal.ai/models/blackforestlabs/flux-3/text-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "blackforestlabs",
+      "remote_model": "blackforestlabs/flux-3/image-to-video",
+      "detail_url": "https://fal.ai/models/blackforestlabs/flux-3/image-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "blackforestlabs",
+      "remote_model": "blackforestlabs/flux-3/first-last-frame-to-video",
+      "detail_url": "https://fal.ai/models/blackforestlabs/flux-3/first-last-frame-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "blackforestlabs",
+      "remote_model": "blackforestlabs/flux-3/keyframes-to-video",
+      "detail_url": "https://fal.ai/models/blackforestlabs/flux-3/keyframes-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "blackforestlabs",
+      "remote_model": "blackforestlabs/flux-3/text-to-video/draft",
+      "detail_url": "https://fal.ai/models/blackforestlabs/flux-3/text-to-video/draft",
+      "discovered_page": 1
+    },
+    {
+      "provider": "blackforestlabs",
+      "remote_model": "blackforestlabs/flux-3/image-to-video/draft",
+      "detail_url": "https://fal.ai/models/blackforestlabs/flux-3/image-to-video/draft",
+      "discovered_page": 1
+    },
+    {
+      "provider": "blackforestlabs",
+      "remote_model": "blackforestlabs/flux-3/first-last-frame-to-video/draft",
+      "detail_url": "https://fal.ai/models/blackforestlabs/flux-3/first-last-frame-to-video/draft",
+      "discovered_page": 1
+    },
+    {
+      "provider": "blackforestlabs",
+      "remote_model": "blackforestlabs/flux-3/keyframes-to-video/draft",
+      "detail_url": "https://fal.ai/models/blackforestlabs/flux-3/keyframes-to-video/draft",
+      "discovered_page": 1
+    },
+    {
+      "provider": "xai",
+      "remote_model": "xai/grok-imagine-video/v1.5/reference-to-video",
+      "detail_url": "https://fal.ai/models/xai/grok-imagine-video/v1.5/reference-to-video",
+      "discovered_page": 1
+    },
+    {
+      "provider": "xai",
+      "remote_model": "xai/grok-imagine-video/v1.5/text-to-video",
+      "detail_url": "https://fal.ai/models/xai/grok-imagine-video/v1.5/text-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3/image-to-video",
+      "detail_url": "https://fal.ai/models/minimax/h3/image-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3/text-to-video",
+      "detail_url": "https://fal.ai/models/minimax/h3/text-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "minimax",
+      "remote_model": "minimax/h3/reference-to-video",
+      "detail_url": "https://fal.ai/models/minimax/h3/reference-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "microsoft",
+      "remote_model": "microsoft/mai-image-2.5-pro",
+      "detail_url": "https://fal.ai/models/microsoft/mai-image-2.5-pro",
+      "discovered_page": 2
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/qwen-image-3/text-to-image",
+      "detail_url": "https://fal.ai/models/alibaba/qwen-image-3/text-to-image",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/krea-2/turbo/style",
+      "detail_url": "https://fal.ai/models/fal-ai/krea-2/turbo/style",
+      "discovered_page": 2
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedream/v5/lite/text-to-image",
+      "detail_url": "https://fal.ai/models/bytedance/seedream/v5/lite/text-to-image",
+      "discovered_page": 2
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedream/v5/pro/text-to-image",
+      "detail_url": "https://fal.ai/models/bytedance/seedream/v5/pro/text-to-image",
+      "discovered_page": 2
+    },
+    {
+      "provider": "ideogram",
+      "remote_model": "ideogram/v4/instant",
+      "detail_url": "https://fal.ai/models/ideogram/v4/instant",
+      "discovered_page": 2
+    },
+    {
+      "provider": "ideogram",
+      "remote_model": "ideogram/v4/fast",
+      "detail_url": "https://fal.ai/models/ideogram/v4/fast",
+      "discovered_page": 2
+    },
+    {
+      "provider": "google",
+      "remote_model": "google/nano-banana-2-lite",
+      "detail_url": "https://fal.ai/models/google/nano-banana-2-lite",
+      "discovered_page": 2
+    },
+    {
+      "provider": "google",
+      "remote_model": "google/nano-banana-lite",
+      "detail_url": "https://fal.ai/models/google/nano-banana-lite",
+      "discovered_page": 2
+    },
+    {
+      "provider": "google",
+      "remote_model": "google/gemini-omni-flash/reference-to-video",
+      "detail_url": "https://fal.ai/models/google/gemini-omni-flash/reference-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "google",
+      "remote_model": "google/gemini-omni-flash/image-to-video",
+      "detail_url": "https://fal.ai/models/google/gemini-omni-flash/image-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "google",
+      "remote_model": "google/gemini-omni-flash",
+      "detail_url": "https://fal.ai/models/google/gemini-omni-flash",
+      "discovered_page": 2
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/mini/reference-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/mini/reference-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/mini/image-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/mini/image-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/mini/text-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/mini/text-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/krea-2/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/krea-2/turbo",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/krea-2/turbo/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/krea-2/turbo/lora",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/sync-lipsync/v3/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/sync-lipsync/v3/image-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/happy-horse/v1.1/image-to-video",
+      "detail_url": "https://fal.ai/models/alibaba/happy-horse/v1.1/image-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/happy-horse/v1.1/reference-to-video",
+      "detail_url": "https://fal.ai/models/alibaba/happy-horse/v1.1/reference-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/happy-horse/v1.1/text-to-video",
+      "detail_url": "https://fal.ai/models/alibaba/happy-horse/v1.1/text-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-quality/ingredient",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-quality/ingredient",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/boogu-image",
+      "detail_url": "https://fal.ai/models/fal-ai/boogu-image",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/sensenova-u1-infographic",
+      "detail_url": "https://fal.ai/models/fal-ai/sensenova-u1-infographic",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v3/turbo/standard/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v3/turbo/standard/image-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v3/turbo/pro/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v3/turbo/pro/text-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v3/turbo/pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v3/turbo/pro/image-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v3/turbo/standard/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v3/turbo/standard/text-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "luma",
+      "remote_model": "luma/agent/uni-1/v1/max",
+      "detail_url": "https://fal.ai/models/luma/agent/uni-1/v1/max",
+      "discovered_page": 2
+    },
+    {
+      "provider": "luma",
+      "remote_model": "luma/agent/uni-1/v1/text-to-image",
+      "detail_url": "https://fal.ai/models/luma/agent/uni-1/v1/text-to-image",
+      "discovered_page": 2
+    },
+    {
+      "provider": "luma",
+      "remote_model": "luma/agent/ray/v3.2/text-to-video",
+      "detail_url": "https://fal.ai/models/luma/agent/ray/v3.2/text-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "luma",
+      "remote_model": "luma/agent/ray/v3.2/image-to-video",
+      "detail_url": "https://fal.ai/models/luma/agent/ray/v3.2/image-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bernini-r/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/bernini-r/reference-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bernini-r/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/bernini-r/text-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "ideogram",
+      "remote_model": "ideogram/v4/lora",
+      "detail_url": "https://fal.ai/models/ideogram/v4/lora",
+      "discovered_page": 2
+    },
+    {
+      "provider": "krea",
+      "remote_model": "krea/v2/medium/turbo/text-to-image",
+      "detail_url": "https://fal.ai/models/krea/v2/medium/turbo/text-to-image",
+      "discovered_page": 2
+    },
+    {
+      "provider": "ideogram",
+      "remote_model": "ideogram/v4",
+      "detail_url": "https://fal.ai/models/ideogram/v4",
+      "discovered_page": 2
+    },
+    {
+      "provider": "microsoft",
+      "remote_model": "microsoft/mai-image-2.5",
+      "detail_url": "https://fal.ai/models/microsoft/mai-image-2.5",
+      "discovered_page": 2
+    },
+    {
+      "provider": "nvidia",
+      "remote_model": "nvidia/cosmos-3-super/image-to-video",
+      "detail_url": "https://fal.ai/models/nvidia/cosmos-3-super/image-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-quality/image-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-quality/image-to-video/lora",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-quality/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-quality/image-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-quality/text-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-quality/text-to-video/lora",
+      "discovered_page": 2
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-quality/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-quality/text-to-video",
+      "discovered_page": 2
+    },
+    {
+      "provider": "nvidia",
+      "remote_model": "nvidia/cosmos-3-super/text-to-image",
+      "detail_url": "https://fal.ai/models/nvidia/cosmos-3-super/text-to-image",
+      "discovered_page": 2
+    },
+    {
+      "provider": "xai",
+      "remote_model": "xai/grok-imagine-video/v1.5/image-to-video",
+      "detail_url": "https://fal.ai/models/xai/grok-imagine-video/v1.5/image-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "krea",
+      "remote_model": "krea/v2/large/text-to-image",
+      "detail_url": "https://fal.ai/models/krea/v2/large/text-to-image",
+      "discovered_page": 3
+    },
+    {
+      "provider": "krea",
+      "remote_model": "krea/v2/medium/text-to-image",
+      "detail_url": "https://fal.ai/models/krea/v2/medium/text-to-image",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/heygen/avatar5/digital-twin",
+      "detail_url": "https://fal.ai/models/fal-ai/heygen/avatar5/digital-twin",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft/v4.1/utility/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft/v4.1/utility/text-to-image",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft/v4.1/utility/pro/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft/v4.1/utility/pro/text-to-image",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft/v4.1/text-to-vector",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft/v4.1/text-to-vector",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft/v4.1/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft/v4.1/text-to-image",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft/v4.1/pro/text-to-vector",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft/v4.1/pro/text-to-vector",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft/v4.1/pro/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft/v4.1/pro/text-to-image",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/veo3.1/fast/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/veo3.1/fast/reference-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hidream-o1-image",
+      "detail_url": "https://fal.ai/models/fal-ai/hidream-o1-image",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hidream-o1-image/dev",
+      "detail_url": "https://fal.ai/models/fal-ai/hidream-o1-image/dev",
+      "discovered_page": 3
+    },
+    {
+      "provider": "xai",
+      "remote_model": "xai/grok-imagine-image/quality/text-to-image",
+      "detail_url": "https://fal.ai/models/xai/grok-imagine-image/quality/text-to-image",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ffmpeg-api/images-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ffmpeg-api/images-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flashhead",
+      "detail_url": "https://fal.ai/models/fal-ai/flashhead",
+      "discovered_page": 3
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/happy-horse/reference-to-video",
+      "detail_url": "https://fal.ai/models/alibaba/happy-horse/reference-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/happy-horse/image-to-video",
+      "detail_url": "https://fal.ai/models/alibaba/happy-horse/image-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "alibaba",
+      "remote_model": "alibaba/happy-horse/text-to-video",
+      "detail_url": "https://fal.ai/models/alibaba/happy-horse/text-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o3/4k/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o3/4k/reference-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o3/4k/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o3/4k/image-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o3/4k/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o3/4k/text-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v3/4k/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v3/4k/image-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v3/4k/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v3/4k/text-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ideogram/custom-models/generate",
+      "detail_url": "https://fal.ai/models/fal-ai/ideogram/custom-models/generate",
+      "discovered_page": 3
+    },
+    {
+      "provider": "openai",
+      "remote_model": "openai/gpt-image-2",
+      "detail_url": "https://fal.ai/models/openai/gpt-image-2",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ernie-image/lora/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/ernie-image/lora/turbo",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ernie-image/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/ernie-image/lora",
+      "discovered_page": 3
+    },
+    {
+      "provider": "imagineart",
+      "remote_model": "imagineart/imagineart-2.0-preview/text-to-image",
+      "detail_url": "https://fal.ai/models/imagineart/imagineart-2.0-preview/text-to-image",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/heygen/v3/video-agent",
+      "detail_url": "https://fal.ai/models/fal-ai/heygen/v3/video-agent",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/nucleus-image",
+      "detail_url": "https://fal.ai/models/fal-ai/nucleus-image",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-22b/distilled/image-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-22b/distilled/image-to-video/lora",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-22b/distilled/text-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-22b/distilled/text-to-video/lora",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-22b/distilled/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-22b/distilled/image-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-22b/distilled/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-22b/distilled/text-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-22b/image-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-22b/image-to-video/lora",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-22b/text-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-22b/text-to-video/lora",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-22b/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-22b/image-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3-22b/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3-22b/text-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ernie-image",
+      "detail_url": "https://fal.ai/models/fal-ai/ernie-image",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ernie-image/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/ernie-image/turbo",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/patina/material",
+      "detail_url": "https://fal.ai/models/fal-ai/patina/material",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/c1/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/c1/reference-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/c1/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/c1/text-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/c1/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/c1/image-to-video",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/c1/transition",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/c1/transition",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q3/reference-to-video/mix",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q3/reference-to-video/mix",
+      "discovered_page": 3
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ideogram/v3/generate-transparent",
+      "detail_url": "https://fal.ai/models/fal-ai/ideogram/v3/generate-transparent",
+      "discovered_page": 3
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/text-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/text-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/reference-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/reference-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/fast/text-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/fast/text-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/image-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/image-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/fast/reference-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/fast/reference-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/seedance-2.0/fast/image-to-video",
+      "detail_url": "https://fal.ai/models/bytedance/seedance-2.0/fast/image-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.7/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.7/text-to-image",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.7/pro/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.7/pro/text-to-image",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/veo3.1/lite/first-last-frame-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/veo3.1/lite/first-last-frame-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/veo3.1/lite/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/veo3.1/lite/image-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/veo3.1/lite",
+      "detail_url": "https://fal.ai/models/fal-ai/veo3.1/lite",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v6/transition",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v6/transition",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v6/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v6/image-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v6/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v6/text-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.7/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.7/text-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.7/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.7/reference-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.7/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.7/image-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/phota",
+      "detail_url": "https://fal.ai/models/fal-ai/phota",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/davinci-magihuman",
+      "detail_url": "https://fal.ai/models/fal-ai/davinci-magihuman",
+      "discovered_page": 4
+    },
+    {
+      "provider": "xai",
+      "remote_model": "xai/grok-imagine-video/reference-to-video",
+      "detail_url": "https://fal.ai/models/xai/grok-imagine-video/reference-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2/klein/9b/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2/klein/9b/lora",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2/klein/4b/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2/klein/4b/lora",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/z-image/turbo/tiling/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/z-image/turbo/tiling/lora",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/z-image/turbo/tiling",
+      "detail_url": "https://fal.ai/models/fal-ai/z-image/turbo/tiling",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vecglypher",
+      "detail_url": "https://fal.ai/models/fal-ai/vecglypher",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3/image-to-video/fast",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3/image-to-video/fast",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3/text-to-video/fast",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3/text-to-video/fast",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3/image-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2.3/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2.3/text-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "bria",
+      "remote_model": "bria/fibo-bbq-preview/generate",
+      "detail_url": "https://fal.ai/models/bria/fibo-bbq-preview/generate",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/nano-banana-2",
+      "detail_url": "https://fal.ai/models/fal-ai/nano-banana-2",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/gemini-3.1-flash-image-preview",
+      "detail_url": "https://fal.ai/models/fal-ai/gemini-3.1-flash-image-preview",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/cosmos-predict-2.5/distilled/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/cosmos-predict-2.5/distilled/text-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/cosmos-predict-2.5/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/cosmos-predict-2.5/image-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/cosmos-predict-2.5/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/cosmos-predict-2.5/text-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/heygen/avatar4/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/heygen/avatar4/image-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/heygen/avatar4/digital-twin",
+      "detail_url": "https://fal.ai/models/fal-ai/heygen/avatar4/digital-twin",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/heygen/avatar3/digital-twin",
+      "detail_url": "https://fal.ai/models/fal-ai/heygen/avatar3/digital-twin",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bitdance",
+      "detail_url": "https://fal.ai/models/fal-ai/bitdance",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft/v4/pro/text-to-vector",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft/v4/pro/text-to-vector",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft/v4/text-to-vector",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft/v4/text-to-vector",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/heygen/v2/video-agent",
+      "detail_url": "https://fal.ai/models/fal-ai/heygen/v2/video-agent",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft/v4/pro/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft/v4/pro/text-to-image",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft/v4/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft/v4/text-to-image",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q3/image-to-video/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q3/image-to-video/turbo",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q3/text-to-video/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q3/text-to-video/turbo",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o3/standard/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o3/standard/text-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o3/pro/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o3/pro/reference-to-video",
+      "discovered_page": 4
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v3/standard/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v3/standard/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v3/standard/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v3/standard/text-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v3/pro/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v3/pro/text-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o3/standard/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o3/standard/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o3/standard/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o3/standard/reference-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o3/pro/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o3/pro/text-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o3/pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o3/pro/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v3/pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v3/pro/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-image/v3/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-image/v3/text-to-image",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-image/o3/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-image/o3/text-to-image",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q3/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q3/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q3/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q3/text-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "xai",
+      "remote_model": "xai/grok-imagine-image",
+      "detail_url": "https://fal.ai/models/xai/grok-imagine-image",
+      "discovered_page": 5
+    },
+    {
+      "provider": "xai",
+      "remote_model": "xai/grok-imagine-video/image-to-video",
+      "detail_url": "https://fal.ai/models/xai/grok-imagine-video/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "xai",
+      "remote_model": "xai/grok-imagine-video/text-to-video",
+      "detail_url": "https://fal.ai/models/xai/grok-imagine-video/text-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hunyuan-image/v3/instruct/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/hunyuan-image/v3/instruct/text-to-image",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/qwen-image-max/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/qwen-image-max/text-to-image",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/z-image/base/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/z-image/base/lora",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/z-image/base",
+      "detail_url": "https://fal.ai/models/fal-ai/z-image/base",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v5.6/transition",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v5.6/transition",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v5.6/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v5.6/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v5.6/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v5.6/text-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q2/reference-to-video/pro",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q2/reference-to-video/pro",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2/klein/9b/base/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2/klein/9b/base/lora",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2/klein/4b/base/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2/klein/4b/base/lora",
+      "discovered_page": 5
+    },
+    {
+      "provider": "wan",
+      "remote_model": "wan/v2.6/image-to-video/flash",
+      "detail_url": "https://fal.ai/models/wan/v2.6/image-to-video/flash",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2/klein/9b/base",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2/klein/9b/base",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2/klein/4b/base",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2/klein/4b/base",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2/klein/9b",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2/klein/9b",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2/klein/4b",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2/klein/4b",
+      "discovered_page": 5
+    },
+    {
+      "provider": "imagineart",
+      "remote_model": "imagineart/imagineart-1.5-pro-preview/text-to-image",
+      "detail_url": "https://fal.ai/models/imagineart/imagineart-1.5-pro-preview/text-to-image",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/glm-image",
+      "detail_url": "https://fal.ai/models/fal-ai/glm-image",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2-19b/distilled/image-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2-19b/distilled/image-to-video/lora",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2-19b/distilled/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2-19b/distilled/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2-19b/distilled/text-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2-19b/distilled/text-to-video/lora",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2-19b/distilled/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2-19b/distilled/text-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2-19b/text-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2-19b/text-to-video/lora",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2-19b/image-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2-19b/image-to-video/lora",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2-19b/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2-19b/text-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-2-19b/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-2-19b/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/qwen-image-2512/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/qwen-image-2512/lora",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/qwen-image-2512",
+      "detail_url": "https://fal.ai/models/fal-ai/qwen-image-2512",
+      "discovered_page": 5
+    },
+    {
+      "provider": "wan",
+      "remote_model": "wan/v2.6/text-to-image",
+      "detail_url": "https://fal.ai/models/wan/v2.6/text-to-image",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kandinsky5-pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kandinsky5-pro/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kandinsky5-pro/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kandinsky5-pro/text-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bytedance/seedance/v1.5/pro/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/bytedance/seedance/v1.5/pro/text-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bytedance/seedance/v1.5/pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/bytedance/seedance/v1.5/pro/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hunyuan-video-v1.5/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/hunyuan-video-v1.5/image-to-video",
+      "discovered_page": 5
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2/flash",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2/flash",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/gpt-image-1.5",
+      "detail_url": "https://fal.ai/models/fal-ai/gpt-image-1.5",
+      "discovered_page": 6
+    },
+    {
+      "provider": "bria",
+      "remote_model": "bria/fibo-lite/generate",
+      "detail_url": "https://fal.ai/models/bria/fibo-lite/generate",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2/turbo",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2-max",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2-max",
+      "discovered_page": 6
+    },
+    {
+      "provider": "wan",
+      "remote_model": "wan/v2.6/text-to-video",
+      "detail_url": "https://fal.ai/models/wan/v2.6/text-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "wan",
+      "remote_model": "wan/v2.6/image-to-video",
+      "detail_url": "https://fal.ai/models/wan/v2.6/image-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o1/standard/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o1/standard/reference-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o1/standard/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o1/standard/image-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "veed",
+      "remote_model": "veed/fabric-1.0/text",
+      "detail_url": "https://fal.ai/models/veed/fabric-1.0/text",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/creatify/aurora",
+      "detail_url": "https://fal.ai/models/fal-ai/creatify/aurora",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/longcat-image",
+      "detail_url": "https://fal.ai/models/fal-ai/longcat-image",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/ai-avatar/v2/pro",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/ai-avatar/v2/pro",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/ai-avatar/v2/standard",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/ai-avatar/v2/standard",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bytedance/seedream/v4.5/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/bytedance/seedream/v4.5/text-to-image",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q2/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q2/text-to-image",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v2.6/pro/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v2.6/pro/text-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v2.6/pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v2.6/pro/image-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v5.5/effects",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v5.5/effects",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v5.5/transition",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v5.5/transition",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/z-image/turbo/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/z-image/turbo/lora",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v5.5/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v5.5/image-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v5.5/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v5.5/text-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o1/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o1/image-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/o1/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/o1/reference-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ovis-image",
+      "detail_url": "https://fal.ai/models/fal-ai/ovis-image",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/z-image/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/z-image/turbo",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2-lora-gallery/sepia-vintage",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2-lora-gallery/sepia-vintage",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2-lora-gallery/satellite-view-style",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2-lora-gallery/satellite-view-style",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2-lora-gallery/realism",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2-lora-gallery/realism",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2-lora-gallery/hdr-style",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2-lora-gallery/hdr-style",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2-lora-gallery/digital-comic-art",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2-lora-gallery/digital-comic-art",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2-lora-gallery/ballpoint-pen-sketch",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2-lora-gallery/ballpoint-pen-sketch",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2-flex",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2-flex",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2/lora",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-2-pro",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-2-pro",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hunyuan-video-v1.5/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/hunyuan-video-v1.5/text-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/gemini-3-pro-image-preview",
+      "detail_url": "https://fal.ai/models/fal-ai/gemini-3-pro-image-preview",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/nano-banana-pro",
+      "detail_url": "https://fal.ai/models/fal-ai/nano-banana-pro",
+      "discovered_page": 6
+    },
+    {
+      "provider": "imagineart",
+      "remote_model": "imagineart/imagineart-1.5-preview/text-to-image",
+      "detail_url": "https://fal.ai/models/imagineart/imagineart-1.5-preview/text-to-image",
+      "discovered_page": 6
+    },
+    {
+      "provider": "bytedance",
+      "remote_model": "bytedance/lynx",
+      "detail_url": "https://fal.ai/models/bytedance/lynx",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/swap",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/swap",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pika/v2.2/pikaframes",
+      "detail_url": "https://fal.ai/models/fal-ai/pika/v2.2/pikaframes",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/infinity-star/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/infinity-star/text-to-video",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/emu-3.5-image/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/emu-3.5-image/text-to-image",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/longcat-video/text-to-video/720p",
+      "detail_url": "https://fal.ai/models/fal-ai/longcat-video/text-to-video/720p",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/longcat-video/image-to-video/720p",
+      "detail_url": "https://fal.ai/models/fal-ai/longcat-video/image-to-video/720p",
+      "discovered_page": 6
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/longcat-video/image-to-video/480p",
+      "detail_url": "https://fal.ai/models/fal-ai/longcat-video/image-to-video/480p",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/longcat-video/text-to-video/480p",
+      "detail_url": "https://fal.ai/models/fal-ai/longcat-video/text-to-video/480p",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/longcat-video/distilled/image-to-video/720p",
+      "detail_url": "https://fal.ai/models/fal-ai/longcat-video/distilled/image-to-video/720p",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/longcat-video/distilled/text-to-video/720p",
+      "detail_url": "https://fal.ai/models/fal-ai/longcat-video/distilled/text-to-video/720p",
+      "discovered_page": 7
+    },
+    {
+      "provider": "bria",
+      "remote_model": "bria/fibo/generate",
+      "detail_url": "https://fal.ai/models/bria/fibo/generate",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/longcat-video/distilled/image-to-video/480p",
+      "detail_url": "https://fal.ai/models/fal-ai/longcat-video/distilled/image-to-video/480p",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/longcat-video/distilled/text-to-video/480p",
+      "detail_url": "https://fal.ai/models/fal-ai/longcat-video/distilled/text-to-video/480p",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/hailuo-2.3/pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/hailuo-2.3/pro/image-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/hailuo-2.3-fast/standard/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/hailuo-2.3-fast/standard/image-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/hailuo-2.3/standard/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/hailuo-2.3/standard/image-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/hailuo-2.3-fast/pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/hailuo-2.3-fast/pro/image-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/hailuo-2.3/standard/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/hailuo-2.3/standard/text-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/hailuo-2.3/pro/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/hailuo-2.3/pro/text-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bytedance/seedance/v1/pro/fast/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/bytedance/seedance/v1/pro/fast/image-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bytedance/seedance/v1/pro/fast/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/bytedance/seedance/v1/pro/fast/text-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q2/image-to-video/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q2/image-to-video/turbo",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q2/image-to-video/pro",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q2/image-to-video/pro",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q2/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q2/text-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v2.5-turbo/standard/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v2.5-turbo/standard/image-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/gpt-image-1-mini",
+      "detail_url": "https://fal.ai/models/fal-ai/gpt-image-1-mini",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/krea-wan-14b/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/krea-wan-14b/text-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kandinsky5/text-to-video/distill",
+      "detail_url": "https://fal.ai/models/fal-ai/kandinsky5/text-to-video/distill",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kandinsky5/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kandinsky5/text-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/veo3.1/fast/first-last-frame-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/veo3.1/fast/first-last-frame-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/veo3.1/first-last-frame-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/veo3.1/first-last-frame-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/veo3.1/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/veo3.1/reference-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/veo3.1/fast",
+      "detail_url": "https://fal.ai/models/fal-ai/veo3.1/fast",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/veo3.1/fast/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/veo3.1/fast/image-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/veo3.1/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/veo3.1/image-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/veo3.1",
+      "detail_url": "https://fal.ai/models/fal-ai/veo3.1",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ovi/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ovi/image-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ovi",
+      "detail_url": "https://fal.ai/models/fal-ai/ovi",
+      "discovered_page": 7
+    },
+    {
+      "provider": "veed",
+      "remote_model": "veed/fabric-1.0/fast",
+      "detail_url": "https://fal.ai/models/veed/fabric-1.0/fast",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hunyuan-image/v3/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/hunyuan-image/v3/text-to-image",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan-25-preview/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/wan-25-preview/text-to-image",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan-25-preview/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/wan-25-preview/text-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan-25-preview/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/wan-25-preview/image-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bytedance/omnihuman/v1.5",
+      "detail_url": "https://fal.ai/models/fal-ai/bytedance/omnihuman/v1.5",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v2.5-turbo/pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v2.5-turbo/pro/image-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v2.5-turbo/pro/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v2.5-turbo/pro/text-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "veed",
+      "remote_model": "veed/fabric-1.0",
+      "detail_url": "https://fal.ai/models/veed/fabric-1.0",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux/srpo",
+      "detail_url": "https://fal.ai/models/fal-ai/flux/srpo",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-1/srpo",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-1/srpo",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v1/standard/ai-avatar",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v1/standard/ai-avatar",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v1/pro/ai-avatar",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v1/pro/ai-avatar",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hunyuan-image/v2.1/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/hunyuan-image/v2.1/text-to-image",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bytedance/seedream/v4/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/bytedance/seedream/v4/text-to-image",
+      "discovered_page": 7
+    },
+    {
+      "provider": "argil",
+      "remote_model": "argil/avatars/text-to-video",
+      "detail_url": "https://fal.ai/models/argil/avatars/text-to-video",
+      "discovered_page": 7
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/decart/lucy-5b/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/decart/lucy-5b/image-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/gemini-25-flash-image",
+      "detail_url": "https://fal.ai/models/fal-ai/gemini-25-flash-image",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v5/transition",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v5/transition",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v5/effects",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v5/effects",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v5/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v5/image-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v5/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v5/text-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/infinitalk/single-text",
+      "detail_url": "https://fal.ai/models/fal-ai/infinitalk/single-text",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/nano-banana",
+      "detail_url": "https://fal.ai/models/fal-ai/nano-banana",
+      "discovered_page": 8
+    },
+    {
+      "provider": "moonvalley",
+      "remote_model": "moonvalley/marey/i2v",
+      "detail_url": "https://fal.ai/models/moonvalley/marey/i2v",
+      "discovered_page": 8
+    },
+    {
+      "provider": "moonvalley",
+      "remote_model": "moonvalley/marey/t2v",
+      "detail_url": "https://fal.ai/models/moonvalley/marey/t2v",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-a14b/text-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-a14b/text-to-video/lora",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-a14b/image-to-video/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-a14b/image-to-video/lora",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-5b/text-to-video/distill",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-5b/text-to-video/distill",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/hailuo-02-fast/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/hailuo-02-fast/image-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-5b/text-to-video/fast-wan",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-5b/text-to-video/fast-wan",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-a14b/text-to-image/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-a14b/text-to-image/lora",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-5b/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-5b/text-to-image",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-a14b/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-a14b/text-to-image",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/qwen-image",
+      "detail_url": "https://fal.ai/models/fal-ai/qwen-image",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-krea-lora/stream",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-krea-lora/stream",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-krea-lora",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-krea-lora",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-a14b/image-to-video/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-a14b/image-to-video/turbo",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-a14b/text-to-video/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-a14b/text-to-video/turbo",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux/krea",
+      "detail_url": "https://fal.ai/models/fal-ai/flux/krea",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-1/krea",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-1/krea",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-5b/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-5b/image-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-5b/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-5b/text-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-a14b/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-a14b/text-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan/v2.2-a14b/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/wan/v2.2-a14b/image-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bytedance/omnihuman",
+      "detail_url": "https://fal.ai/models/fal-ai/bytedance/omnihuman",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltxv-13b-098-distilled/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltxv-13b-098-distilled/image-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltxv-13b-098-distilled",
+      "detail_url": "https://fal.ai/models/fal-ai/ltxv-13b-098-distilled",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q1/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q1/reference-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-kontext-lora/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-kontext-lora/text-to-image",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/omnigen-v2",
+      "detail_url": "https://fal.ai/models/fal-ai/omnigen-v2",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ai-avatar/single-text",
+      "detail_url": "https://fal.ai/models/fal-ai/ai-avatar/single-text",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ai-avatar/multi-text",
+      "detail_url": "https://fal.ai/models/fal-ai/ai-avatar/multi-text",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ai-avatar/multi",
+      "detail_url": "https://fal.ai/models/fal-ai/ai-avatar/multi",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/hailuo-02/standard/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/hailuo-02/standard/image-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/hailuo-02/pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/hailuo-02/pro/image-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/hailuo-02/pro/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/hailuo-02/pro/text-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/hailuo-02/standard/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/hailuo-02/standard/text-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bytedance/seedance/v1/pro/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/bytedance/seedance/v1/pro/text-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bytedance/seedance/v1/pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/bytedance/seedance/v1/pro/image-to-video",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-1/schnell",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-1/schnell",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-1/dev",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-1/dev",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-pro/kontext/max/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-pro/kontext/max/text-to-image",
+      "discovered_page": 8
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-pro/kontext/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-pro/kontext/text-to-image",
+      "discovered_page": 8
+    },
+    {
+      "provider": "veed",
+      "remote_model": "veed/avatars/text-to-video",
+      "detail_url": "https://fal.ai/models/veed/avatars/text-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bagel",
+      "detail_url": "https://fal.ai/models/fal-ai/bagel",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-video-13b-distilled/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-video-13b-distilled/image-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-video-13b-distilled",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-video-13b-distilled",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-lora/stream",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-lora/stream",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v4.5/transition",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v4.5/transition",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v4.5/image-to-video/fast",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v4.5/image-to-video/fast",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v4.5/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v4.5/image-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v4.5/text-to-video/fast",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v4.5/text-to-video/fast",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v4.5/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v4.5/text-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v4.5/effects",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v4.5/effects",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/framepack/f1",
+      "detail_url": "https://fal.ai/models/fal-ai/framepack/f1",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q1/start-end-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q1/start-end-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q1/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q1/text-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/q1/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/q1/image-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft/v3/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft/v3/text-to-image",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/image-01",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/image-01",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pony-v7",
+      "detail_url": "https://fal.ai/models/fal-ai/pony-v7",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ideogram/v3",
+      "detail_url": "https://fal.ai/models/fal-ai/ideogram/v3",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/gpt-image-1/text-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/gpt-image-1/text-to-image",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v4/effects",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v4/effects",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/magi-distilled/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/magi-distilled/image-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/framepack/flf2v",
+      "detail_url": "https://fal.ai/models/fal-ai/framepack/flf2v",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/magi-distilled",
+      "detail_url": "https://fal.ai/models/fal-ai/magi-distilled",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan-flf2v",
+      "detail_url": "https://fal.ai/models/fal-ai/wan-flf2v",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/framepack",
+      "detail_url": "https://fal.ai/models/fal-ai/framepack",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hidream-i1-full",
+      "detail_url": "https://fal.ai/models/fal-ai/hidream-i1-full",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hidream-i1-dev",
+      "detail_url": "https://fal.ai/models/fal-ai/hidream-i1-dev",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hidream-i1-fast",
+      "detail_url": "https://fal.ai/models/fal-ai/hidream-i1-fast",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux/dev",
+      "detail_url": "https://fal.ai/models/fal-ai/flux/dev",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v4/image-to-video/fast",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v4/image-to-video/fast",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v4/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v4/image-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v3.5/effects",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v3.5/effects",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v4/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v4/text-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v3.5/transition",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v3.5/transition",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v4/text-to-video/fast",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v4/text-to-video/fast",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/sana/v1.5/1.6b",
+      "detail_url": "https://fal.ai/models/fal-ai/sana/v1.5/1.6b",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/sana/sprint",
+      "detail_url": "https://fal.ai/models/fal-ai/sana/sprint",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/sana/v1.5/4.8b",
+      "detail_url": "https://fal.ai/models/fal-ai/sana/v1.5/4.8b",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/lipsync/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/lipsync/text-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/lipsync/audio-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/lipsync/audio-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan-t2v-lora",
+      "detail_url": "https://fal.ai/models/fal-ai/wan-t2v-lora",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/luma-dream-machine/ray-2-flash/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/luma-dream-machine/ray-2-flash/image-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/luma-dream-machine/ray-2-flash",
+      "detail_url": "https://fal.ai/models/fal-ai/luma-dream-machine/ray-2-flash",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pika/v2.2/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pika/v2.2/text-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pika/v2.2/pikascenes",
+      "detail_url": "https://fal.ai/models/fal-ai/pika/v2.2/pikascenes",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pika/v2.1/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pika/v2.1/text-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pika/v2.1/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pika/v2.1/image-to-video",
+      "discovered_page": 9
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pika/v2.2/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pika/v2.2/image-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pika/v2/turbo/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pika/v2/turbo/text-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pika/v2/turbo/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pika/v2/turbo/image-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan-effects",
+      "detail_url": "https://fal.ai/models/fal-ai/wan-effects",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/template-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/template-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/image-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/start-end-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/start-end-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/vidu/reference-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/vidu/reference-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan-pro/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/wan-pro/text-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan-pro/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/wan-pro/image-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan-i2v-lora",
+      "detail_url": "https://fal.ai/models/fal-ai/wan-i2v-lora",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hunyuan-video-image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/hunyuan-video-image-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v1.6/pro/effects",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v1.6/pro/effects",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v1/standard/effects",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v1/standard/effects",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v1.6/standard/effects",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v1.6/standard/effects",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kling-video/v1.5/pro/effects",
+      "detail_url": "https://fal.ai/models/fal-ai/kling-video/v1.5/pro/effects",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-video-v095",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-video-v095",
+      "discovered_page": 10
+    },
+    {
+      "provider": "rundiffusion-fal",
+      "remote_model": "rundiffusion-fal/juggernaut-flux/pro",
+      "detail_url": "https://fal.ai/models/rundiffusion-fal/juggernaut-flux/pro",
+      "discovered_page": 10
+    },
+    {
+      "provider": "rundiffusion-fal",
+      "remote_model": "rundiffusion-fal/juggernaut-flux/lightning",
+      "detail_url": "https://fal.ai/models/rundiffusion-fal/juggernaut-flux/lightning",
+      "discovered_page": 10
+    },
+    {
+      "provider": "rundiffusion-fal",
+      "remote_model": "rundiffusion-fal/juggernaut-flux/base",
+      "detail_url": "https://fal.ai/models/rundiffusion-fal/juggernaut-flux/base",
+      "discovered_page": 10
+    },
+    {
+      "provider": "rundiffusion-fal",
+      "remote_model": "rundiffusion-fal/juggernaut-flux-lora",
+      "detail_url": "https://fal.ai/models/rundiffusion-fal/juggernaut-flux-lora",
+      "discovered_page": 10
+    },
+    {
+      "provider": "rundiffusion-fal",
+      "remote_model": "rundiffusion-fal/rundiffusion-photo-flux",
+      "detail_url": "https://fal.ai/models/rundiffusion-fal/rundiffusion-photo-flux",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/cogview4",
+      "detail_url": "https://fal.ai/models/fal-ai/cogview4",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ideogram/v2a",
+      "detail_url": "https://fal.ai/models/fal-ai/ideogram/v2a",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ideogram/v2a/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/ideogram/v2a/turbo",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan-i2v",
+      "detail_url": "https://fal.ai/models/fal-ai/wan-i2v",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/wan-t2v",
+      "detail_url": "https://fal.ai/models/fal-ai/wan-t2v",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/video-01-director/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/video-01-director/image-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/luma-dream-machine/ray-2/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/luma-dream-machine/ray-2/image-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-control-lora-depth",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-control-lora-depth",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-control-lora-canny",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-control-lora-canny",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/video-01-director",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/video-01-director",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hunyuan-video-img2vid-lora",
+      "detail_url": "https://fal.ai/models/fal-ai/hunyuan-video-img2vid-lora",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/lumina-image/v2",
+      "detail_url": "https://fal.ai/models/fal-ai/lumina-image/v2",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v3.5/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v3.5/text-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v3.5/image-to-video/fast",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v3.5/image-to-video/fast",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v3.5/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v3.5/image-to-video",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixverse/v3.5/text-to-video/fast",
+      "detail_url": "https://fal.ai/models/fal-ai/pixverse/v3.5/text-to-video/fast",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/janus",
+      "detail_url": "https://fal.ai/models/fal-ai/janus",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/luma-dream-machine/ray-2",
+      "detail_url": "https://fal.ai/models/fal-ai/luma-dream-machine/ray-2",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/video-01-subject-reference",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/video-01-subject-reference",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-pro/v1.1",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-pro/v1.1",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-pro/v1.1-ultra-finetuned",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-pro/v1.1-ultra-finetuned",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/cogvideox-5b",
+      "detail_url": "https://fal.ai/models/fal-ai/cogvideox-5b",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/sadtalker/reference",
+      "detail_url": "https://fal.ai/models/fal-ai/sadtalker/reference",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bria/text-to-image/base",
+      "detail_url": "https://fal.ai/models/fal-ai/bria/text-to-image/base",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bria/text-to-image/fast",
+      "detail_url": "https://fal.ai/models/fal-ai/bria/text-to-image/fast",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/bria/text-to-image/hd",
+      "detail_url": "https://fal.ai/models/fal-ai/bria/text-to-image/hd",
+      "discovered_page": 10
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-pro/v1.1-ultra",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-pro/v1.1-ultra",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/video-01-live",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/video-01-live",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/recraft-20b",
+      "detail_url": "https://fal.ai/models/fal-ai/recraft-20b",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/video-01-live/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/video-01-live/image-to-video",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ideogram/v2",
+      "detail_url": "https://fal.ai/models/fal-ai/ideogram/v2",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ideogram/v2/turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/ideogram/v2/turbo",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/luma-photon/flash",
+      "detail_url": "https://fal.ai/models/fal-ai/luma-photon/flash",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/aura-flow",
+      "detail_url": "https://fal.ai/models/fal-ai/aura-flow",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/omnigen-v1",
+      "detail_url": "https://fal.ai/models/fal-ai/omnigen-v1",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux/schnell",
+      "detail_url": "https://fal.ai/models/fal-ai/flux/schnell",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-video/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-video/image-to-video",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/video-01/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/video-01/image-to-video",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/stable-diffusion-v35-medium",
+      "detail_url": "https://fal.ai/models/fal-ai/stable-diffusion-v35-medium",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/stable-diffusion-v35-large",
+      "detail_url": "https://fal.ai/models/fal-ai/stable-diffusion-v35-large",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/hunyuan-video",
+      "detail_url": "https://fal.ai/models/fal-ai/hunyuan-video",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/cogvideox-5b/image-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/cogvideox-5b/image-to-video",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/ltx-video",
+      "detail_url": "https://fal.ai/models/fal-ai/ltx-video",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-lora/inpainting",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-lora/inpainting",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fast-svd/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/fast-svd/text-to-video",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/stable-video",
+      "detail_url": "https://fal.ai/models/fal-ai/stable-video",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-general",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-general",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/stable-diffusion-v3-medium",
+      "detail_url": "https://fal.ai/models/fal-ai/stable-diffusion-v3-medium",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fooocus/upscale-or-vary",
+      "detail_url": "https://fal.ai/models/fal-ai/fooocus/upscale-or-vary",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-lora",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-lora",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/flux-subject",
+      "detail_url": "https://fal.ai/models/fal-ai/flux-subject",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/pixart-sigma",
+      "detail_url": "https://fal.ai/models/fal-ai/pixart-sigma",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/sana",
+      "detail_url": "https://fal.ai/models/fal-ai/sana",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/sdxl-controlnet-union",
+      "detail_url": "https://fal.ai/models/fal-ai/sdxl-controlnet-union",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/kolors",
+      "detail_url": "https://fal.ai/models/fal-ai/kolors",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/amt-interpolation/frame-interpolation",
+      "detail_url": "https://fal.ai/models/fal-ai/amt-interpolation/frame-interpolation",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/live-portrait",
+      "detail_url": "https://fal.ai/models/fal-ai/live-portrait",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/stable-cascade",
+      "detail_url": "https://fal.ai/models/fal-ai/stable-cascade",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fast-sdxl",
+      "detail_url": "https://fal.ai/models/fal-ai/fast-sdxl",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/stable-cascade/sote-diffusion",
+      "detail_url": "https://fal.ai/models/fal-ai/stable-cascade/sote-diffusion",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fast-svd-lcm/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/fast-svd-lcm/text-to-video",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/luma-photon",
+      "detail_url": "https://fal.ai/models/fal-ai/luma-photon",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/dreamshaper",
+      "detail_url": "https://fal.ai/models/fal-ai/dreamshaper",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/playground-v25",
+      "detail_url": "https://fal.ai/models/fal-ai/playground-v25",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/realistic-vision",
+      "detail_url": "https://fal.ai/models/fal-ai/realistic-vision",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/stable-diffusion-v15",
+      "detail_url": "https://fal.ai/models/fal-ai/stable-diffusion-v15",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fast-lightning-sdxl",
+      "detail_url": "https://fal.ai/models/fal-ai/fast-lightning-sdxl",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/musetalk",
+      "detail_url": "https://fal.ai/models/fal-ai/musetalk",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/sadtalker",
+      "detail_url": "https://fal.ai/models/fal-ai/sadtalker",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fast-fooocus-sdxl/image-to-image",
+      "detail_url": "https://fal.ai/models/fal-ai/fast-fooocus-sdxl/image-to-image",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/t2v-turbo",
+      "detail_url": "https://fal.ai/models/fal-ai/t2v-turbo",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fast-sdxl-controlnet-canny",
+      "detail_url": "https://fal.ai/models/fal-ai/fast-sdxl-controlnet-canny",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fast-animatediff/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/fast-animatediff/text-to-video",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fast-lcm-diffusion",
+      "detail_url": "https://fal.ai/models/fal-ai/fast-lcm-diffusion",
+      "discovered_page": 11
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/illusion-diffusion",
+      "detail_url": "https://fal.ai/models/fal-ai/illusion-diffusion",
+      "discovered_page": 12
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fast-animatediff/turbo/text-to-video",
+      "detail_url": "https://fal.ai/models/fal-ai/fast-animatediff/turbo/text-to-video",
+      "discovered_page": 12
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fast-svd-lcm",
+      "detail_url": "https://fal.ai/models/fal-ai/fast-svd-lcm",
+      "discovered_page": 12
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fooocus/image-prompt",
+      "detail_url": "https://fal.ai/models/fal-ai/fooocus/image-prompt",
+      "discovered_page": 12
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fooocus/inpaint",
+      "detail_url": "https://fal.ai/models/fal-ai/fooocus/inpaint",
+      "discovered_page": 12
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/minimax/video-01",
+      "detail_url": "https://fal.ai/models/fal-ai/minimax/video-01",
+      "discovered_page": 12
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/fooocus",
+      "detail_url": "https://fal.ai/models/fal-ai/fooocus",
+      "discovered_page": 12
+    },
+    {
+      "provider": "fal-ai",
+      "remote_model": "fal-ai/lora",
+      "detail_url": "https://fal.ai/models/fal-ai/lora",
+      "discovered_page": 12
+    }
+  ]
+}

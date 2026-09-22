@@ -1,0 +1,243 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "recraft",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "fal-ai/recraft/v3",
+      "label": "Fal Ai / Recraft / V3",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/recraft/v3/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/recraft/v3/text-to-image"
+      ],
+      "origin_provider": "recraft",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/recraft/v4",
+      "label": "Fal Ai / Recraft / V4",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/recraft/v4/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/recraft/v4/text-to-image"
+      ],
+      "origin_provider": "recraft",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/recraft/v4.1",
+      "label": "Fal Ai / Recraft / V4.1",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/recraft/v4.1/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/recraft/v4.1/text-to-image"
+      ],
+      "origin_provider": "recraft",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/recraft/v4.1/pro",
+      "label": "Recraft / V4.1 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/recraft/v4.1/pro/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/recraft/v4.1/pro/text-to-image"
+      ],
+      "origin_provider": "recraft",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/recraft/v4.1/utility",
+      "label": "Recraft / V4.1 / Utility",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/recraft/v4.1/utility/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/recraft/v4.1/utility/text-to-image"
+      ],
+      "origin_provider": "recraft",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/recraft/v4.1/utility/pro",
+      "label": "V4.1 / Utility / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/recraft/v4.1/utility/pro/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/recraft/v4.1/utility/pro/text-to-image"
+      ],
+      "origin_provider": "recraft",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/recraft/v4/pro",
+      "label": "Recraft / V4 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "fal-ai/recraft/v4/pro/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/recraft/v4/pro/text-to-image"
+      ],
+      "origin_provider": "recraft",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "recraft/v4/style",
+      "label": "Recraft / V4 / Style",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "recraft/v4/style/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/recraft/v4/style/text-to-image"
+      ],
+      "origin_provider": "recraft",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "recraft/v4/style/pro",
+      "label": "V4 / Style / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "recraft/v4/style/pro/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/recraft/v4/style/pro/text-to-image"
+      ],
+      "origin_provider": "recraft",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{PAGE_TITLE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{{PAGE_ASSETS}}
+</head>
+<body class="{{PAGE_CLASS}}">
+<div class="grain" aria-hidden="true"></div>
+<div class="app-shell">
+  <header class="site-header">
+    <a class="site-brand" href="/" aria-label="OpenMontage home"><span>OpenMontage</span></a>
+    <nav class="site-nav" aria-label="Primary">
+      <a class="{{CREATE_ACTIVE}}" href="/">Create</a>
+      <a class="{{LIBRARY_ACTIVE}}" href="/library">Library</a>
+    </nav>
+    <span class="site-pill">LOCAL MODE</span>
+  </header>
+  <main class="page-content">{{PAGE_CONTENT}}</main>
+</div>
+{{PAGE_SCRIPTS}}
+</body>
+</html>

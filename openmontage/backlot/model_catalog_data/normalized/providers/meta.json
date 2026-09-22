@@ -1,0 +1,35 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "meta",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "meta/muse-image",
+      "label": "Meta / Muse Image",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "image",
+      "operations": [
+        "text_to_image"
+      ],
+      "remote_models": {
+        "text_to_image": "meta/muse-image/text-to-image"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/meta/muse-image/text-to-image"
+      ],
+      "origin_provider": "meta",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

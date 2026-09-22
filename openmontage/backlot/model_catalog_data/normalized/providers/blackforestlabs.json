@@ -1,0 +1,67 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "blackforestlabs",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "blackforestlabs/flux-3",
+      "label": "Blackforestlabs / Flux 3",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "blackforestlabs/flux-3/text-to-video",
+        "image_to_video": "blackforestlabs/flux-3/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/blackforestlabs/flux-3/text-to-video",
+        "https://fal.ai/models/blackforestlabs/flux-3/image-to-video"
+      ],
+      "origin_provider": "blackforestlabs",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "blackforestlabs/flux-3/draft",
+      "label": "Blackforestlabs / Flux 3 / Draft",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "blackforestlabs/flux-3/text-to-video/draft",
+        "image_to_video": "blackforestlabs/flux-3/image-to-video/draft"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/blackforestlabs/flux-3/text-to-video/draft",
+        "https://fal.ai/models/blackforestlabs/flux-3/image-to-video/draft"
+      ],
+      "origin_provider": "blackforestlabs",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}

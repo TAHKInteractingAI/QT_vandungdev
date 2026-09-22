@@ -1,0 +1,403 @@
+{
+  "source_url": "https://fal.ai/explore/search?categories=image-to-video,text-to-image,text-to-video&view=list&pageSize=48&sort=recent",
+  "generated_at": "2026-09-17T02:10:33.227854+00:00",
+  "gateway": "fal",
+  "origin_provider": "kling-video",
+  "provider_confidence": "inferred_from_model_namespace",
+  "models": [
+    {
+      "id": "fal-ai/kling-video/lipsync",
+      "label": "Fal Ai / Kling Video / Lipsync",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/kling-video/lipsync/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/lipsync/text-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/o1",
+      "label": "Fal Ai / Kling Video / O1",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/kling-video/o1/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/o1/image-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/o1/standard",
+      "label": "Kling Video / O1 / Standard",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/kling-video/o1/standard/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/o1/standard/image-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/o3/4k",
+      "label": "Kling Video / O3 / 4K",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/kling-video/o3/4k/image-to-video",
+        "text_to_video": "fal-ai/kling-video/o3/4k/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/o3/4k/image-to-video",
+        "https://fal.ai/models/fal-ai/kling-video/o3/4k/text-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/o3/pro",
+      "label": "Kling Video / O3 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/kling-video/o3/pro/text-to-video",
+        "image_to_video": "fal-ai/kling-video/o3/pro/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/o3/pro/text-to-video",
+        "https://fal.ai/models/fal-ai/kling-video/o3/pro/image-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/o3/standard",
+      "label": "Kling Video / O3 / Standard",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/kling-video/o3/standard/text-to-video",
+        "image_to_video": "fal-ai/kling-video/o3/standard/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/o3/standard/text-to-video",
+        "https://fal.ai/models/fal-ai/kling-video/o3/standard/image-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/v2.5-turbo/pro",
+      "label": "Kling Video / V2.5 Turbo / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/kling-video/v2.5-turbo/pro/image-to-video",
+        "text_to_video": "fal-ai/kling-video/v2.5-turbo/pro/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/v2.5-turbo/pro/image-to-video",
+        "https://fal.ai/models/fal-ai/kling-video/v2.5-turbo/pro/text-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/v2.5-turbo/standard",
+      "label": "Kling Video / V2.5 Turbo / Standard",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/kling-video/v2.5-turbo/standard/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/v2.5-turbo/standard/image-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/v2.6/pro",
+      "label": "Kling Video / V2.6 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/kling-video/v2.6/pro/text-to-video",
+        "image_to_video": "fal-ai/kling-video/v2.6/pro/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/v2.6/pro/text-to-video",
+        "https://fal.ai/models/fal-ai/kling-video/v2.6/pro/image-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/v3/4k",
+      "label": "Kling Video / V3 / 4K",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/kling-video/v3/4k/image-to-video",
+        "text_to_video": "fal-ai/kling-video/v3/4k/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/v3/4k/image-to-video",
+        "https://fal.ai/models/fal-ai/kling-video/v3/4k/text-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/v3/pro",
+      "label": "Kling Video / V3 / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/kling-video/v3/pro/text-to-video",
+        "image_to_video": "fal-ai/kling-video/v3/pro/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/v3/pro/text-to-video",
+        "https://fal.ai/models/fal-ai/kling-video/v3/pro/image-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/v3/standard",
+      "label": "Kling Video / V3 / Standard",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/kling-video/v3/standard/image-to-video",
+        "text_to_video": "fal-ai/kling-video/v3/standard/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/v3/standard/image-to-video",
+        "https://fal.ai/models/fal-ai/kling-video/v3/standard/text-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/v3/turbo/pro",
+      "label": "V3 / Turbo / Pro",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "text_to_video": "fal-ai/kling-video/v3/turbo/pro/text-to-video",
+        "image_to_video": "fal-ai/kling-video/v3/turbo/pro/image-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/v3/turbo/pro/text-to-video",
+        "https://fal.ai/models/fal-ai/kling-video/v3/turbo/pro/image-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    },
+    {
+      "id": "fal-ai/kling-video/v3/turbo/standard",
+      "label": "V3 / Turbo / Standard",
+      "provider": "fal",
+      "backend": "fal_queue",
+      "adapter": "fal_dynamic",
+      "kind": "video",
+      "operations": [
+        "text_to_video",
+        "image_to_video"
+      ],
+      "remote_models": {
+        "image_to_video": "fal-ai/kling-video/v3/turbo/standard/image-to-video",
+        "text_to_video": "fal-ai/kling-video/v3/turbo/standard/text-to-video"
+      },
+      "credential_env": [
+        "FAL_KEY",
+        "FAL_AI_API_KEY"
+      ],
+      "selectable": false,
+      "default": false,
+      "lifecycle": "discovered",
+      "source_urls": [
+        "https://fal.ai/models/fal-ai/kling-video/v3/turbo/standard/image-to-video",
+        "https://fal.ai/models/fal-ai/kling-video/v3/turbo/standard/text-to-video"
+      ],
+      "origin_provider": "kling-video",
+      "provider_confidence": "inferred_from_model_namespace"
+    }
+  ]
+}
