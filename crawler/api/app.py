@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from crawler.api.routes import crawl, health, jobs
-from linkedin_ceo_finder.api import router as ceo_router
 
 app = FastAPI(
     title="News Crawler & LinkedIn CEO Finder API",
@@ -20,5 +19,11 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(crawl.router)
 app.include_router(jobs.router)
-app.include_router(ceo_router)
+
+try:
+    from linkedin_ceo_finder.api import router as ceo_router
+    app.include_router(ceo_router)
+except ImportError as err:
+    import logging
+    logging.warning("linkedin_ceo_finder router could not be loaded: %s", err)
 
