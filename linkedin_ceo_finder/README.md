@@ -19,6 +19,10 @@ linkedin_ceo_finder/
 ├── sheet.py         # Kết nối OAuth/Service Account, định dạng bảng 7 cột, sắp xếp
 ├── core.py          # Lớp điều phối CEOFinder và các hàm chạy song song (ThreadPoolExecutor)
 ├── cli.py           # Giao diện dòng lệnh CLI (Command Line Interface)
+├── api/             # REST API Router & Pydantic Schemas (tích hợp FastAPI)
+│   ├── __init__.py
+│   ├── routes.py
+│   └── schemas.py
 └── README.md        # Hướng dẫn chi tiết sử dụng
 ```
 
@@ -130,3 +134,55 @@ finder = CEOFinder(config=config)
 
 leads = finder.find_by_domains(["apple.com", "meta.com"])
 ```
+
+---
+
+### 4. REST API (Tích hợp cùng FastAPI Backend)
+
+API của LinkedIn CEO Finder được tích hợp trực tiếp vào FastAPI server (`main.py`):
+
+| Phương thức | Đường dẫn | Chức năng |
+|---|---|---|
+| `GET` | `/api/v1/ceo/health` | Kiểm tra trạng thái dịch vụ và cấu hình Google Sheet |
+| `POST` | `/api/v1/ceo/domains` | Tìm kiếm CEO theo danh sách tên miền website |
+| `POST` | `/api/v1/ceo/keyword` | Tìm kiếm CEO theo từ khóa ngành nghề |
+| `GET` | `/api/v1/ceo/quick-search` | Tìm kiếm nhanh CEO qua Query parameters |
+
+#### Ví dụ gọi API qua `curl` (Bắt buộc kèm Header `X-API-Key`):
+
+**Tìm CEO theo tên miền:**
+```bash
+curl -X POST "http://127.0.0.1:8000/api/v1/ceo/domains" \
+     -H "Content-Type: application/json" \
+     -H "X-API-Key: test-secret-key-123" \
+     -d '{
+       "domains": ["google.com", "nvidia.com"],
+       "save_to_sheet": false,
+       "max_workers": 2
+     }'
+```
+
+**Tìm CEO theo từ khóa:**
+```bash
+curl -X POST "http://127.0.0.1:8000/api/v1/ceo/keyword" \
+     -H "Content-Type: application/json" \
+     -H "X-API-Key: test-secret-key-123" \
+     -d '{
+       "keyword": "Fintech Vietnam",
+       "target_count": 5,
+       "save_to_sheet": false
+     }'
+```
+
+**Tìm nhanh qua GET query:**
+```bash
+curl -X GET "http://127.0.0.1:8000/api/v1/ceo/quick-search?keyword=AI&count=2" \
+     -H "X-API-Key: test-secret-key-123"
+
+# Hoặc truyền key qua query parameter trên trình duyệt:
+# http://127.0.0.1:8000/api/v1/ceo/quick-search?keyword=AI&count=2&key=test-secret-key-123
+```
+
+**Xem tài liệu tương tác Swagger UI:**
+Truy cập `http://127.0.0.1:8000/docs` trên trình duyệt để thử nghiệm trực quan.
+
