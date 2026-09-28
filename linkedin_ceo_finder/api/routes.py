@@ -65,23 +65,28 @@ def _run_background_domain_search(
 
 def _run_background_keyword_search(
     job_id: str,
-    keyword: str,
-    target_count: int,
-    save_to_sheet: bool,
-    sheet_id: str,
-    worksheet_name: str,
-    proxy: Optional[str],
-    skip_empty_company: bool,
-    max_pages: int,
+    keywords: Optional[List[str]] = None,
+    keyword: Optional[str] = None,
+    target_count: int = 5,
+    save_to_sheet: bool = True,
+    max_workers: int = 5,
+    sheet_id: str = "",
+    worksheet_name: str = "",
+    proxy: Optional[str] = None,
+    skip_empty_company: bool = False,
+    max_pages: int = 5,
 ) -> None:
-    """Tác vụ tìm kiếm CEO theo keyword thực thi ngầm trong nền."""
+    """Tác vụ tìm kiếm CEO theo keyword thực thi ngầm trong nền (hỗ trợ nhiều từ khóa song song)."""
     effective_p = proxy or get_default_proxy()
-    logger.info("🚀 [CEO Job %s] Bắt đầu tìm kiếm ngầm cho keyword: '%s' [Proxy: %s]...", job_id, keyword, _mask_proxy(effective_p))
+    actual_kws = keywords or ([keyword] if keyword else ["Fintech Vietnam"])
+    kw_str = ", ".join(actual_kws[:3]) + ("..." if len(actual_kws) > 3 else "")
+    logger.info("🚀 [CEO Job %s] Bắt đầu tìm kiếm ngầm cho %d từ khóa: '%s' [Proxy: %s]...", job_id, len(actual_kws), kw_str, _mask_proxy(effective_p))
     try:
         leads = find_ceos_by_keyword(
-            keyword=keyword,
+            keywords=actual_kws,
             target_count=target_count,
             save_to_sheet=save_to_sheet,
+            max_workers=max_workers,
             sheet_id=sheet_id,
             worksheet_name=worksheet_name,
             proxy=effective_p,
@@ -208,6 +213,8 @@ async def search_by_keyword(
     target_sheet = request.sheet_id or DEFAULT_SHEET_ID
     target_ws = request.worksheet_name or DEFAULT_WORKSHEET_NAME
     target_proxy = request.proxy or get_default_proxy()
+    resolved_kws = request.resolve_keywords()
+    target_display = ", ".join(resolved_kws[:3]) + ("..." if len(resolved_kws) > 3 else "")
 
     # 1. Chế độ bất đồng bộ / Chạy ngầm (Mặc định cho cron-job)
     if not request.sync:
@@ -215,9 +222,10 @@ async def search_by_keyword(
         background_tasks.add_task(
             _run_background_keyword_search,
             job_id=job_id,
-            keyword=request.keyword,
+            keywords=resolved_kws,
             target_count=request.target_count,
             save_to_sheet=request.save_to_sheet,
+            max_workers=request.max_workers,
             sheet_id=target_sheet,
             worksheet_name=target_ws,
             proxy=target_proxy,
@@ -226,19 +234,20 @@ async def search_by_keyword(
         )
         return CEOJobTriggerResponse(
             status="running",
-            message=f"Tiến trình tìm kiếm CEO cho từ khóa '{request.keyword}' đang chạy ngầm trong nền.",
+            message=f"Tiến trình tìm kiếm CEO cho {len(resolved_kws)} từ khóa ({target_display}) đang chạy ngầm trong nền.",
             job_id=job_id,
             mode="keyword",
-            target=request.keyword,
+            target=target_display,
             save_to_sheet=request.save_to_sheet,
         )
 
     # 2. Chế độ đồng bộ (sync=True)
     try:
         leads = find_ceos_by_keyword(
-            keyword=request.keyword,
+            keywords=resolved_kws,
             target_count=request.target_count,
             save_to_sheet=request.save_to_sheet,
+            max_workers=request.max_workers,
             sheet_id=target_sheet,
             worksheet_name=target_ws,
             proxy=target_proxy,
@@ -258,7 +267,7 @@ async def search_by_keyword(
         ]
         return CEOSearchResponse(
             success=True,
-            message=f"Đã tìm thấy {len(leads_data)} CEO cho từ khóa '{request.keyword}'.",
+            message=f"Đã tìm thấy {len(leads_data)} CEO từ {len(resolved_kws)} từ khóa ({target_display}).",
             total_found=len(leads_data),
             leads=leads_data,
             sheet_saved=request.save_to_sheet and len(leads_data) > 0,

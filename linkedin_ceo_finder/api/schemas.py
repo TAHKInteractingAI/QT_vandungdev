@@ -1,7 +1,7 @@
 """Pydantic schemas cho LinkedIn CEO Finder API."""
 
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 from pydantic import BaseModel, Field
 
 
@@ -58,19 +58,29 @@ class DomainSearchRequest(BaseModel):
 
 
 class KeywordSearchRequest(BaseModel):
-    """Request tìm kiếm CEO theo từ khóa ngành nghề."""
+    """Request tìm kiếm CEO theo từ khóa ngành nghề (hỗ trợ cả từ khóa đơn lẻ lẫn danh sách nhiều từ khóa)."""
 
-    keyword: str = Field(
-        ...,
-        min_length=1,
-        description="Từ khóa ngành nghề / vị trí (vd: 'Fintech Vietnam', 'AI')",
+    keyword: Optional[str] = Field(
+        None,
+        description="Từ khóa đơn lẻ (vd: 'Fintech Vietnam', 'AI')",
         examples=["Fintech Vietnam"],
+    )
+    keywords: Optional[Union[List[str], str]] = Field(
+        None,
+        description="Danh sách nhiều từ khóa (vd: ['Fintech Vietnam', 'AI Vietnam']) hoặc chuỗi từ khóa",
+        examples=[["Fintech Vietnam", "AI Vietnam"]],
     )
     target_count: int = Field(
         5,
         ge=1,
         le=50,
-        description="Số lượng CEO mục tiêu cần tìm",
+        description="Số lượng CEO mục tiêu cần tìm cho mỗi từ khóa",
+    )
+    max_workers: int = Field(
+        5,
+        ge=1,
+        le=20,
+        description="Số luồng chạy song song đồng thời khi có nhiều từ khóa",
     )
     save_to_sheet: bool = Field(
         True,
@@ -80,7 +90,7 @@ class KeywordSearchRequest(BaseModel):
         5,
         ge=1,
         le=20,
-        description="Số trang tìm kiếm tối đa duyệt qua",
+        description="Số trang tìm kiếm tối đa duyệt qua cho mỗi từ khóa",
     )
     skip_empty_company: bool = Field(
         False,
@@ -102,6 +112,22 @@ class KeywordSearchRequest(BaseModel):
         None,
         description="Tùy chọn proxy HTTP",
     )
+
+    def resolve_keywords(self) -> List[str]:
+        """Chuẩn hóa danh sách từ khóa từ keyword hoặc keywords."""
+        res: List[str] = []
+        if self.keywords:
+            if isinstance(self.keywords, str):
+                res.extend([k.strip() for k in self.keywords.split(",") if k.strip()])
+            elif isinstance(self.keywords, list):
+                res.extend([str(k).strip() for k in self.keywords if str(k).strip()])
+        if self.keyword and self.keyword.strip():
+            kw = self.keyword.strip()
+            if kw not in res:
+                res.append(kw)
+        if not res:
+            res.append("Fintech Vietnam")
+        return res
 
 
 class CEOJobTriggerResponse(BaseModel):

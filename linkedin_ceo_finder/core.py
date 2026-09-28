@@ -58,9 +58,11 @@ class CEOFinder:
 
     def find_by_keyword(
         self,
-        keyword: str = "AI",
+        keyword: Optional[str] = None,
+        keywords: Optional[Union[List[str], str]] = None,
         target_count: int = 10,
         save_to_sheet: bool = True,
+        max_workers: Optional[int] = None,
         sheet_id: Optional[str] = None,
         worksheet_name: Optional[str] = None,
         proxy: Optional[str] = None,
@@ -68,11 +70,13 @@ class CEOFinder:
         skip_empty_company: bool = False,
         max_pages: int = 10,
     ) -> List[CEOLead]:
-        """Tìm kiếm CEO theo từ khóa ngành nghề."""
+        """Tìm kiếm CEO theo từ khóa ngành nghề (hỗ trợ cả từ khóa đơn lẻ lẫn danh sách)."""
         return find_ceos_by_keyword(
             keyword=keyword,
+            keywords=keywords,
             target_count=target_count,
             save_to_sheet=save_to_sheet,
+            max_workers=max_workers or self.config.max_workers,
             sheet_id=sheet_id or self.config.sheet_id,
             worksheet_name=worksheet_name or self.config.worksheet_name,
             proxy=proxy if proxy is not None else self.config.proxy,
@@ -212,9 +216,11 @@ def find_ceos_by_domains(
 
 
 def find_ceos_by_keyword(
-    keyword: str = "AI",
+    keyword: Optional[str] = None,
+    keywords: Optional[Union[List[str], str]] = None,
     target_count: int = 10,
     save_to_sheet: bool = True,
+    max_workers: int = 5,
     sheet_id: str = DEFAULT_SHEET_ID,
     worksheet_name: str = DEFAULT_WORKSHEET_NAME,
     proxy: Optional[str] = DEFAULT_PROXY,
@@ -224,10 +230,14 @@ def find_ceos_by_keyword(
 ) -> List[CEOLead]:
     """Tìm kiếm CEO theo từ khóa ngành nghề / vị trí (vd: 'Fintech', 'AI Vietnam').
 
+    Hỗ trợ cả 1 từ khóa (keyword) hoặc danh sách nhiều từ khóa (keywords) chạy SONG SONG.
+
     Parameters:
-        keyword (str): Từ khóa ngành nghề / vị trí
-        target_count (int): Số lượng CEO mục tiêu cần tìm
+        keyword (str, optional): Từ khóa đơn lẻ
+        keywords (list | str, optional): Danh sách hoặc chuỗi nhiều từ khóa
+        target_count (int): Số lượng CEO mục tiêu cần tìm cho mỗi từ khóa
         save_to_sheet (bool): Tự động lưu kết quả vào Google Sheet (mặc định: True)
+        max_workers (int): Số luồng chạy song song đồng thời khi có nhiều từ khóa (mặc định: 5)
         sheet_id (str): ID của Google Sheet
         worksheet_name (str): Tên tab sheet cần lưu
         proxy (str): Proxy HTTP để cào dữ liệu
@@ -238,9 +248,33 @@ def find_ceos_by_keyword(
     Returns:
         List[CEOLead]: Danh sách leads CEO mới tìm được theo từ khóa
     """
+    # Chuẩn hóa danh sách từ khóa
+    clean_kws: List[str] = []
+    seen_kw_set: Set[str] = set()
+
+    raw_candidates = keywords if keywords is not None else keyword
+    if isinstance(raw_candidates, str):
+        candidates = [k.strip() for k in raw_candidates.split(",") if k.strip()]
+    elif isinstance(raw_candidates, (list, set, tuple)):
+        candidates = [str(k).strip() for k in raw_candidates if str(k).strip()]
+    else:
+        candidates = []
+
+    if keyword and isinstance(keyword, str) and keyword.strip() and keyword.strip() not in candidates:
+        candidates.append(keyword.strip())
+
+    for k in candidates:
+        if k and k.lower() not in seen_kw_set:
+            seen_kw_set.add(k.lower())
+            clean_kws.append(k)
+
+    if not clean_kws:
+        clean_kws = ["Fintech Vietnam"]
+
     effective_proxy = proxy or get_default_proxy()
+    kw_display = clean_kws[0] if len(clean_kws) == 1 else f"{len(clean_kws)} từ khóa"
     print(
-        f"\n🚀 BẮT ĐẦU TÌM KIẾM CEO THEO TỪ KHÓA [Keyword: '{keyword}' | Mục tiêu: {target_count} | Proxy: {_mask_proxy(effective_proxy)}]"
+        f"\n🚀 BẮT ĐẦU TÌM KIẾM CEO THEO TỪ KHÓA [Từ khóa: '{kw_display}' | Mục tiêu: {target_count}/kw | Số luồng: {max_workers} | Proxy: {_mask_proxy(effective_proxy)}]"
     )
     leads: List[CEOLead] = []
     seen_urls: Set[str] = set()
@@ -260,19 +294,48 @@ def find_ceos_by_keyword(
                     f"📋 Đã tải {len(sheet_ceos)} định danh CEO từ Sheet để bỏ qua CEO trùng lặp."
                 )
 
-    # Quét qua Search Engine
-    leads = search_ceos_by_keyword(
-        keyword=keyword,
-        target_count=target_count,
-        proxy=effective_proxy,
-        seen_urls=seen_urls,
-        skip_empty_company=skip_empty_company,
-        max_pages=max_pages,
-    )
+    if len(clean_kws) == 1:
+        # Chạy trực tiếp cho 1 từ khóa
+        leads = search_ceos_by_keyword(
+            keyword=clean_kws[0],
+            target_count=target_count,
+            proxy=effective_proxy,
+            seen_urls=seen_urls,
+            skip_empty_company=skip_empty_company,
+            max_pages=max_pages,
+        )
+    else:
+        # Chạy song song qua ThreadPoolExecutor khi có nhiều từ khóa
+        def _fetch_kw(idx: int, kw: str) -> List[CEOLead]:
+            time.sleep(idx * 0.2)
+            return search_ceos_by_keyword(
+                keyword=kw,
+                target_count=target_count,
+                proxy=effective_proxy,
+                seen_urls=seen_urls,
+                skip_empty_company=skip_empty_company,
+                max_pages=max_pages,
+            )
 
-    print(f"\n🎯 Tổng cộng tìm thấy: {len(leads)} CEO mới.")
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_kw = {
+                executor.submit(_fetch_kw, i, kw): kw for i, kw in enumerate(clean_kws)
+            }
+            for future in as_completed(future_to_kw):
+                kw_name = future_to_kw[future]
+                try:
+                    kw_leads = future.result()
+                    for lead in kw_leads:
+                        if not is_duplicate_ceo(lead.linkedin_link, lead.name, seen_urls):
+                            seen_urls.add(lead.linkedin_link)
+                            seen_urls.add(lead.name.strip().lower())
+                            leads.append(lead)
+                except Exception as e:
+                    print(f"  ❌ Lỗi khi tìm kiếm từ khóa '{kw_name}': {e}")
 
-    # Lưu vào Sheet nếu được yêu cầu
+    print(f"\n🎯 Tổng cộng tìm thấy: {len(leads)} CEO mới từ từ khóa.")
+
+    # Lưu vào Sheet nếu được yêu cầu (các dòng mới luôn xếp lên trên đầu)
     if save_to_sheet and leads:
         save_leads_to_sheet(
             leads,
