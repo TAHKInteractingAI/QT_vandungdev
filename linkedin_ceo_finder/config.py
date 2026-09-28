@@ -6,6 +6,7 @@ tự động nhận diện môi trường Google Colab / Local.
 
 from dataclasses import dataclass, field
 import os
+import re
 import sys
 from typing import List, Optional
 from dotenv import load_dotenv
@@ -36,6 +37,16 @@ def get_default_proxy() -> Optional[str]:
             proxy_str = val.strip()
             if not proxy_str.startswith(("http://", "https://", "socks5://", "socks5h://")):
                 proxy_str = f"http://{proxy_str}"
+
+            # Nếu là Webshare direct/static IP, tự động ưu tiên chuyển sang Backbone Rotating endpoint (p.webshare.io:80)
+            # để tránh bị Yahoo Search / Search Engine rate-limit trên IP tĩnh
+            m = re.match(r"https?://([^:@]+):([^@]+)@(\d+\.\d+\.\d+\.\d+):(\d+)", proxy_str)
+            if m and ("webshare" in key.lower() or len(m.group(1).split("-")[0]) >= 5):
+                user_base = m.group(1).split("-")[0]
+                password = m.group(2)
+                rotating_proxy = f"http://{user_base}-rotate:{password}@p.webshare.io:80/"
+                return rotating_proxy
+
             return proxy_str
 
     # 2. Thử lấy từ settings của crawler nếu có

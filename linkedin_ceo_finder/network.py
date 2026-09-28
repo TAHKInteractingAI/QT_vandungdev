@@ -55,7 +55,33 @@ def http_get(
                 timeout=timeout,
             )
             if r.status_code == 200 and r.text:
-                return HTMLParser(r.text)
+                if "We had temporary problems searching for web pages" in r.text:
+                    logger.warning(
+                        "⚠️ [http_get] Yahoo Search thông báo 'We had temporary problems' (IP proxy %s bị rate-limit bởi Yahoo). Đang thử xoay IP...",
+                        masked_p,
+                    )
+                    # Nếu proxy hiện tại là Webshare direct IP, thử fallback sang backbone rotating endpoint
+                    if effective_proxy:
+                        m = re.match(r"https?://([^:@]+):([^@]+)@", effective_proxy)
+                        if m:
+                            user_base = m.group(1).split("-")[0]
+                            password = m.group(2)
+                            rotating_proxy = f"http://{user_base}-rotate:{password}@p.webshare.io:80/"
+                            if rotating_proxy != effective_proxy:
+                                try:
+                                    r_rot = curl_requests.get(
+                                        url,
+                                        proxy=rotating_proxy,
+                                        impersonate="chrome120",
+                                        timeout=timeout,
+                                    )
+                                    if r_rot.status_code == 200 and r_rot.text and "We had temporary problems" not in r_rot.text:
+                                        logger.info("✅ [http_get] Chuyển sang Webshare Rotating Proxy (p.webshare.io:80) thành công!")
+                                        return HTMLParser(r_rot.text)
+                                except Exception:
+                                    pass
+                else:
+                    return HTMLParser(r.text)
 
             logger.warning(
                 "⚠️ [http_get] HTTP %s cho URL '%s' (lần thử %d/%d) [proxy: %s]",
