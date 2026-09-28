@@ -3,6 +3,16 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Dict, List, Optional
+import zoneinfo
+
+
+def now_hcm_str() -> str:
+    """Lấy thời gian hiện tại theo múi giờ Việt Nam (Asia/Ho_Chi_Minh, UTC+7)."""
+    try:
+        tz = zoneinfo.ZoneInfo("Asia/Ho_Chi_Minh")
+        return datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+    except Exception:
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 @dataclass
@@ -14,9 +24,7 @@ class CEOLead:
     keyword: str
     company: str = "N/A"
     linkedin_link: str = ""
-    updated_at: str = field(
-        default_factory=lambda: datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    )
+    updated_at: str = field(default_factory=now_hcm_str)
 
     @property
     def url(self) -> str:
@@ -74,6 +82,5 @@ class CEOLead:
             keyword=data.get("keyword", "").strip(),
             company=data.get("company", "N/A").strip() or "N/A",
             linkedin_link=data.get("linkedin_link") or data.get("url") or "",
-            updated_at=data.get("updated_at")
-            or datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            updated_at=data.get("updated_at") or now_hcm_str(),
         )

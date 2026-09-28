@@ -20,7 +20,7 @@ from .config import (
     SHEET_HEADERS,
     get_sheet_id,
 )
-from .models import CEOLead
+from .models import CEOLead, now_hcm_str
 
 
 def format_sheet(ws: Any) -> None:
@@ -72,20 +72,21 @@ def format_sheet(ws: Any) -> None:
         print(f"⚠️ Lưu ý khi format sheet: {e}")
 
 
-def sort_and_renumber_sheet(ws: Any) -> None:
-    """Sắp xếp toàn bộ dữ liệu theo Ngày Cập Nhật mới nhất lên đầu và đánh lại STT chuẩn."""
+def renumber_sheet(ws: Any) -> None:
+    """Đánh lại STT 1 -> N từ trên xuống dưới mà không đảo lộn thứ tự các dòng dữ liệu."""
     try:
         all_vals = ws.get_all_values()
-        if len(all_vals) <= 2:
+        if len(all_vals) <= 1:
             return
         data_rows = [r for r in all_vals[1:] if any(r)]
-        # r[6] là Ngày Cập Nhật trong bảng 7 cột (mới nhất xếp trên cùng)
-        data_rows.sort(key=lambda r: str(r[6] if len(r) > 6 else "") or "", reverse=True)
         for idx, r in enumerate(data_rows, start=1):
             r[0] = str(idx)
         ws.update(values=data_rows, range_name=f"A2:G{len(data_rows) + 1}")
     except Exception as e:
-        print(f"⚠️ Lưu ý khi sắp xếp sheet: {e}")
+        print(f"⚠️ Lưu ý khi đánh lại STT: {e}")
+
+
+sort_and_renumber_sheet = renumber_sheet
 
 
 def get_existing_sheet_ceos(ws: Any) -> Set[str]:
@@ -306,11 +307,11 @@ def save_leads_to_sheet(
         all_vals = ws.get_all_values()
         cols = ["name", "role", "keyword", "company", "linkedin_link"]
 
-        # 1. Dữ liệu mới tìm được
+        # 1. Dữ liệu mới tìm được (new_data)
         new_data = []
         for item in leads:
             l = item.to_dict() if isinstance(item, CEOLead) else item
-            updated_at = l.get("updated_at") or datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            updated_at = l.get("updated_at") or now_hcm_str()
             link = l.get("linkedin_link") or l.get("url") or ""
             row_vals = [
                 l.get("name", ""),
@@ -331,17 +332,17 @@ def save_leads_to_sheet(
                     row_info.append("")
                 existing_data.append(row_info)
 
-        # 3. Gộp và sắp xếp theo Ngày Cập Nhật mới nhất lên trên cùng (descending)
+        # 3. LUÔN LUÔN ƯU TIÊN DỮ LIỆU MỚI (new_data) LÊN TRÊN CÙNG (Prepend to top)
+        # Các lead vừa tìm được trong batch này được đưa lên ngay đầu bảng (dòng 2 trở đi)
         combined = new_data + existing_data
-        combined.sort(key=lambda r: str(r[-1] or ""), reverse=True)
 
-        # 4. Gắn STT 1 -> N từ trên xuống dưới
+        # 4. Đánh lại STT liên tục 1 -> N từ trên xuống dưới
         final_rows = [[i] + r for i, r in enumerate(combined, start=1)]
 
         # 5. Cập nhật vào Sheet và áp dụng định dạng 7 cột
         ws.update(values=final_rows, range_name=f"A2:G{len(final_rows) + 1}")
         format_sheet(ws)
-        print(f"✅ Đã lưu {len(leads)} CEO mới (xếp mới nhất lên trên cùng, tổng cộng {len(final_rows)} dòng).")
+        print(f"✅ Đã lưu {len(leads)} CEO mới lên những dòng ĐẦU TIÊN của Sheet (tổng cộng {len(final_rows)} dòng).")
         return True
     except Exception as e:
         print(f"❌ Lỗi ghi dữ liệu vào Sheet: {e}")
