@@ -120,24 +120,21 @@ def get_existing_sheet_ceos(ws: Any) -> Set[str]:
         return set()
 
 
-def connect_google_sheet(
-    service_account_path: str = DEFAULT_SERVICE_ACCOUNT,
-    sheet_id: str = DEFAULT_SHEET_ID,
-    worksheet_name: str = DEFAULT_WORKSHEET_NAME,
-) -> Optional[Any]:
-    """Kết nối Google Sheet với cơ chế hỗ trợ Colab OAuth & fallback Service Account."""
-    sid = sheet_id or get_sheet_id()
-    if not sid:
-        print("⚠️ Chưa cấu hình sheet_id hoặc biến môi trường SHEET_CEO / GOOGLE_SPREADSHEET_ID.")
-        return None
+from pathlib import Path
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials as UserCredentials
+from google.oauth2.service_account import Credentials as ServiceAccountCredentials
 
-    ws_name = worksheet_name or DEFAULT_WORKSHEET_NAME or "sheet1"
-    sa_path = service_account_path or os.getenv(
-        "GOOGLE_APPLICATION_CREDENTIALS", "service_account.json"
-    )
+_SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive",
+]
 
-    print("⏳ Xác thực Google Client...")
-    gc = None
+
+def resolve_google_client(service_account_path: Optional[str] = None) -> Optional[gspread.Client]:
+    """Tự động xác thực Google Client qua OAuth User Token (GOOGLE_TOKEN_JSON / token.json)
+    hoặc Service Account (GOOGLE_SERVICE_ACCOUNT_JSON / service_account.json), tương thích 100% với crawler.
+    """
     if IN_COLAB:
         try:
             from google.colab import auth
@@ -145,39 +142,91 @@ def connect_google_sheet(
 
             auth.authenticate_user()
             creds, _ = default()
-            gc = gspread.authorize(creds)
             print("✅ Colab OAuth: Thành công.")
+            return gspread.authorize(creds)
         except Exception:
             pass
 
-    # 1. Thử xác thực từ biến môi trường GOOGLE_SERVICE_ACCOUNT_JSON (chuỗi JSON trên Render / Cloud)
-    if not gc and os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON"):
+    # 1. Thử OAuth 2.0 User Token từ biến môi trường GOOGLE_TOKEN_JSON (chuỗi JSON trên Render / Cloud)
+    token_env = os.getenv("GOOGLE_TOKEN_JSON")
+    if token_env and token_env.strip():
         try:
-            sa_info = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
-            gc = gspread.service_account_from_dict(sa_info)
+            info = json.loads(token_env)
+            creds = UserCredentials.from_authorized_user_info(info, scopes=_SCOPES)
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            print("✅ OAuth 2.0 User Credentials từ GOOGLE_TOKEN_JSON env var: Thành công.")
+            return gspread.authorize(creds)
+        except Exception as e:
+            print(f"⚠️ Lỗi xác thực GOOGLE_TOKEN_JSON: {e}")
+
+    # 2. Thử OAuth 2.0 User Token từ file token.json hoặc /etc/secrets/token.json (Render Secret File)
+    token_candidates = [
+        Path(service_account_path) if service_account_path and "token" in service_account_path else None,
+        Path("token.json"),
+        Path(__file__).resolve().parent.parent / "token.json",
+        Path("/etc/secrets/token.json"),
+    ]
+    for tok_p in token_candidates:
+        if tok_p and tok_p.exists():
+            try:
+                creds = UserCredentials.from_authorized_user_file(str(tok_p), scopes=_SCOPES)
+                if creds and creds.expired and creds.refresh_token:
+                    creds.refresh(Request())
+                print(f"✅ OAuth 2.0 User Credentials từ file {tok_p}: Thành công.")
+                return gspread.authorize(creds)
+            except Exception as e:
+                print(f"⚠️ Lỗi xác thực token file {tok_p}: {e}")
+
+    # 3. Thử Service Account từ biến môi trường GOOGLE_SERVICE_ACCOUNT_JSON (chuỗi JSON trên Render / Cloud)
+    sa_env = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
+    if sa_env and sa_env.strip():
+        try:
+            info = json.loads(sa_env)
+            creds = ServiceAccountCredentials.from_service_account_info(info, scopes=_SCOPES)
             print("✅ Service Account từ biến môi trường GOOGLE_SERVICE_ACCOUNT_JSON: Thành công.")
+            return gspread.authorize(creds)
         except Exception as e:
             print(f"⚠️ Lỗi xác thực Service Account từ GOOGLE_SERVICE_ACCOUNT_JSON: {e}")
 
-    # 2. Thử Render Secret File (/etc/secrets/service_account.json)
-    if not gc and os.path.exists("/etc/secrets/service_account.json"):
-        try:
-            gc = gspread.service_account(filename="/etc/secrets/service_account.json")
-            print("✅ Service Account từ Render Secret File (/etc/secrets/service_account.json): Thành công.")
-        except Exception as e:
-            print(f"⚠️ Lỗi xác thực Service Account từ Render Secret File: {e}")
+    # 4. Thử Service Account từ file (service_account.json hoặc /etc/secrets/service_account.json)
+    sa_candidates = [
+        Path(service_account_path) if service_account_path else None,
+        Path(os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "service_account.json")),
+        Path(__file__).resolve().parent.parent / "service_account.json",
+        Path("service_account.json"),
+        Path("/etc/secrets/service_account.json"),
+    ]
+    for sa_p in sa_candidates:
+        if sa_p and sa_p.exists():
+            try:
+                creds = ServiceAccountCredentials.from_service_account_file(str(sa_p), scopes=_SCOPES)
+                print(f"✅ Service Account từ file {sa_p}: Thành công.")
+                return gspread.authorize(creds)
+            except Exception as e:
+                print(f"⚠️ Lỗi xác thực Service Account từ file {sa_p}: {e}")
 
-    # 3. Thử từ file credentials cục bộ (sa_path)
+    print("❌ Không tìm thấy thông tin xác thực Google hợp lệ (GOOGLE_TOKEN_JSON, token.json, GOOGLE_SERVICE_ACCOUNT_JSON, service_account.json).")
+    return None
+
+
+def connect_google_sheet(
+    service_account_path: str = DEFAULT_SERVICE_ACCOUNT,
+    sheet_id: str = DEFAULT_SHEET_ID,
+    worksheet_name: str = DEFAULT_WORKSHEET_NAME,
+) -> Optional[Any]:
+    """Kết nối Google Sheet với cơ chế hỗ trợ đa tầng: Colab OAuth, OAuth Token (Render), Service Account."""
+    sid = sheet_id or get_sheet_id()
+    if not sid:
+        print("⚠️ Chưa cấu hình sheet_id hoặc biến môi trường SHEET_CEO / GOOGLE_SPREADSHEET_ID.")
+        return None
+
+    ws_name = worksheet_name or DEFAULT_WORKSHEET_NAME or "sheet1"
+
+    print("⏳ Xác thực Google Client...")
+    gc = resolve_google_client(service_account_path=service_account_path)
     if not gc:
-        if not os.path.exists(sa_path):
-            print(f"❌ Không tìm thấy file credentials tại '{sa_path}' và không có biến GOOGLE_SERVICE_ACCOUNT_JSON.")
-            return None
-        try:
-            gc = gspread.service_account(filename=sa_path)
-            print(f"✅ Service Account: Thành công ({sa_path}).")
-        except Exception as e:
-            print(f"❌ Lỗi xác thực Service Account: {e}")
-            return None
+        return None
 
     try:
         sh = gc.open_by_key(sid)

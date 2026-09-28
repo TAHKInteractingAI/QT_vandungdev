@@ -129,6 +129,21 @@ def http_get(
 
             time.sleep(delay_between_retries)
 
+    # Nếu dùng proxy thất bại hoàn toàn sau các lần thử, thử gửi trực tiếp (direct) 1 lần
+    if effective_proxy is not None:
+        try:
+            r_direct = curl_requests.get(
+                url,
+                proxy=None,
+                impersonate="chrome120",
+                timeout=timeout,
+            )
+            if r_direct.status_code == 200 and r_direct.text and "We had temporary problems" not in r_direct.text:
+                logger.info("✅ [http_get] Fallback kết nối trực tiếp (direct) thành công!")
+                return HTMLParser(r_direct.text)
+        except Exception:
+            pass
+
     return None
 
 

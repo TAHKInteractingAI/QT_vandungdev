@@ -237,11 +237,13 @@ def search_ceos_by_keyword(
         url = f"https://search.yahoo.com/search?p={urllib.parse.quote(query)}&b={offset}"
         tree = http_get(url, proxy=proxy, timeout=12)
         if not tree:
-            break
+            time.sleep(0.5)
+            continue
 
         results = tree.css("div#web ol > li")
         if not results:
-            break
+            time.sleep(0.5)
+            continue
 
         for li in results:
             h3 = li.css_first("h3")
