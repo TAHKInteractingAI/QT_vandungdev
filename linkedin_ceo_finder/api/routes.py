@@ -15,8 +15,10 @@ from linkedin_ceo_finder.config import (
     DEFAULT_SERVICE_ACCOUNT,
     DEFAULT_SHEET_ID,
     DEFAULT_WORKSHEET_NAME,
+    get_default_proxy,
 )
 from linkedin_ceo_finder.core import find_ceos_by_domains, find_ceos_by_keyword
+from linkedin_ceo_finder.network import _mask_proxy
 from .schemas import (
     CEOHealthResponse,
     CEOJobTriggerResponse,
@@ -43,7 +45,8 @@ def _run_background_domain_search(
     proxy: Optional[str],
 ) -> None:
     """Tác vụ tìm kiếm CEO theo domain thực thi ngầm trong nền."""
-    logger.info("🚀 [CEO Job %s] Bắt đầu quét ngầm cho %d domain...", job_id, len(domains))
+    effective_p = proxy or get_default_proxy()
+    logger.info("🚀 [CEO Job %s] Bắt đầu quét ngầm cho %d domain [Proxy: %s]...", job_id, len(domains), _mask_proxy(effective_p))
     try:
         leads = find_ceos_by_domains(
             company_domains=domains,
@@ -52,7 +55,7 @@ def _run_background_domain_search(
             max_workers=max_workers,
             sheet_id=sheet_id,
             worksheet_name=worksheet_name,
-            proxy=proxy,
+            proxy=effective_p,
         )
         logger.info("✅ [CEO Job %s] Hoàn thành: tìm thấy %d CEO.", job_id, len(leads))
     except Exception as e:
@@ -71,7 +74,8 @@ def _run_background_keyword_search(
     max_pages: int,
 ) -> None:
     """Tác vụ tìm kiếm CEO theo keyword thực thi ngầm trong nền."""
-    logger.info("🚀 [CEO Job %s] Bắt đầu tìm kiếm ngầm cho keyword: '%s'...", job_id, keyword)
+    effective_p = proxy or get_default_proxy()
+    logger.info("🚀 [CEO Job %s] Bắt đầu tìm kiếm ngầm cho keyword: '%s' [Proxy: %s]...", job_id, keyword, _mask_proxy(effective_p))
     try:
         leads = find_ceos_by_keyword(
             keyword=keyword,
@@ -79,7 +83,7 @@ def _run_background_keyword_search(
             save_to_sheet=save_to_sheet,
             sheet_id=sheet_id,
             worksheet_name=worksheet_name,
-            proxy=proxy,
+            proxy=effective_p,
             skip_empty_company=skip_empty_company,
             max_pages=max_pages,
         )
@@ -119,6 +123,7 @@ async def search_by_domains(
     """
     target_sheet = request.sheet_id or DEFAULT_SHEET_ID
     target_ws = request.worksheet_name or DEFAULT_WORKSHEET_NAME
+    target_proxy = request.proxy or get_default_proxy()
 
     # 1. Chế độ bất đồng bộ / Chạy ngầm (Mặc định cho cron-job)
     if not request.sync:
@@ -132,7 +137,7 @@ async def search_by_domains(
             max_workers=request.max_workers,
             sheet_id=target_sheet,
             worksheet_name=target_ws,
-            proxy=request.proxy,
+            proxy=target_proxy,
         )
         return CEOJobTriggerResponse(
             status="running",
@@ -152,7 +157,7 @@ async def search_by_domains(
             max_workers=request.max_workers,
             sheet_id=target_sheet,
             worksheet_name=target_ws,
-            proxy=request.proxy,
+            proxy=target_proxy,
         )
         leads_data = [
             CEOLeadSchema(
@@ -195,6 +200,7 @@ async def search_by_keyword(
     """
     target_sheet = request.sheet_id or DEFAULT_SHEET_ID
     target_ws = request.worksheet_name or DEFAULT_WORKSHEET_NAME
+    target_proxy = request.proxy or get_default_proxy()
 
     # 1. Chế độ bất đồng bộ / Chạy ngầm (Mặc định cho cron-job)
     if not request.sync:
@@ -207,7 +213,7 @@ async def search_by_keyword(
             save_to_sheet=request.save_to_sheet,
             sheet_id=target_sheet,
             worksheet_name=target_ws,
-            proxy=request.proxy,
+            proxy=target_proxy,
             skip_empty_company=request.skip_empty_company,
             max_pages=request.max_pages,
         )
@@ -228,7 +234,7 @@ async def search_by_keyword(
             save_to_sheet=request.save_to_sheet,
             sheet_id=target_sheet,
             worksheet_name=target_ws,
-            proxy=request.proxy,
+            proxy=target_proxy,
             skip_empty_company=request.skip_empty_company,
             max_pages=request.max_pages,
         )
@@ -270,6 +276,8 @@ async def quick_search(
     sync: bool = Query(False, description="Chạy đồng bộ hay nền (mặc định False: chạy nền)"),
 ):
     """Tìm kiếm nhanh CEO qua GET (hỗ trợ cron-job gọi qua URL webhook hoặc browser)."""
+    target_proxy = get_default_proxy()
+
     if not sync:
         job_id = f"ceo_quick_{uuid.uuid4().hex[:8]}"
         background_tasks.add_task(
@@ -280,7 +288,7 @@ async def quick_search(
             save_to_sheet=save_to_sheet,
             sheet_id=DEFAULT_SHEET_ID,
             worksheet_name=DEFAULT_WORKSHEET_NAME,
-            proxy=None,
+            proxy=target_proxy,
             skip_empty_company=False,
             max_pages=5,
         )
@@ -298,6 +306,7 @@ async def quick_search(
             keyword=keyword,
             target_count=count,
             save_to_sheet=save_to_sheet,
+            proxy=target_proxy,
         )
         leads_data = [
             CEOLeadSchema(
@@ -322,3 +331,4 @@ async def quick_search(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Lỗi trong quá trình tìm kiếm nhanh: {str(e)}",
         )
+

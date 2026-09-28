@@ -14,8 +14,10 @@ from .config import (
     DEFAULT_SERVICE_ACCOUNT,
     DEFAULT_SHEET_ID,
     DEFAULT_WORKSHEET_NAME,
+    get_default_proxy,
 )
 from .models import CEOLead
+from .network import _mask_proxy
 from .parser import is_duplicate_ceo, print_lead
 from .searcher import (
     extract_ceo_from_website,
@@ -125,8 +127,9 @@ def find_ceos_by_domains(
         print("⚠️ Không có tên miền hợp lệ để tìm kiếm.")
         return []
 
+    effective_proxy = proxy or get_default_proxy()
     print(
-        f"\n🌐 BẮT ĐẦU TÌM KIẾM CEO SONG SONG [Số lượng website: {len(clean_domains)} | Số luồng: {max_workers}]"
+        f"\n🌐 BẮT ĐẦU TÌM KIẾM CEO SONG SONG [Số lượng website: {len(clean_domains)} | Số luồng: {max_workers} | Proxy: {_mask_proxy(effective_proxy)}]"
     )
     leads: List[CEOLead] = []
     seen_urls: Set[str] = set()
@@ -152,10 +155,10 @@ def find_ceos_by_domains(
         # Giãn nhẹ giữa các luồng để tránh nghẽn request Yahoo
         time.sleep(idx * 0.15)
         # Bước 2.1: Thuật toán Executive Search & Targeted LinkedIn Lookup (Độ chính xác cao nhất)
-        res = search_ceo_for_domain(dom, proxy=proxy, seen_urls=seen_urls)
+        res = search_ceo_for_domain(dom, proxy=effective_proxy, seen_urls=seen_urls)
         # Bước 2.2: Fallback quét trực tiếp website nếu chưa tìm thấy
         if not res:
-            res = extract_ceo_from_website(dom, proxy=proxy, seen_urls=seen_urls)
+            res = extract_ceo_from_website(dom, proxy=effective_proxy, seen_urls=seen_urls)
         return dom, res
 
     # 3. Chạy song song qua ThreadPoolExecutor
@@ -235,8 +238,9 @@ def find_ceos_by_keyword(
     Returns:
         List[CEOLead]: Danh sách leads CEO mới tìm được theo từ khóa
     """
+    effective_proxy = proxy or get_default_proxy()
     print(
-        f"\n🚀 BẮT ĐẦU TÌM KIẾM CEO THEO TỪ KHÓA [Keyword: '{keyword}' | Mục tiêu: {target_count}]"
+        f"\n🚀 BẮT ĐẦU TÌM KIẾM CEO THEO TỪ KHÓA [Keyword: '{keyword}' | Mục tiêu: {target_count} | Proxy: {_mask_proxy(effective_proxy)}]"
     )
     leads: List[CEOLead] = []
     seen_urls: Set[str] = set()
@@ -260,7 +264,7 @@ def find_ceos_by_keyword(
     leads = search_ceos_by_keyword(
         keyword=keyword,
         target_count=target_count,
-        proxy=proxy,
+        proxy=effective_proxy,
         seen_urls=seen_urls,
         skip_empty_company=skip_empty_company,
         max_pages=max_pages,
