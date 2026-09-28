@@ -5,6 +5,7 @@ sắp xếp theo thời gian mới nhất (sorting & renumbering) và lưu trữ
 """
 
 from datetime import datetime
+import json
 import os
 import re
 from typing import Any, Dict, List, Optional, Set, Union
@@ -17,6 +18,7 @@ from .config import (
     IN_COLAB,
     SHEET_COL_WIDTHS,
     SHEET_HEADERS,
+    get_sheet_id,
 )
 from .models import CEOLead
 
@@ -124,9 +126,9 @@ def connect_google_sheet(
     worksheet_name: str = DEFAULT_WORKSHEET_NAME,
 ) -> Optional[Any]:
     """Kết nối Google Sheet với cơ chế hỗ trợ Colab OAuth & fallback Service Account."""
-    sid = sheet_id or os.getenv("SHEET_CEO")
+    sid = sheet_id or get_sheet_id()
     if not sid:
-        print("⚠️ Chưa cấu hình sheet_id hoặc biến môi trường SHEET_CEO.")
+        print("⚠️ Chưa cấu hình sheet_id hoặc biến môi trường SHEET_CEO / GOOGLE_SPREADSHEET_ID.")
         return None
 
     ws_name = worksheet_name or DEFAULT_WORKSHEET_NAME or "sheet1"
@@ -148,9 +150,27 @@ def connect_google_sheet(
         except Exception:
             pass
 
+    # 1. Thử xác thực từ biến môi trường GOOGLE_SERVICE_ACCOUNT_JSON (chuỗi JSON trên Render / Cloud)
+    if not gc and os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON"):
+        try:
+            sa_info = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
+            gc = gspread.service_account_from_dict(sa_info)
+            print("✅ Service Account từ biến môi trường GOOGLE_SERVICE_ACCOUNT_JSON: Thành công.")
+        except Exception as e:
+            print(f"⚠️ Lỗi xác thực Service Account từ GOOGLE_SERVICE_ACCOUNT_JSON: {e}")
+
+    # 2. Thử Render Secret File (/etc/secrets/service_account.json)
+    if not gc and os.path.exists("/etc/secrets/service_account.json"):
+        try:
+            gc = gspread.service_account(filename="/etc/secrets/service_account.json")
+            print("✅ Service Account từ Render Secret File (/etc/secrets/service_account.json): Thành công.")
+        except Exception as e:
+            print(f"⚠️ Lỗi xác thực Service Account từ Render Secret File: {e}")
+
+    # 3. Thử từ file credentials cục bộ (sa_path)
     if not gc:
         if not os.path.exists(sa_path):
-            print(f"❌ Không tìm thấy file credentials tại '{sa_path}'.")
+            print(f"❌ Không tìm thấy file credentials tại '{sa_path}' và không có biến GOOGLE_SERVICE_ACCOUNT_JSON.")
             return None
         try:
             gc = gspread.service_account(filename=sa_path)

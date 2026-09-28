@@ -6,15 +6,35 @@ tự động nhận diện môi trường Google Colab / Local.
 
 from dataclasses import dataclass, field
 import os
+from pathlib import Path
 import re
 import sys
 from typing import List, Optional
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 
-load_dotenv()
+# Tự động nạp file .env từ thư mục gốc dự án
+env_file = find_dotenv(usecwd=True) or (Path(__file__).resolve().parent.parent / ".env")
+load_dotenv(env_file)
 
 # Nhận diện Google Colab
 IN_COLAB: bool = "google.colab" in sys.modules or os.path.exists("/content")
+
+
+def get_sheet_id() -> str:
+    """Lấy Google Sheet ID từ các biến môi trường SHEET_CEO, GOOGLE_SPREADSHEET_ID, SHEET_ID."""
+    for key in ["SHEET_CEO", "GOOGLE_SPREADSHEET_ID", "SHEET_ID"]:
+        val = os.getenv(key)
+        if val and val.strip():
+            return val.strip()
+    try:
+        from crawler.api.config import settings
+        val = getattr(settings, "SHEET_CEO", None) or getattr(settings, "GOOGLE_SPREADSHEET_ID", None)
+        if val and val.strip():
+            return val.strip()
+    except Exception:
+        pass
+    return ""
+
 
 
 def get_default_proxy() -> Optional[str]:
@@ -75,10 +95,15 @@ def get_default_proxy() -> Optional[str]:
 
 
 # Cấu hình Google Sheet & Proxy mặc định
-DEFAULT_SHEET_ID: str = os.getenv("SHEET_CEO", "")
-DEFAULT_WORKSHEET_NAME: str = os.getenv("SHEET_CEO_WORKSHEET", "sheet1")
-DEFAULT_SERVICE_ACCOUNT: str = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "service_account.json")
+DEFAULT_SHEET_ID: str = get_sheet_id()
+DEFAULT_WORKSHEET_NAME: str = (
+    os.getenv("SHEET_CEO_WORKSHEET") or os.getenv("SHEET_WORKSHEET") or "sheet1"
+)
+DEFAULT_SERVICE_ACCOUNT: str = os.getenv(
+    "GOOGLE_APPLICATION_CREDENTIALS", "service_account.json"
+)
 DEFAULT_PROXY: Optional[str] = get_default_proxy()
+
 
 
 # Đường dẫn leadership website công ty

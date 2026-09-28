@@ -16,6 +16,7 @@ from linkedin_ceo_finder.config import (
     DEFAULT_SHEET_ID,
     DEFAULT_WORKSHEET_NAME,
     get_default_proxy,
+    get_sheet_id,
 )
 from linkedin_ceo_finder.core import find_ceos_by_domains, find_ceos_by_keyword
 from linkedin_ceo_finder.network import _mask_proxy
@@ -95,16 +96,22 @@ def _run_background_keyword_search(
 @router.get("/health", response_model=CEOHealthResponse)
 async def health_check():
     """Kiểm tra trạng thái hoạt động và cấu hình Google Sheet của LinkedIn CEO Finder."""
-    sheet_id = os.getenv("SHEET_CEO", DEFAULT_SHEET_ID)
+    sheet_id = get_sheet_id()
     sa_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", DEFAULT_SERVICE_ACCOUNT)
+    sa_configured = bool(
+        os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
+        or os.path.exists("/etc/secrets/service_account.json")
+        or (sa_path and os.path.exists(sa_path))
+    )
 
     return CEOHealthResponse(
         status="ok",
         service="linkedin-ceo-finder",
         sheet_configured=bool(sheet_id),
-        service_account_configured=bool(sa_path and os.path.exists(sa_path)),
+        service_account_configured=sa_configured,
         timestamp=datetime.now(timezone.utc),
     )
+
 
 
 @router.post(
