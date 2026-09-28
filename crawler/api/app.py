@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from crawler.api.routes import crawl, health, jobs
+from linkedin_ceo_finder.api import router as ceo_router
 
 app = FastAPI(
-    title="Google News Crawler API",
-    description="FastAPI Backend for automated background news crawling triggered via cron-job.org or HTTP clients",
-    version="1.0.0",
+    title="News Crawler & LinkedIn CEO Finder API",
+    description="FastAPI Backend for automated background news crawling and LinkedIn CEO / Leadership intelligence",
+    version="1.1.0",
 )
 
 app.add_middleware(
@@ -19,3 +20,5 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(crawl.router)
 app.include_router(jobs.router)
+app.include_router(ceo_router)
+
