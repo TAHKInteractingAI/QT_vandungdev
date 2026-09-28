@@ -33,6 +33,8 @@ class Settings(BaseSettings):
     CRON_HEARTBEAT_URL: str | None = None
     WEBSHARE_API_KEY: str | None = None
     DEFAULT_BACKBONE_PROXY: str | None = None
+    SHEET_CEO: str | None = None
+    SHEET_CEO_WORKSHEET: str = "sheet1"
 
     STORAGE_DIR: str = "storage"
     JOBS_METADATA_DIR: str = "storage/jobs"
