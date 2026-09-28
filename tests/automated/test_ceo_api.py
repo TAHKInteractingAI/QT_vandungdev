@@ -144,6 +144,31 @@ def test_quick_search_async_and_sync():
         assert res_sync.json()["total_found"] == 1
 
 
+def test_search_by_multiple_keywords_and_workers():
+    """Kiểm tra POST /api/v1/ceo/keyword hỗ trợ danh sách nhiều keywords và max_workers giống như domain."""
+    mock_leads = [
+        CEOLead(name="CEO 1", role="CEO", keyword="Fintech", company="A", linkedin_link="https://li/1"),
+        CEOLead(name="CEO 2", role="Founder", keyword="AI", company="B", linkedin_link="https://li/2"),
+    ]
+    with patch("linkedin_ceo_finder.api.routes.find_ceos_by_keyword", return_value=mock_leads) as mock_find:
+        payload = {
+            "keywords": ["Fintech Vietnam", "AI Vietnam"],
+            "target_count": 3,
+            "max_workers": 4,
+            "save_to_sheet": True,
+            "sync": True,
+        }
+        response = client.post("/api/v1/ceo/keyword", json=payload, headers=VALID_HEADERS)
+        assert response.status_code == 200
+        data = response.json()
+        assert data["success"] is True
+        assert data["total_found"] == 2
+        mock_find.assert_called_once()
+        _, kwargs = mock_find.call_args
+        assert kwargs["keywords"] == ["Fintech Vietnam", "AI Vietnam"]
+        assert kwargs["max_workers"] == 4
+
+
 def test_openapi_schema_contains_ceo_routes():
     """Đảm bảo OpenAPI documentation chứa các route của LinkedIn CEO Finder."""
     response = client.get("/openapi.json")
