@@ -1929,16 +1929,12 @@ dependencies = [
     { name = "googlenewsdecoder" },
     { name = "gspread" },
     { name = "httpx" },
-    { name = "ipykernel" },
-    { name = "ipywidgets" },
     { name = "lxml" },
-    { name = "matplotlib" },
     { name = "openpyxl" },
     { name = "orjson" },
     { name = "pillow" },
     { name = "pydantic-settings" },
     { name = "pympler" },
-    { name = "pytest" },
     { name = "rapidfuzz" },
     { name = "requests" },
     { name = "selectolax" },
@@ -1946,6 +1942,14 @@ dependencies = [
     { name = "tqdm" },
     { name = "urllib3" },
     { name = "uvicorn", extra = ["standard"] },
+]
+
+[package.optional-dependencies]
+other = [
+    { name = "ipykernel" },
+    { name = "ipywidgets" },
+    { name = "matplotlib" },
+    { name = "pytest" },
 ]
 
 [package.metadata]
@@ -1958,16 +1962,16 @@ requires-dist = [
     { name = "googlenewsdecoder", specifier = ">=0.1.7" },
     { name = "gspread", specifier = ">=6.2.1" },
     { name = "httpx", specifier = ">=0.28.1" },
-    { name = "ipykernel", specifier = ">=7.3.0" },
-    { name = "ipywidgets", specifier = ">=8.1.9" },
+    { name = "ipykernel", marker = "extra == 'other'", specifier = ">=7.3.0" },
+    { name = "ipywidgets", marker = "extra == 'other'", specifier = ">=8.1.9" },
     { name = "lxml", specifier = ">=6.0" },
-    { name = "matplotlib", specifier = ">=3.11.1" },
+    { name = "matplotlib", marker = "extra == 'other'", specifier = ">=3.11.1" },
     { name = "openpyxl", specifier = ">=3.1" },
     { name = "orjson", specifier = ">=3.12.0" },
     { name = "pillow", specifier = ">=12.0" },
     { name = "pydantic-settings", specifier = ">=2.15.0" },
     { name = "pympler", specifier = ">=1.1" },
-    { name = "pytest", specifier = ">=9.1.1" },
+    { name = "pytest", marker = "extra == 'other'", specifier = ">=9.1.1" },
     { name = "rapidfuzz", specifier = ">=3.14.6" },
     { name = "requests", specifier = ">=2.31" },
     { name = "selectolax", specifier = ">=0.4" },
@@ -1976,6 +1980,7 @@ requires-dist = [
     { name = "urllib3", specifier = ">=2.7.0" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.52.4" },
 ]
+provides-extras = ["other"]
 
 [[package]]
 name = "rapidfuzz"

@@ -17,6 +17,7 @@ COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-dev
 
 COPY crawler/ ./crawler/
+COPY linkedin_ceo_finder/ ./linkedin_ceo_finder/
 COPY main.py ./
 
 ENV PORT=10000
