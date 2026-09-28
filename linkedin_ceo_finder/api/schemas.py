@@ -1,7 +1,7 @@
 """Pydantic schemas cho LinkedIn CEO Finder API."""
 
 from datetime import datetime, timezone
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
 
@@ -30,14 +30,18 @@ class DomainSearchRequest(BaseModel):
         description="Số lượng CEO tối đa cần tìm (mặc định: lấy tất cả các domain hợp lệ)",
     )
     save_to_sheet: bool = Field(
-        False,
-        description="Tự động đồng bộ và lưu kết quả vào Google Sheet",
+        True,
+        description="Tự động đồng bộ và lưu kết quả vào Google Sheet (mặc định True)",
     )
     max_workers: int = Field(
         5,
         ge=1,
         le=20,
         description="Số luồng chạy song song đồng thời",
+    )
+    sync: bool = Field(
+        False,
+        description="Nếu False (mặc định cho cron-job): Chạy nền và trả về ngay thông báo 'running'. Nếu True: Chờ quét xong và trả về kết quả.",
     )
     sheet_id: Optional[str] = Field(
         None,
@@ -69,8 +73,8 @@ class KeywordSearchRequest(BaseModel):
         description="Số lượng CEO mục tiêu cần tìm",
     )
     save_to_sheet: bool = Field(
-        False,
-        description="Tự động đồng bộ và lưu kết quả vào Google Sheet",
+        True,
+        description="Tự động đồng bộ và lưu kết quả vào Google Sheet (mặc định True)",
     )
     max_pages: int = Field(
         5,
@@ -81,6 +85,10 @@ class KeywordSearchRequest(BaseModel):
     skip_empty_company: bool = Field(
         False,
         description="Bỏ qua các kết quả không bóc tách được tên công ty",
+    )
+    sync: bool = Field(
+        False,
+        description="Nếu False (mặc định cho cron-job): Chạy nền và trả về ngay thông báo 'running'. Nếu True: Chờ quét xong và trả về kết quả.",
     )
     sheet_id: Optional[str] = Field(
         None,
@@ -96,8 +104,20 @@ class KeywordSearchRequest(BaseModel):
     )
 
 
+class CEOJobTriggerResponse(BaseModel):
+    """Response thông báo job đang chạy ngầm trong nền (phù hợp cho cron-job)."""
+
+    status: str = Field("running", description="Trạng thái tiến trình: running")
+    message: str = Field(..., description="Thông báo kết quả tiếp nhận job")
+    job_id: str = Field(..., description="Mã định danh job chạy ngầm")
+    mode: str = Field(..., description="Chế độ tìm kiếm (domains hoặc keyword)")
+    target: str = Field(..., description="Đối tượng tìm kiếm")
+    save_to_sheet: bool = Field(..., description="Có lưu kết quả vào Google Sheet hay không")
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
 class CEOSearchResponse(BaseModel):
-    """Response trả về kết quả tìm kiếm CEO."""
+    """Response trả về kết quả tìm kiếm CEO (dành cho chế độ đồng bộ sync=True)."""
 
     success: bool = Field(True, description="Trạng thái thực thi")
     message: str = Field(..., description="Thông báo kết quả")

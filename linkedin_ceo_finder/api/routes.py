@@ -1,8 +1,15 @@
-"""FastAPI Routes cho LinkedIn CEO Finder."""
+"""FastAPI Routes cho LinkedIn CEO Finder.
 
-import os
+Hỗ trợ chạy ngầm trong Background Task (cho cron-job) để phản hồi ngay lập tức,
+tránh bị timeout HTTP request.
+"""
+
 from datetime import datetime, timezone
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+import logging
+import os
+from typing import List, Optional, Union
+import uuid
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
 
 from linkedin_ceo_finder.config import (
     DEFAULT_SERVICE_ACCOUNT,
@@ -12,6 +19,7 @@ from linkedin_ceo_finder.config import (
 from linkedin_ceo_finder.core import find_ceos_by_domains, find_ceos_by_keyword
 from .schemas import (
     CEOHealthResponse,
+    CEOJobTriggerResponse,
     CEOLeadSchema,
     CEOSearchResponse,
     DomainSearchRequest,
@@ -19,8 +27,65 @@ from .schemas import (
 )
 from .security import verify_api_key
 
+logger = logging.getLogger(__name__)
+
 router = APIRouter(prefix="/api/v1/ceo", tags=["LinkedIn CEO Finder"])
 
+
+def _run_background_domain_search(
+    job_id: str,
+    domains: List[str],
+    target_count: Optional[int],
+    save_to_sheet: bool,
+    max_workers: int,
+    sheet_id: str,
+    worksheet_name: str,
+    proxy: Optional[str],
+) -> None:
+    """Tác vụ tìm kiếm CEO theo domain thực thi ngầm trong nền."""
+    logger.info("🚀 [CEO Job %s] Bắt đầu quét ngầm cho %d domain...", job_id, len(domains))
+    try:
+        leads = find_ceos_by_domains(
+            company_domains=domains,
+            target_count=target_count,
+            save_to_sheet=save_to_sheet,
+            max_workers=max_workers,
+            sheet_id=sheet_id,
+            worksheet_name=worksheet_name,
+            proxy=proxy,
+        )
+        logger.info("✅ [CEO Job %s] Hoàn thành: tìm thấy %d CEO.", job_id, len(leads))
+    except Exception as e:
+        logger.error("❌ [CEO Job %s] Thất bại khi quét domain: %s", job_id, e)
+
+
+def _run_background_keyword_search(
+    job_id: str,
+    keyword: str,
+    target_count: int,
+    save_to_sheet: bool,
+    sheet_id: str,
+    worksheet_name: str,
+    proxy: Optional[str],
+    skip_empty_company: bool,
+    max_pages: int,
+) -> None:
+    """Tác vụ tìm kiếm CEO theo keyword thực thi ngầm trong nền."""
+    logger.info("🚀 [CEO Job %s] Bắt đầu tìm kiếm ngầm cho keyword: '%s'...", job_id, keyword)
+    try:
+        leads = find_ceos_by_keyword(
+            keyword=keyword,
+            target_count=target_count,
+            save_to_sheet=save_to_sheet,
+            sheet_id=sheet_id,
+            worksheet_name=worksheet_name,
+            proxy=proxy,
+            skip_empty_company=skip_empty_company,
+            max_pages=max_pages,
+        )
+        logger.info("✅ [CEO Job %s] Hoàn thành: tìm thấy %d CEO mới.", job_id, len(leads))
+    except Exception as e:
+        logger.error("❌ [CEO Job %s] Thất bại khi quét keyword: %s", job_id, e)
 
 
 @router.get("/health", response_model=CEOHealthResponse)
@@ -40,28 +105,55 @@ async def health_check():
 
 @router.post(
     "/domains",
-    response_model=CEOSearchResponse,
+    response_model=Union[CEOJobTriggerResponse, CEOSearchResponse],
     dependencies=[Depends(verify_api_key)],
 )
-async def search_by_domains(request: DomainSearchRequest):
-    """Tìm kiếm CEO / Lãnh đạo cấp cao theo danh sách tên miền website.
+async def search_by_domains(
+    request: DomainSearchRequest,
+    background_tasks: BackgroundTasks,
+):
+    """Tìm kiếm CEO theo danh sách tên miền website.
 
-    Áp dụng thuật toán đa tầng:
-    1. Executive Search (Wikipedia & Global Knowledge) xác thực CEO thực tế của tập đoàn.
-    2. Targeted LinkedIn Lookup tìm link cá nhân chuẩn xác.
-    3. Direct LinkedIn Query & Website Fallback cho công ty vừa/nhỏ.
+    - Mặc định (sync=False, tối ưu cho cron-job): Chạy nền và trả về ngay thông báo 'running' (không lo timeout).
+    - Đồng bộ (sync=True): Chờ quét xong và trả về đầy đủ danh sách CEO.
     """
+    target_sheet = request.sheet_id or DEFAULT_SHEET_ID
+    target_ws = request.worksheet_name or DEFAULT_WORKSHEET_NAME
+
+    # 1. Chế độ bất đồng bộ / Chạy ngầm (Mặc định cho cron-job)
+    if not request.sync:
+        job_id = f"ceo_dom_{uuid.uuid4().hex[:8]}"
+        background_tasks.add_task(
+            _run_background_domain_search,
+            job_id=job_id,
+            domains=request.domains,
+            target_count=request.target_count,
+            save_to_sheet=request.save_to_sheet,
+            max_workers=request.max_workers,
+            sheet_id=target_sheet,
+            worksheet_name=target_ws,
+            proxy=request.proxy,
+        )
+        return CEOJobTriggerResponse(
+            status="running",
+            message=f"Tiến trình tìm kiếm CEO cho {len(request.domains)} tên miền đang chạy ngầm trong nền.",
+            job_id=job_id,
+            mode="domains",
+            target=", ".join(request.domains[:3]) + ("..." if len(request.domains) > 3 else ""),
+            save_to_sheet=request.save_to_sheet,
+        )
+
+    # 2. Chế độ đồng bộ (sync=True)
     try:
         leads = find_ceos_by_domains(
             company_domains=request.domains,
             target_count=request.target_count,
             save_to_sheet=request.save_to_sheet,
             max_workers=request.max_workers,
-            sheet_id=request.sheet_id or DEFAULT_SHEET_ID,
-            worksheet_name=request.worksheet_name or DEFAULT_WORKSHEET_NAME,
+            sheet_id=target_sheet,
+            worksheet_name=target_ws,
             proxy=request.proxy,
         )
-
         leads_data = [
             CEOLeadSchema(
                 name=l.name,
@@ -73,7 +165,6 @@ async def search_by_domains(request: DomainSearchRequest):
             )
             for l in leads
         ]
-
         return CEOSearchResponse(
             success=True,
             message=f"Đã tìm thấy {len(leads_data)} CEO từ {len(request.domains)} tên miền.",
@@ -90,26 +181,57 @@ async def search_by_domains(request: DomainSearchRequest):
 
 @router.post(
     "/keyword",
-    response_model=CEOSearchResponse,
+    response_model=Union[CEOJobTriggerResponse, CEOSearchResponse],
     dependencies=[Depends(verify_api_key)],
 )
-async def search_by_keyword(request: KeywordSearchRequest):
-    """Tìm kiếm CEO / Lãnh đạo cấp cao theo từ khóa ngành nghề (vd: 'Fintech Vietnam', 'AI').
+async def search_by_keyword(
+    request: KeywordSearchRequest,
+    background_tasks: BackgroundTasks,
+):
+    """Tìm kiếm CEO theo từ khóa ngành nghề.
 
-    Tự động lọc bỏ các cựu nhân sự, cố vấn và kiểm tra trùng lặp với danh bạ hiện có.
+    - Mặc định (sync=False, tối ưu cho cron-job): Chạy nền và trả về ngay thông báo 'running' (không lo timeout).
+    - Đồng bộ (sync=True): Chờ quét xong và trả về đầy đủ danh sách CEO.
     """
+    target_sheet = request.sheet_id or DEFAULT_SHEET_ID
+    target_ws = request.worksheet_name or DEFAULT_WORKSHEET_NAME
+
+    # 1. Chế độ bất đồng bộ / Chạy ngầm (Mặc định cho cron-job)
+    if not request.sync:
+        job_id = f"ceo_kw_{uuid.uuid4().hex[:8]}"
+        background_tasks.add_task(
+            _run_background_keyword_search,
+            job_id=job_id,
+            keyword=request.keyword,
+            target_count=request.target_count,
+            save_to_sheet=request.save_to_sheet,
+            sheet_id=target_sheet,
+            worksheet_name=target_ws,
+            proxy=request.proxy,
+            skip_empty_company=request.skip_empty_company,
+            max_pages=request.max_pages,
+        )
+        return CEOJobTriggerResponse(
+            status="running",
+            message=f"Tiến trình tìm kiếm CEO cho từ khóa '{request.keyword}' đang chạy ngầm trong nền.",
+            job_id=job_id,
+            mode="keyword",
+            target=request.keyword,
+            save_to_sheet=request.save_to_sheet,
+        )
+
+    # 2. Chế độ đồng bộ (sync=True)
     try:
         leads = find_ceos_by_keyword(
             keyword=request.keyword,
             target_count=request.target_count,
             save_to_sheet=request.save_to_sheet,
-            sheet_id=request.sheet_id or DEFAULT_SHEET_ID,
-            worksheet_name=request.worksheet_name or DEFAULT_WORKSHEET_NAME,
+            sheet_id=target_sheet,
+            worksheet_name=target_ws,
             proxy=request.proxy,
             skip_empty_company=request.skip_empty_company,
             max_pages=request.max_pages,
         )
-
         leads_data = [
             CEOLeadSchema(
                 name=l.name,
@@ -121,7 +243,6 @@ async def search_by_keyword(request: KeywordSearchRequest):
             )
             for l in leads
         ]
-
         return CEOSearchResponse(
             success=True,
             message=f"Đã tìm thấy {len(leads_data)} CEO cho từ khóa '{request.keyword}'.",
@@ -138,22 +259,46 @@ async def search_by_keyword(request: KeywordSearchRequest):
 
 @router.get(
     "/quick-search",
-    response_model=CEOSearchResponse,
+    response_model=Union[CEOJobTriggerResponse, CEOSearchResponse],
     dependencies=[Depends(verify_api_key)],
 )
 async def quick_search(
+    background_tasks: BackgroundTasks,
     keyword: str = Query(..., description="Từ khóa ngành nghề cần tìm kiếm"),
     count: int = Query(3, ge=1, le=20, description="Số lượng CEO cần tìm"),
-    save_to_sheet: bool = Query(False, description="Có lưu vào Google Sheet không"),
+    save_to_sheet: bool = Query(True, description="Có lưu vào Google Sheet không"),
+    sync: bool = Query(False, description="Chạy đồng bộ hay nền (mặc định False: chạy nền)"),
 ):
-    """Tìm kiếm nhanh CEO qua phương thức GET (hỗ trợ gọi nhanh qua browser hoặc cURL)."""
+    """Tìm kiếm nhanh CEO qua GET (hỗ trợ cron-job gọi qua URL webhook hoặc browser)."""
+    if not sync:
+        job_id = f"ceo_quick_{uuid.uuid4().hex[:8]}"
+        background_tasks.add_task(
+            _run_background_keyword_search,
+            job_id=job_id,
+            keyword=keyword,
+            target_count=count,
+            save_to_sheet=save_to_sheet,
+            sheet_id=DEFAULT_SHEET_ID,
+            worksheet_name=DEFAULT_WORKSHEET_NAME,
+            proxy=None,
+            skip_empty_company=False,
+            max_pages=5,
+        )
+        return CEOJobTriggerResponse(
+            status="running",
+            message=f"Tiến trình tìm kiếm nhanh CEO cho từ khóa '{keyword}' đang chạy ngầm trong nền.",
+            job_id=job_id,
+            mode="keyword",
+            target=keyword,
+            save_to_sheet=save_to_sheet,
+        )
+
     try:
         leads = find_ceos_by_keyword(
             keyword=keyword,
             target_count=count,
             save_to_sheet=save_to_sheet,
         )
-
         leads_data = [
             CEOLeadSchema(
                 name=l.name,
@@ -165,7 +310,6 @@ async def quick_search(
             )
             for l in leads
         ]
-
         return CEOSearchResponse(
             success=True,
             message=f"Tìm kiếm nhanh thành công: {len(leads_data)} CEO.",
