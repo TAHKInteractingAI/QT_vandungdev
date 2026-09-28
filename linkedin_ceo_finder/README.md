@@ -148,21 +148,13 @@ API của LinkedIn CEO Finder được tích hợp trực tiếp vào FastAPI se
 | `POST` | `/api/v1/ceo/keyword` | Tìm kiếm CEO theo từ khóa ngành nghề |
 | `GET` | `/api/v1/ceo/quick-search` | Tìm kiếm nhanh CEO qua Query parameters |
 
+#### Chế độ hoạt động tối ưu cho Cron-Job:
+- **Mặc định (`sync: false`)**: API tiếp nhận yêu cầu, đẩy tiến trình tìm kiếm vào **Background Tasks** chạy ngầm (lưu kết quả vào Google Sheet) và **phản hồi ngay lập tức `status: "running"` trong < 100ms**. Cron-job sẽ không bao giờ bị timeout!
+- **Đồng bộ (`sync: true`)**: Nếu bạn muốn API đợi quét xong và trả về danh sách leads trực tiếp trong response JSON, hãy gửi `"sync": true`.
+
 #### Ví dụ gọi API qua `curl` (Bắt buộc kèm Header `X-API-Key`):
 
-**Tìm CEO theo tên miền:**
-```bash
-curl -X POST "http://127.0.0.1:8000/api/v1/ceo/domains" \
-     -H "Content-Type: application/json" \
-     -H "X-API-Key: test-secret-key-123" \
-     -d '{
-       "domains": ["google.com", "nvidia.com"],
-       "save_to_sheet": false,
-       "max_workers": 2
-     }'
-```
-
-**Tìm CEO theo từ khóa:**
+**Dành cho Cron-Job (Mặc định chạy ngầm, phản hồi "running" ngay lập tức):**
 ```bash
 curl -X POST "http://127.0.0.1:8000/api/v1/ceo/keyword" \
      -H "Content-Type: application/json" \
@@ -170,7 +162,30 @@ curl -X POST "http://127.0.0.1:8000/api/v1/ceo/keyword" \
      -d '{
        "keyword": "Fintech Vietnam",
        "target_count": 5,
-       "save_to_sheet": false
+       "save_to_sheet": true
+     }'
+```
+*Phản hồi ngay:*
+```json
+{
+  "status": "running",
+  "message": "Tiến trình tìm kiếm CEO cho từ khóa 'Fintech Vietnam' đang chạy ngầm trong nền.",
+  "job_id": "ceo_kw_8f3a1b2c",
+  "mode": "keyword",
+  "target": "Fintech Vietnam",
+  "save_to_sheet": true,
+  "timestamp": "2026-09-28T09:40:00Z"
+}
+```
+
+**Tìm CEO theo danh sách tên miền:**
+```bash
+curl -X POST "http://127.0.0.1:8000/api/v1/ceo/domains" \
+     -H "Content-Type: application/json" \
+     -H "X-API-Key: test-secret-key-123" \
+     -d '{
+       "domains": ["google.com", "nvidia.com"],
+       "save_to_sheet": true
      }'
 ```
 
@@ -185,4 +200,5 @@ curl -X GET "http://127.0.0.1:8000/api/v1/ceo/quick-search?keyword=AI&count=2" \
 
 **Xem tài liệu tương tác Swagger UI:**
 Truy cập `http://127.0.0.1:8000/docs` trên trình duyệt để thử nghiệm trực quan.
+
 
