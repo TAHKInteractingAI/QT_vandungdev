@@ -37,3 +37,7 @@ services:
         sync: false
       - key: WEBSHARE_API_KEY
         sync: false
+      - key: GEMINI_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemma-4-26b-a4b-it
