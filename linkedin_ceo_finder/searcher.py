@@ -54,11 +54,20 @@ def extract_ceo_from_website(
                     name = lines[0] if lines and len(lines[0]) <= 50 else fallback_name
                     if is_duplicate_ceo(clean_url, name, seen_urls):
                         continue
-                    return CEOLead(
+                    is_valid, v_name, v_role, v_comp = verify_executive_with_gemini(
                         name=name,
                         role=kw.upper(),
-                        keyword=f"Domain: {domain_clean}",
                         company=domain_clean,
+                        target=domain_clean,
+                        snippet=context,
+                    )
+                    if not is_valid:
+                        continue
+                    return CEOLead(
+                        name=v_name,
+                        role=v_role,
+                        keyword=f"Domain: {domain_clean}",
+                        company=v_comp,
                         linkedin_link=clean_url,
                     )
     return None
@@ -151,11 +160,24 @@ def search_ceo_for_domain(
                     continue
                 clean_url = unquote_yahoo_url(link_tag.attributes.get("href", ""))
                 if "linkedin.com/in/" in clean_url:
-                    return CEOLead(
+                    h3_tag = li.css_first("h3")
+                    title_text = h3_tag.text(strip=True) if h3_tag else f"{ceo_name} - CEO @ {brand_name}"
+                    desc_tag = li.css_first("div.compText") or li.css_first("p")
+                    snip_text = desc_tag.text(strip=True) if desc_tag else f"Current CEO of {brand_name}"
+                    is_valid, v_name, v_role, v_comp = verify_executive_with_gemini(
                         name=ceo_name,
                         role="CEO",
-                        keyword=f"Domain: {dom_clean}",
                         company=brand_name,
+                        target=brand_name,
+                        snippet=f"{title_text}. {snip_text}",
+                    )
+                    if not is_valid:
+                        continue
+                    return CEOLead(
+                        name=v_name,
+                        role=v_role,
+                        keyword=f"Domain: {dom_clean}",
+                        company=v_comp,
                         linkedin_link=clean_url,
                     )
 

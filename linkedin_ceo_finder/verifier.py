@@ -75,6 +75,9 @@ def extract_json_from_ai_response(text: str) -> Optional[dict]:
     return None
 
 
+_warned_no_key = False
+
+
 def verify_executive_with_gemini(
     name: str,
     role: str,
@@ -100,13 +103,18 @@ def verify_executive_with_gemini(
     Returns:
         Tuple[bool, str, str, str]: (is_valid, final_name, final_role, final_company)
     """
+    global _warned_no_key
     key = gemini_key or os.getenv("GEMINI_KEY") or DEFAULT_GEMINI_KEY
     if not key or not str(key).strip():
-        # Không có key -> Chấp nhận kết quả bóc tách từ Rule-based/Regex
+        if not _warned_no_key:
+            print("  ℹ️ [Gemma AI] Chưa phát hiện biến môi trường GEMINI_KEY -> Tiếp tục bằng bộ lọc Regex mặc định.", flush=True)
+            _warned_no_key = True
         return True, name, role, company
 
     model_name = gemini_model or os.getenv("GEMINI_MODEL") or DEFAULT_GEMINI_MODEL or "gemma-4-26b-a4b-it"
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={key}"
+
+    print(f"  🤖 [Gemma AI] Đang kiểm tra ứng viên: {name} ({role} @ {company})...", flush=True)
 
     prompt = f"""Task: Determine if the candidate is currently a top executive, CEO, President, or Founder of the target company.
 Target Context: {target}
@@ -116,9 +124,10 @@ Parsed Company: {company}
 Supporting Snippet: {snippet[:350]}
 
 Rules:
-1. If candidate is a former employee, ex-CEO, advisor, or low-level employee, set is_valid_leader=false.
-2. If candidate is currently the CEO, Managing Director, Founder, Co-Founder, President or Chairman, set is_valid_leader=true.
-3. Clean up the Name, Role, and Company to be concise and accurate.
+1. Base your evaluation on the live snippet provided.
+2. If candidate is a former employee, ex-CEO, advisor, or low-level employee, set is_valid_leader=false.
+3. If candidate is currently the CEO, Managing Director, Founder, Co-Founder, President or Chairman, set is_valid_leader=true.
+4. Clean up the Name, Role, and Company to be concise and accurate.
 
 Respond strictly with a JSON codeblock:
 ```json
@@ -152,15 +161,15 @@ Respond strictly with a JSON codeblock:
                     final_role = str(parsed.get("role") or role).strip()
                     final_comp = str(parsed.get("company") or company).strip()
                     if is_valid:
-                        logger.info("🤖 [AI Verified] %s | %s | %s (Model: %s)", final_name, final_role, final_comp, model_name)
+                        print(f"  ✅ [Gemma AI Hợp lệ] {final_name} | {final_role} | {final_comp} ({model_name})", flush=True)
                         return True, final_name, final_role, final_comp
                     else:
-                        logger.warning("🤖 [AI Rejected] Loại bỏ ứng viên không hợp lệ: %s (%s @ %s)", name, role, company)
+                        print(f"  ❌ [Gemma AI Loại bỏ] {name} ({role} @ {company}) không phải lãnh đạo hiện tại.", flush=True)
                         return False, name, role, company
         else:
-            logger.warning("⚠️ [Gemini API] HTTP %s: %s", resp.status_code, resp.text[:150])
+            print(f"  ⚠️ [Gemma AI HTTP {resp.status_code}] {resp.text[:120]} -> Dùng kết quả Regex dự phòng.", flush=True)
     except Exception as err:
-        logger.warning("⚠️ [Gemini API] Lỗi kết nối hoặc timeout (%s). Sử dụng kết quả Regex dự phòng.", err)
+        print(f"  ⚠️ [Gemma AI Lỗi/Timeout] {err} -> Dùng kết quả Regex dự phòng.", flush=True)
 
     # Fallback an toàn về kết quả Regex nếu AI gặp sự cố
     return True, name, role, company

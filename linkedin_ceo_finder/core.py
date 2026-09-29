@@ -132,9 +132,17 @@ def find_ceos_by_domains(
         return []
 
     effective_proxy = proxy or get_default_proxy()
+    ai_key = os.getenv("GEMINI_KEY") or os.getenv("GEMINI_API_KEY")
+    ai_model = os.getenv("GEMINI_MODEL", "gemma-4-26b-a4b-it")
     print(
-        f"\n🌐 BẮT ĐẦU TÌM KIẾM CEO SONG SONG [Số lượng website: {len(clean_domains)} | Số luồng: {max_workers} | Proxy: {_mask_proxy(effective_proxy)}]"
+        f"\n🌐 BẮT ĐẦU TÌM KIẾM CEO SONG SONG [Số lượng website: {len(clean_domains)} | Số luồng: {max_workers} | Proxy: {_mask_proxy(effective_proxy)}]",
+        flush=True,
     )
+    if ai_key and ai_key.strip():
+        print(f"  🧠 Trợ lý AI (Gemma 4): ĐÃ KÍCH HOẠT (Model: {ai_model}) để xác minh và chuẩn hóa chức danh.", flush=True)
+    else:
+        print(f"  ℹ️ Trợ lý AI (Gemma 4): Chưa cấu hình GEMINI_KEY trong môi trường (chạy chế độ Regex).", flush=True)
+
     leads: List[CEOLead] = []
     seen_urls: Set[str] = set()
 
@@ -272,10 +280,18 @@ def find_ceos_by_keyword(
         clean_kws = ["Fintech Vietnam"]
 
     effective_proxy = proxy or get_default_proxy()
+    ai_key = os.getenv("GEMINI_KEY") or os.getenv("GEMINI_API_KEY")
+    ai_model = os.getenv("GEMINI_MODEL", "gemma-4-26b-a4b-it")
     kw_display = clean_kws[0] if len(clean_kws) == 1 else f"{len(clean_kws)} từ khóa"
     print(
-        f"\n🚀 BẮT ĐẦU TÌM KIẾM CEO THEO TỪ KHÓA [Từ khóa: '{kw_display}' | Mục tiêu: {target_count}/kw | Số luồng: {max_workers} | Proxy: {_mask_proxy(effective_proxy)}]"
+        f"\n🚀 BẮT ĐẦU TÌM KIẾM CEO THEO TỪ KHÓA [Từ khóa: '{kw_display}' | Mục tiêu: {target_count}/kw | Số luồng: {max_workers} | Proxy: {_mask_proxy(effective_proxy)}]",
+        flush=True,
     )
+    if ai_key and ai_key.strip():
+        print(f"  🧠 Trợ lý AI (Gemma 4): ĐÃ KÍCH HOẠT (Model: {ai_model}) để xác minh và chuẩn hóa chức danh.", flush=True)
+    else:
+        print(f"  ℹ️ Trợ lý AI (Gemma 4): Chưa cấu hình GEMINI_KEY trong môi trường (chạy chế độ Regex).", flush=True)
+
     leads: List[CEOLead] = []
     seen_urls: Set[str] = set()
 
