@@ -35,6 +35,8 @@ class Settings(BaseSettings):
     DEFAULT_BACKBONE_PROXY: str | None = None
     SHEET_CEO: str | None = None
     SHEET_CEO_WORKSHEET: str = "sheet1"
+    GEMINI_KEY: str | None = None
+    GEMINI_MODEL: str = "gemma-4-26b-a4b-it"
 
     STORAGE_DIR: str = "storage"
     JOBS_METADATA_DIR: str = "storage/jobs"
