@@ -109,11 +109,16 @@ async def health_check():
         or (sa_path and os.path.exists(sa_path))
     )
 
+    gemini_key = os.getenv("GEMINI_KEY") or os.getenv("GEMINI_API_KEY")
+    gemini_model = os.getenv("GEMINI_MODEL", "gemma-4-26b-a4b-it")
+
     return CEOHealthResponse(
         status="ok",
         service="linkedin-ceo-finder",
         sheet_configured=bool(sheet_id),
         service_account_configured=sa_configured,
+        gemini_verifier_configured=bool(gemini_key and gemini_key.strip()),
+        gemini_model=gemini_model,
         timestamp=datetime.now(timezone.utc),
     )
 

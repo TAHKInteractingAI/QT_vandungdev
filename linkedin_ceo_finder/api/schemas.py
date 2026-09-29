@@ -159,4 +159,6 @@ class CEOHealthResponse(BaseModel):
     service: str = Field("linkedin-ceo-finder", description="Tên dịch vụ")
     sheet_configured: bool = Field(..., description="Đã cấu hình Google Sheet ID hay chưa")
     service_account_configured: bool = Field(..., description="File Service Account credentials có tồn tại không")
+    gemini_verifier_configured: bool = Field(False, description="Google AI Studio GEMINI_KEY đã được cấu hình hay chưa")
+    gemini_model: str = Field("gemma-4-26b-a4b-it", description="Model AI sử dụng để xác minh danh tính")
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))

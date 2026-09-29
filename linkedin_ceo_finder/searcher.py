@@ -9,6 +9,7 @@ from .config import BRAND_MAP, CEO_KEYWORDS, DEFAULT_PROXY
 from .models import CEOLead
 from .network import http_get, unquote_yahoo_url
 from .parser import is_duplicate_ceo, is_leadership_role, parse_linkedin_title, print_lead
+from .verifier import verify_executive_with_gemini
 
 
 def extract_ceo_from_website(
@@ -198,11 +199,22 @@ def search_ceo_for_domain(
                 continue
 
             comp_final = company if company not in ("", "N/A") else brand_name
-            return CEOLead(
+            # Xác minh qua Google AI Studio (gemma-4-26b-a4b-it) nếu có cấu hình GEMINI_KEY
+            is_valid, v_name, v_role, v_comp = verify_executive_with_gemini(
                 name=name,
                 role=role,
-                keyword=f"Domain: {dom_clean}",
                 company=comp_final,
+                target=brand_name,
+                snippet=snippet,
+            )
+            if not is_valid:
+                continue
+
+            return CEOLead(
+                name=v_name,
+                role=v_role,
+                keyword=f"Domain: {dom_clean}",
+                company=v_comp,
                 linkedin_link=clean_url,
             )
 
@@ -274,17 +286,31 @@ def search_ceos_by_keyword(
                 )
                 continue
 
+            # Xác minh qua Google AI Studio (gemma-4-26b-a4b-it) nếu có cấu hình GEMINI_KEY
+            is_valid, v_name, v_role, v_comp = verify_executive_with_gemini(
+                name=name,
+                role=role,
+                company=company,
+                target=keyword,
+                snippet=snippet,
+            )
+            if not is_valid:
+                print(
+                    f"  🤖 [AI Loại bỏ] Ứng viên không phải lãnh đạo hiện tại: {name} ({role} @ {company}) -> Bỏ qua."
+                )
+                continue
+
             seen_urls.add(clean_url)
             m = re.search(r"linkedin\.com/in/([^/]+)", clean_url, re.I)
             if m:
                 seen_urls.add(m.group(1).lower())
-            seen_urls.add(name.strip().lower())
+            seen_urls.add(v_name.strip().lower())
 
             lead = CEOLead(
-                name=name,
-                role=role,
+                name=v_name,
+                role=v_role,
                 keyword=keyword,
-                company=company,
+                company=v_comp,
                 linkedin_link=clean_url,
             )
             leads.append(lead)

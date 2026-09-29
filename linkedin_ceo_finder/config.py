@@ -103,6 +103,10 @@ DEFAULT_SERVICE_ACCOUNT: str = os.getenv(
     "GOOGLE_APPLICATION_CREDENTIALS", "service_account.json"
 )
 DEFAULT_PROXY: Optional[str] = get_default_proxy()
+DEFAULT_GEMINI_KEY: Optional[str] = (
+    os.getenv("GEMINI_KEY") or os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+)
+DEFAULT_GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemma-4-26b-a4b-it")
 
 
 
@@ -200,3 +204,8 @@ class CEOConfig:
     timeout: int = 12
     retries: int = 2
     in_colab: bool = field(default_factory=lambda: IN_COLAB)
+    gemini_key: Optional[str] = field(default_factory=lambda: DEFAULT_GEMINI_KEY)
+    gemini_model: str = field(default_factory=lambda: DEFAULT_GEMINI_MODEL)
+    use_gemini_verifier: bool = field(
+        default_factory=lambda: bool(DEFAULT_GEMINI_KEY)
+    )
