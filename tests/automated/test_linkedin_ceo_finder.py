@@ -100,11 +100,12 @@ def test_ceo_lead_model():
     assert lead["url"] == "https://www.linkedin.com/in/sundarpichai"
     assert lead.get("company") == "Google"
 
-    # Export to sheet row
+    # Export to sheet row (8 cột bao gồm Xác Minh AI)
     row = lead.to_sheet_row(stt=1)
     assert row[0] == 1
     assert row[1] == "Sundar Pichai"
-    assert len(row) == 7
+    assert len(row) == 8
+    assert row[6] == "Chưa xác minh"
 
 
 def test_cli_parsing():
@@ -132,9 +133,10 @@ def test_verifier_functions():
     assert res["name"] == "Sundar Pichai"
 
     # 2. Test fallback when no key
-    valid, name, role, comp = verify_executive_with_gemini("Test", "CEO", "Tech", "tech.com", gemini_key="")
+    valid, name, role, comp, ai_status = verify_executive_with_gemini("Test", "CEO", "Tech", "tech.com", gemini_key="")
     assert valid is True
     assert name == "Test"
+    assert "Regex" in ai_status
 
     # 3. Test mock API response success
     mock_resp = MagicMock()
@@ -147,10 +149,11 @@ def test_verifier_functions():
         }]
     }
     with patch("requests.post", return_value=mock_resp):
-        valid, name, role, comp = verify_executive_with_gemini("Old Name", "CEO", "Google", "google.com", gemini_key="test_key")
+        valid, name, role, comp, ai_status = verify_executive_with_gemini("Old Name", "CEO", "Google", "google.com", gemini_key="test_key")
         assert valid is True
         assert name == "Verified Name"
         assert role == "Chief Executive Officer"
+        assert "Đã xác minh" in ai_status
 
     # 4. Test mock API rejection
     mock_reject = MagicMock()
@@ -163,5 +166,6 @@ def test_verifier_functions():
         }]
     }
     with patch("requests.post", return_value=mock_reject):
-        valid, _, _, _ = verify_executive_with_gemini("Ex Employee", "Advisor", "Google", "google.com", gemini_key="test_key")
+        valid, _, _, _, ai_status = verify_executive_with_gemini("Ex Employee", "Advisor", "Google", "google.com", gemini_key="test_key")
         assert valid is False
+        assert "Bị loại" in ai_status
