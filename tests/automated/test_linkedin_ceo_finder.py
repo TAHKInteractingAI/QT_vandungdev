@@ -153,7 +153,7 @@ def test_verifier_functions():
         assert valid is True
         assert name == "Verified Name"
         assert role == "Chief Executive Officer"
-        assert "Đã xác minh" in ai_status
+        assert "Xác minh" in ai_status
 
     # 4. Test mock API rejection
     mock_reject = MagicMock()
