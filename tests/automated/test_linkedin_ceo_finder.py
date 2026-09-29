@@ -118,3 +118,50 @@ def test_cli_parsing():
     assert args_kw.command == "keyword"
     assert args_kw.keyword == "AI Vietnam"
     assert args_kw.target_count == 5
+
+
+def test_verifier_functions():
+    from linkedin_ceo_finder.verifier import extract_json_from_ai_response, verify_executive_with_gemini
+    from unittest.mock import patch, MagicMock
+
+    # 1. Test extract JSON
+    json_block = "```json\n{\"is_valid_leader\": true, \"name\": \"Sundar Pichai\", \"role\": \"CEO\", \"company\": \"Google\"}\n```"
+    res = extract_json_from_ai_response(json_block)
+    assert res is not None
+    assert res["is_valid_leader"] is True
+    assert res["name"] == "Sundar Pichai"
+
+    # 2. Test fallback when no key
+    valid, name, role, comp = verify_executive_with_gemini("Test", "CEO", "Tech", "tech.com", gemini_key="")
+    assert valid is True
+    assert name == "Test"
+
+    # 3. Test mock API response success
+    mock_resp = MagicMock()
+    mock_resp.status_code = 200
+    mock_resp.json.return_value = {
+        "candidates": [{
+            "content": {
+                "parts": [{"text": "```json\n{\"is_valid_leader\": true, \"name\": \"Verified Name\", \"role\": \"Chief Executive Officer\", \"company\": \"Google\"}\n```"}]
+            }
+        }]
+    }
+    with patch("requests.post", return_value=mock_resp):
+        valid, name, role, comp = verify_executive_with_gemini("Old Name", "CEO", "Google", "google.com", gemini_key="test_key")
+        assert valid is True
+        assert name == "Verified Name"
+        assert role == "Chief Executive Officer"
+
+    # 4. Test mock API rejection
+    mock_reject = MagicMock()
+    mock_reject.status_code = 200
+    mock_reject.json.return_value = {
+        "candidates": [{
+            "content": {
+                "parts": [{"text": "```json\n{\"is_valid_leader\": false, \"reason\": \"Ex-employee\"}\n```"}]
+            }
+        }]
+    }
+    with patch("requests.post", return_value=mock_reject):
+        valid, _, _, _ = verify_executive_with_gemini("Ex Employee", "Advisor", "Google", "google.com", gemini_key="test_key")
+        assert valid is False
