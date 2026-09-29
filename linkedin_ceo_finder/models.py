@@ -24,6 +24,7 @@ class CEOLead:
     keyword: str
     company: str = "N/A"
     linkedin_link: str = ""
+    ai_status: str = "Chưa xác minh"
     updated_at: str = field(default_factory=now_hcm_str)
 
     @property
@@ -52,14 +53,15 @@ class CEOLead:
             "keyword": self.keyword.strip(),
             "company": self.company.strip() or "N/A",
             "linkedin_link": self.linkedin_link.strip(),
+            "ai_status": self.ai_status.strip() or "Chưa xác minh",
             "updated_at": self.updated_at,
             "url": self.linkedin_link.strip(),
         }
 
     def to_sheet_row(self, stt: Optional[int] = None) -> List[Any]:
-        """Chuyển đổi thành hàng dữ liệu phù hợp với bảng 7 cột trên Google Sheet.
+        """Chuyển đổi thành hàng dữ liệu phù hợp với bảng 8 cột trên Google Sheet.
 
-        Columns: [STT, CEO Name, Role / Title, Keyword, Company, LinkedIn URL, Ngày Cập Nhật]
+        Columns: [STT, CEO Name, Role / Title, Keyword, Company, LinkedIn URL, Xác Minh AI, Ngày Cập Nhật]
         """
         row = [
             self.name.strip(),
@@ -67,6 +69,7 @@ class CEOLead:
             self.keyword.strip(),
             self.company.strip() or "N/A",
             self.linkedin_link.strip(),
+            self.ai_status.strip() or "Chưa xác minh",
             self.updated_at,
         ]
         if stt is not None:
@@ -82,5 +85,6 @@ class CEOLead:
             keyword=data.get("keyword", "").strip(),
             company=data.get("company", "N/A").strip() or "N/A",
             linkedin_link=data.get("linkedin_link") or data.get("url") or "",
+            ai_status=data.get("ai_status") or data.get("ai_verification") or "Chưa xác minh",
             updated_at=data.get("updated_at") or now_hcm_str(),
         )

@@ -13,6 +13,7 @@ class CEOLeadSchema(BaseModel):
     keyword: str = Field(..., description="Từ khóa hoặc nguồn tên miền tìm kiếm")
     company: str = Field("N/A", description="Tên công ty")
     linkedin_link: str = Field("", description="Đường dẫn LinkedIn cá nhân")
+    ai_status: str = Field("Chưa xác minh", description="Trạng thái xác minh bởi AI (Gemma 4 / Regex)")
     updated_at: str = Field(..., description="Thời gian cập nhật")
 
 

@@ -24,11 +24,11 @@ from .models import CEOLead, now_hcm_str
 
 
 def format_sheet(ws: Any) -> None:
-    """Làm đẹp bảng dữ liệu: Đóng băng tiêu đề, tô màu header navy, căn lề và chuẩn hóa kích thước 7 cột."""
+    """Làm đẹp bảng dữ liệu: Đóng băng tiêu đề, tô màu header navy, căn lề và chuẩn hóa kích thước 8 cột."""
     try:
         ws.freeze(rows=1)
         ws.format(
-            "A1:G1",
+            "A1:H1",
             {
                 "backgroundColor": {"red": 0.12, "green": 0.31, "blue": 0.47},
                 "horizontalAlignment": "CENTER",
@@ -47,7 +47,7 @@ def format_sheet(ws: Any) -> None:
                 {"horizontalAlignment": "CENTER", "verticalAlignment": "MIDDLE"},
             )
             ws.format(
-                f"G2:G{last_row}",
+                f"G2:H{last_row}",
                 {"horizontalAlignment": "CENTER", "verticalAlignment": "MIDDLE"},
             )
             ws.format(f"B2:F{last_row}", {"verticalAlignment": "MIDDLE"})
@@ -81,7 +81,7 @@ def renumber_sheet(ws: Any) -> None:
         data_rows = [r for r in all_vals[1:] if any(r)]
         for idx, r in enumerate(data_rows, start=1):
             r[0] = str(idx)
-        ws.update(values=data_rows, range_name=f"A2:G{len(data_rows) + 1}")
+        ws.update(values=data_rows, range_name=f"A2:H{len(data_rows) + 1}")
     except Exception as e:
         print(f"⚠️ Lưu ý khi đánh lại STT: {e}")
 
@@ -249,7 +249,7 @@ def connect_google_sheet(
             ws.update(values=[expected], range_name="A1")
             print("✅ Đã tạo tiêu đề (Headers) mới.")
         elif all_vals[0] != expected:
-            print("🔄 Chuẩn hóa bảng sang cấu trúc 7 cột gọn gàng...")
+            print("🔄 Chuẩn hóa bảng sang cấu trúc 8 cột có Xác Minh AI...")
             migrated = []
             for i, r in enumerate(all_vals[1:], start=1):
                 if not any(r):
@@ -259,19 +259,19 @@ def connect_google_sheet(
                 kw = r[3] if len(r) > 3 else ""
                 comp = r[4] if len(r) > 4 else ""
                 li = r[5] if len(r) > 5 else ""
-                date_val = (
-                    r[8]
-                    if len(r) >= 9
-                    else (
-                        r[6]
-                        if len(r) >= 7 and "-" in r[6]
-                        else datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    )
-                )
-                migrated.append([str(i), name, role, kw, comp, li, date_val])
+                if len(r) >= 8:
+                    ai_val = r[6]
+                    date_val = r[7]
+                elif len(r) == 7:
+                    ai_val = "⚠️ Chưa xác minh"
+                    date_val = r[6]
+                else:
+                    ai_val = "⚠️ Chưa xác minh"
+                    date_val = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                migrated.append([str(i), name, role, kw, comp, li, ai_val, date_val])
             ws.clear()
-            ws.update(values=[expected] + migrated, range_name=f"A1:G{len(migrated) + 1}")
-            print(f"✅ Đã đồng bộ {len(migrated)} dòng dữ liệu sang cấu trúc 7 cột.")
+            ws.update(values=[expected] + migrated, range_name=f"A1:H{len(migrated) + 1}")
+            print(f"✅ Đã đồng bộ {len(migrated)} dòng dữ liệu sang cấu trúc 8 cột.")
 
         sort_and_renumber_sheet(ws)
         format_sheet(ws)
@@ -289,7 +289,7 @@ def save_leads_to_sheet(
     worksheet_name: str = DEFAULT_WORKSHEET_NAME,
     service_account_path: str = DEFAULT_SERVICE_ACCOUNT,
 ) -> bool:
-    """Lưu danh sách leads vào Google Sheet: Ngày cập nhật gần nhất luôn xếp trên cùng, STT liên tục (7 cột)."""
+    """Lưu danh sách leads vào Google Sheet: Ngày cập nhật gần nhất luôn xếp trên cùng, STT liên tục (8 cột)."""
     if not leads:
         print("⚠️ Không có dữ liệu để lưu.")
         return False
@@ -305,7 +305,6 @@ def save_leads_to_sheet(
 
     try:
         all_vals = ws.get_all_values()
-        cols = ["name", "role", "keyword", "company", "linkedin_link"]
 
         # 1. Dữ liệu mới tìm được (new_data)
         new_data = []
@@ -313,12 +312,14 @@ def save_leads_to_sheet(
             l = item.to_dict() if isinstance(item, CEOLead) else item
             updated_at = l.get("updated_at") or now_hcm_str()
             link = l.get("linkedin_link") or l.get("url") or ""
+            ai_status = l.get("ai_status") or "⚠️ Chưa xác minh"
             row_vals = [
                 l.get("name", ""),
                 l.get("role", ""),
                 l.get("keyword", ""),
                 l.get("company", ""),
                 link,
+                ai_status,
                 updated_at,
             ]
             new_data.append(row_vals)
@@ -327,9 +328,15 @@ def save_leads_to_sheet(
         existing_data = []
         for r in all_vals[1:]:
             if any(r):
-                row_info = list(r[1:7])
-                while len(row_info) < 6:
-                    row_info.append("")
+                if len(r) >= 8:
+                    row_info = list(r[1:8])
+                elif len(r) == 7:
+                    # Bảng cũ 7 cột: r[1..5] là thông tin, r[6] là ngày cập nhật
+                    row_info = [r[1], r[2], r[3], r[4], r[5], "⚠️ Chưa xác minh", r[6]]
+                else:
+                    row_info = list(r[1:])
+                    while len(row_info) < 7:
+                        row_info.append("")
                 existing_data.append(row_info)
 
         # 3. LUÔN LUÔN ƯU TIÊN DỮ LIỆU MỚI (new_data) LÊN TRÊN CÙNG (Prepend to top)
@@ -339,8 +346,8 @@ def save_leads_to_sheet(
         # 4. Đánh lại STT liên tục 1 -> N từ trên xuống dưới
         final_rows = [[i] + r for i, r in enumerate(combined, start=1)]
 
-        # 5. Cập nhật vào Sheet và áp dụng định dạng 7 cột
-        ws.update(values=final_rows, range_name=f"A2:G{len(final_rows) + 1}")
+        # 5. Cập nhật vào Sheet và áp dụng định dạng 8 cột
+        ws.update(values=final_rows, range_name=f"A2:H{len(final_rows) + 1}")
         format_sheet(ws)
         print(f"✅ Đã lưu {len(leads)} CEO mới lên những dòng ĐẦU TIÊN của Sheet (tổng cộng {len(final_rows)} dòng).")
         return True

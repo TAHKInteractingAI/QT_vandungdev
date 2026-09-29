@@ -177,7 +177,7 @@ BRAND_MAP = {
     "Fpt": "FPT",
 }
 
-# Tiêu đề 7 cột Google Sheet chuẩn
+# Tiêu đề 8 cột Google Sheet chuẩn (bao gồm Xác Minh AI)
 SHEET_HEADERS: List[str] = [
     "STT",
     "CEO Name",
@@ -185,11 +185,12 @@ SHEET_HEADERS: List[str] = [
     "Keyword",
     "Company",
     "LinkedIn URL",
+    "Xác Minh AI",
     "Ngày Cập Nhật",
 ]
 
 # Độ rộng cột tương ứng (pixel)
-SHEET_COL_WIDTHS: List[int] = [55, 200, 220, 120, 200, 320, 160]
+SHEET_COL_WIDTHS: List[int] = [55, 200, 220, 120, 200, 320, 320, 160]
 
 
 @dataclass

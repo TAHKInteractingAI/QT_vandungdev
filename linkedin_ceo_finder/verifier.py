@@ -101,15 +101,15 @@ def verify_executive_with_gemini(
         timeout (int): Thời gian chờ phản hồi tối đa (giây).
 
     Returns:
-        Tuple[bool, str, str, str]: (is_valid, final_name, final_role, final_company)
+        Tuple[bool, str, str, str, str]: (is_valid, final_name, final_role, final_company, ai_status)
     """
     global _warned_no_key
-    key = gemini_key or os.getenv("GEMINI_KEY") or DEFAULT_GEMINI_KEY
+    key = gemini_key if gemini_key is not None else (os.getenv("GEMINI_KEY") or DEFAULT_GEMINI_KEY)
     if not key or not str(key).strip():
         if not _warned_no_key:
             print("  ℹ️ [Gemma AI] Chưa phát hiện biến môi trường GEMINI_KEY -> Tiếp tục bằng bộ lọc Regex mặc định.", flush=True)
             _warned_no_key = True
-        return True, name, role, company
+        return True, name, role, company, "Chưa xác minh (Regex)"
 
     model_name = gemini_model or os.getenv("GEMINI_MODEL") or DEFAULT_GEMINI_MODEL or "gemma-4-26b-a4b-it"
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={key}"
@@ -161,15 +161,17 @@ Respond strictly with a JSON codeblock:
                     final_role = str(parsed.get("role") or role).strip()
                     final_comp = str(parsed.get("company") or company).strip()
                     if is_valid:
+                        ai_status = f"✅ Xác minh bởi {model_name}"
                         print(f"  ✅ [Gemma AI Hợp lệ] {final_name} | {final_role} | {final_comp} ({model_name})", flush=True)
-                        return True, final_name, final_role, final_comp
+                        return True, final_name, final_role, final_comp, ai_status
                     else:
+                        ai_status = f"❌ Bị loại bởi {model_name}"
                         print(f"  ❌ [Gemma AI Loại bỏ] {name} ({role} @ {company}) không phải lãnh đạo hiện tại.", flush=True)
-                        return False, name, role, company
+                        return False, name, role, company, ai_status
         else:
             print(f"  ⚠️ [Gemma AI HTTP {resp.status_code}] {resp.text[:120]} -> Dùng kết quả Regex dự phòng.", flush=True)
     except Exception as err:
         print(f"  ⚠️ [Gemma AI Lỗi/Timeout] {err} -> Dùng kết quả Regex dự phòng.", flush=True)
 
     # Fallback an toàn về kết quả Regex nếu AI gặp sự cố
-    return True, name, role, company
+    return True, name, role, company, "⚠️ Chưa xác minh"

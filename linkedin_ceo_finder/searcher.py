@@ -54,7 +54,7 @@ def extract_ceo_from_website(
                     name = lines[0] if lines and len(lines[0]) <= 50 else fallback_name
                     if is_duplicate_ceo(clean_url, name, seen_urls):
                         continue
-                    is_valid, v_name, v_role, v_comp = verify_executive_with_gemini(
+                    is_valid, v_name, v_role, v_comp, ai_status = verify_executive_with_gemini(
                         name=name,
                         role=kw.upper(),
                         company=domain_clean,
@@ -69,6 +69,7 @@ def extract_ceo_from_website(
                         keyword=f"Domain: {domain_clean}",
                         company=v_comp,
                         linkedin_link=clean_url,
+                        ai_status=ai_status,
                     )
     return None
 
@@ -164,7 +165,7 @@ def search_ceo_for_domain(
                     title_text = h3_tag.text(strip=True) if h3_tag else f"{ceo_name} - CEO @ {brand_name}"
                     desc_tag = li.css_first("div.compText") or li.css_first("p")
                     snip_text = desc_tag.text(strip=True) if desc_tag else f"Current CEO of {brand_name}"
-                    is_valid, v_name, v_role, v_comp = verify_executive_with_gemini(
+                    is_valid, v_name, v_role, v_comp, ai_status = verify_executive_with_gemini(
                         name=ceo_name,
                         role="CEO",
                         company=brand_name,
@@ -179,6 +180,7 @@ def search_ceo_for_domain(
                         keyword=f"Domain: {dom_clean}",
                         company=v_comp,
                         linkedin_link=clean_url,
+                        ai_status=ai_status,
                     )
 
     # Direct LinkedIn Query (Fallback cho công ty vừa/nhỏ, chuyên biệt)
@@ -222,7 +224,7 @@ def search_ceo_for_domain(
 
             comp_final = company if company not in ("", "N/A") else brand_name
             # Xác minh qua Google AI Studio (gemma-4-26b-a4b-it) nếu có cấu hình GEMINI_KEY
-            is_valid, v_name, v_role, v_comp = verify_executive_with_gemini(
+            is_valid, v_name, v_role, v_comp, ai_status = verify_executive_with_gemini(
                 name=name,
                 role=role,
                 company=comp_final,
@@ -238,6 +240,7 @@ def search_ceo_for_domain(
                 keyword=f"Domain: {dom_clean}",
                 company=v_comp,
                 linkedin_link=clean_url,
+                ai_status=ai_status,
             )
 
     return None
@@ -309,7 +312,7 @@ def search_ceos_by_keyword(
                 continue
 
             # Xác minh qua Google AI Studio (gemma-4-26b-a4b-it) nếu có cấu hình GEMINI_KEY
-            is_valid, v_name, v_role, v_comp = verify_executive_with_gemini(
+            is_valid, v_name, v_role, v_comp, ai_status = verify_executive_with_gemini(
                 name=name,
                 role=role,
                 company=company,
@@ -334,6 +337,7 @@ def search_ceos_by_keyword(
                 keyword=keyword,
                 company=v_comp,
                 linkedin_link=clean_url,
+                ai_status=ai_status,
             )
             leads.append(lead)
             print_lead(lead, len(leads))
