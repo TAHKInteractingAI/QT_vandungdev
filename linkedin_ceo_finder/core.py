@@ -4,6 +4,7 @@ Hỗ trợ tìm kiếm song song theo tên miền (Multi-Tier Resolution) và t�
 """
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import os
 import re
 import time
 from typing import List, Optional, Set, Union
