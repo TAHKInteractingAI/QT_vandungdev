@@ -6,11 +6,11 @@ Có cơ chế Graceful Fallback: Nếu không có key hoặc mạng AI timeout,
 hệ thống sẽ tự động dùng kết quả bóc tách từ Rule-based/Regex mà không làm gián đoạn luồng cào.
 """
 
-import json
 import logging
 import os
 import re
 from typing import Optional, Tuple
+import orjson
 import requests
 
 from .config import DEFAULT_GEMINI_KEY, DEFAULT_GEMINI_MODEL
@@ -27,7 +27,7 @@ def extract_json_from_ai_response(text: str) -> Optional[dict]:
     m = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", text)
     if m:
         try:
-            val = json.loads(m.group(1).strip())
+            val = orjson.loads(m.group(1).strip())
             if isinstance(val, list) and len(val) > 0 and isinstance(val[0], dict):
                 return val[0]
             if isinstance(val, dict):
@@ -39,7 +39,7 @@ def extract_json_from_ai_response(text: str) -> Optional[dict]:
     m = re.search(r"(\{[\s\S]*\})", text)
     if m:
         try:
-            val = json.loads(m.group(1).strip())
+            val = orjson.loads(m.group(1).strip())
             if isinstance(val, dict):
                 return val
         except Exception:

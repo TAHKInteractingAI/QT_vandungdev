@@ -5,11 +5,11 @@ sắp xếp theo thời gian mới nhất (sorting & renumbering) và lưu trữ
 """
 
 from datetime import datetime
-import json
 import os
 import re
 from typing import Any, Dict, List, Optional, Set, Union
 import gspread
+import orjson
 
 from .config import (
     DEFAULT_SERVICE_ACCOUNT,
@@ -152,7 +152,7 @@ def resolve_google_client(service_account_path: Optional[str] = None) -> Optiona
     token_env = os.getenv("GOOGLE_TOKEN_JSON")
     if token_env and token_env.strip():
         try:
-            info = json.loads(token_env)
+            info = orjson.loads(token_env)
             creds = UserCredentials.from_authorized_user_info(info, scopes=_SCOPES)
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
@@ -183,7 +183,7 @@ def resolve_google_client(service_account_path: Optional[str] = None) -> Optiona
     sa_env = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
     if sa_env and sa_env.strip():
         try:
-            info = json.loads(sa_env)
+            info = orjson.loads(sa_env)
             creds = ServiceAccountCredentials.from_service_account_info(info, scopes=_SCOPES)
             print("✅ Service Account từ biến môi trường GOOGLE_SERVICE_ACCOUNT_JSON: Thành công.")
             return gspread.authorize(creds)

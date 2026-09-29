@@ -1,9 +1,9 @@
 """Command Line Interface (CLI) cho LinkedIn CEO Finder."""
 
 import argparse
-import json
 import sys
 from typing import List
+import orjson
 
 from .config import DEFAULT_SHEET_ID, DEFAULT_WORKSHEET_NAME
 from .core import find_ceos_by_domains, find_ceos_by_keyword
@@ -128,8 +128,8 @@ def main(args: List[str] = None) -> int:
 
         if parsed.output:
             data = [r.to_dict() for r in results]
-            with open(parsed.output, "w", encoding="utf-8") as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
+            with open(parsed.output, "wb") as f:
+                f.write(orjson.dumps(data, option=orjson.OPT_INDENT_2))
             print(f"💾 Đã xuất {len(results)} kết quả ra file: {parsed.output}")
 
         return 0
